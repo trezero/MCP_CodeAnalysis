@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Knowledge Graph Schema",
+  "description": "Schema for the centralized knowledge graph integrating metadata and code relationships",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "description": "Nodes in the knowledge graph representing components, files, functions, etc.",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "name"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the node"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the node",
+            "enum": ["component", "file", "function", "class", "error", "solution", "pattern", "concept"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the node"
+          },
+          "path": {
+            "type": "string",
+            "description": "File path (for file nodes)"
+          },
+          "maturity": {
+            "type": "string",
+            "description": "Maturity level of the component",
+            "enum": ["experimental", "beta", "stable", "deprecated"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the node"
+          },
+          "why": {
+            "type": "string",
+            "description": "Explanation of the rationale behind this component or concept"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags associated with the node",
+            "items": {
+              "type": "string"
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "description": "Code health metrics for this node",
+            "properties": {
+              "complexity": {
+                "type": "number",
+                "description": "Cyclomatic complexity"
+              },
+              "testCoverage": {
+                "type": "number",
+                "description": "Test coverage percentage"
+              },
+              "churn": {
+                "type": "number",
+                "description": "Code churn rate"
+              }
+            }
+          },
+          "memoryAnchors": {
+            "type": "array",
+            "description": "Semantic memory anchors associated with this node",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of memory anchor"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Location of the memory anchor in the code"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Edges in the knowledge graph representing relationships between nodes",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "type"],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "ID of the source node"
+          },
+          "target": {
+            "type": "string",
+            "description": "ID of the target node"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of relationship",
+            "enum": ["depends_on", "imports", "calls", "inherits_from", "contains", "causes", "solves", "implements", "references"]
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight or strength of the relationship"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the relationship"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about the knowledge graph",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Version of the knowledge graph"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "Timestamp of the last update",
+          "format": "date-time"
+        },
+        "generatedBy": {
+          "type": "string",
+          "description": "Tool or process that generated the knowledge graph"
+        }
+      }
+    }
+  },
+  "required": ["nodes", "edges", "metadata"]
+} 

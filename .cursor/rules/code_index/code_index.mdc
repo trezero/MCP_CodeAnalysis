@@ -1,0 +1,291 @@
+---
+Description: Guidelines for creating and maintaining code indices for better navigation and understanding of the codebase.
+Globs: **/*.js, **/*.ts, **/*.jsx, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.go, **/*.rb, **/*.php, **/*.swift, **/*.kt, **/*.rs, **/*.md
+Model: fusion
+Context_window: large
+Completion_style: analytical
+Rule_type: Auto Attached
+---
+# Code Index Guidelines
+
+## Purpose
+
+A code index serves as a navigational aid for developers, providing clear entry points and references to different components of the codebase. These guidelines help create and maintain effective code indices that improve discoverability, onboarding, and overall codebase navigation.
+
+## Index Structure
+
+### Core Components
+
+1. **Module Index**
+   - List of all major modules/packages
+   - Brief description of each module's purpose
+   - Relationship to other modules
+   - Entry points for each module
+
+2. **File Index**
+   - Directory structure with categorized files
+   - Naming conventions explanation
+   - Special file types and their purposes
+   - Configuration files and their usage
+
+3. **Function/Class Index**
+   - Key functions and classes by module
+   - Primary responsibilities of each
+   - Usage patterns and examples
+   - Public vs. private API distinction
+
+4. **Data Structure Index**
+   - Major data structures and models
+   - Schema definitions
+   - Data flow between components
+   - Persistence mechanisms
+
+5. **API Index**
+   - External API endpoints
+   - Authentication requirements
+   - Request/response formats
+   - Rate limits and usage guidelines
+
+### Cross-Reference System
+
+1. **Bidirectional Links**
+   - Link from high-level concepts to implementation details
+   - Link from implementations back to architectural concepts
+   - Reference related components
+
+2. **Dependency Graph**
+   - Visual representation of module dependencies
+   - Import/export relationships
+   - Circular dependency identification
+
+3. **Call Hierarchy**
+   - Function call chains for key operations
+   - Entry point to execution path mapping
+   - Asynchronous flow documentation
+
+## Metadata to Track
+
+For each indexed component, track:
+
+1. **Last Modified Date**
+   - When the component was last updated
+   - Major version changes
+
+2. **Ownership**
+   - Primary maintainer/team
+   - Subject matter experts
+
+3. **Stability Status**
+   - Experimental, Beta, Stable, Deprecated
+   - Breaking change potential
+
+4. **Test Coverage**
+   - Current test coverage metrics
+   - Types of tests (unit, integration, e2e)
+
+5. **Dependencies**
+   - External library dependencies
+   - Internal component dependencies
+   - Version requirements
+
+## Creating an Effective Code Index
+
+### For New Projects
+
+1. **Initialize with Project Structure**
+   - Create index alongside initial architecture
+   - Define key modules and components
+   - Establish naming conventions
+
+2. **Evolve Incrementally**
+   - Update index with each significant addition
+   - Refine categories as patterns emerge
+   - Adjust granularity based on project size
+
+3. **Automate Where Possible**
+   - Use code analysis tools to generate parts of the index
+   - Leverage documentation generators
+   - Implement CI checks for index accuracy
+
+### For Existing Projects
+
+1. **Start with Core Components**
+   - Identify and document key entry points
+   - Map primary data flows
+   - Document stable APIs first
+
+2. **Layer in Details**
+   - Add module-specific documentation
+   - Document utility functions and helpers
+   - Connect implementation details to architecture
+
+3. **Validate with New Team Members**
+   - Use index for onboarding
+   - Gather feedback on gaps
+   - Refine based on questions
+
+## Pine Script Extension Code Index
+
+For the Pine Script extension, the code index should include these categories:
+
+### 1. Parser
+- Lexer components
+- Grammar definitions
+- AST node types
+- Error handling mechanisms
+
+### 2. Formatter
+- Formatting rules
+- Code transformation pipeline
+- Configuration options
+- Pretty printing utilities
+
+### 3. Linter
+- Linting rules by category
+- Warning/error definitions
+- Auto-fix capabilities
+- Rule configuration system
+
+### 4. Language Features
+- Syntax highlighting components
+- Code completion providers
+- Hover information providers
+- Go-to-definition implementation
+
+### 5. Extension Infrastructure
+- Command registration
+- Settings management
+- Telemetry components
+- Update mechanisms
+
+## Maintenance Best Practices
+
+### Automated Updates
+
+1. **Source Code Analysis**
+   - Use static analysis tools to extract structure
+   - Generate function/class listings automatically
+   - Validate index against actual code
+
+2. **Documentation Integration**
+   - Link code comments to index entries
+   - Extract API documentation automatically
+   - Use JSDoc/TSDoc annotations to enrich index
+
+3. **CI/CD Integration**
+   - Verify index accuracy in CI pipeline
+   - Flag orphaned or missing index entries
+   - Generate warnings for undocumented components
+
+### Manual Curation
+
+1. **Regular Reviews**
+   - Schedule quarterly index reviews
+   - Update after major refactorings
+   - Validate during team knowledge sharing
+
+2. **Newcomer Testing**
+   - Have new team members navigate using the index
+   - Document questions that weren't answered
+   - Add frequently requested information
+
+3. **Usage Tracking**
+   - Monitor which parts of the index are used most
+   - Identify navigation patterns
+   - Expand frequently accessed sections
+
+## Format and Integration
+
+### Storage Format
+
+1. **Markdown**
+   - Use nested headings for hierarchy
+   - Employ tables for structured data
+   - Include code snippets as examples
+
+2. **JSON/YAML**
+   - For machine-readable components
+   - To support automated tooling
+   - For integration with documentation systems
+
+### Integration Points
+
+1. **README Files**
+   - Link from main README to index
+   - Include quick-start sections based on index
+
+2. **Development Environment**
+   - IDE plugins or custom views
+   - Quick navigation features
+   - Context-aware documentation
+
+3. **Code Search Tools**
+   - Enhance code search with index metadata
+   - Provide structural search capabilities
+   - Index-based code navigation
+
+## Example Code Index Entry
+
+```markdown
+## Formatter Module
+
+**Purpose**: Handles the formatting of Pine Script code according to configurable style rules.
+
+**Owner**: Formatting Team (@formatterLead)
+
+**Stability**: Stable
+
+**Test Coverage**: 87% (Unit: 92%, Integration: 75%)
+
+### Key Components
+
+1. **FormatterEngine** (`src/formatter/engine.ts`)
+   - Entry point for formatting operations
+   - Manages the formatting pipeline
+   - Handles configuration loading
+
+2. **RuleManager** (`src/formatter/rules/manager.ts`)
+   - Loads and applies formatting rules
+   - Manages rule precedence
+   - Handles rule conflicts
+
+3. **ASTPrettyPrinter** (`src/formatter/printer.ts`)
+   - Converts AST back to formatted text
+   - Manages indentation and spacing
+   - Handles comments and whitespace preservation
+
+### Main Functions
+
+| Function | Purpose | Location |
+|----------|---------|----------|
+| `formatDocument` | Formats an entire document | `engine.ts:42` |
+| `formatSelection` | Formats only selected text | `engine.ts:78` |
+| `applyRule` | Applies a single formatting rule | `rules/manager.ts:103` |
+
+### Configuration Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `indentSize` | 4 | Number of spaces per indent level |
+| `alignAssignments` | true | Whether to align = signs in assignments |
+| `maxLineLength` | 80 | Maximum allowed line length |
+
+### Usage Example
+
+```typescript
+import { FormatterEngine } from './formatter/engine';
+
+const formatter = new FormatterEngine({
+  indentSize: 2,
+  alignAssignments: true
+});
+
+const formattedCode = formatter.formatDocument(sourceCode);
+```
+
+### Related Components
+
+- **Parser**: Provides AST for formatting
+- **Linter**: Uses formatter for auto-fixing
+- **Configuration**: Provides user settings
+``` 

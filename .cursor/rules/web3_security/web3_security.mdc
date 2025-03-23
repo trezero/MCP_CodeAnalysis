@@ -1,0 +1,187 @@
+---
+Description: Guidelines for security best practices in Web3, blockchain, and decentralized application development.
+Globs: **/*.sol, **/*.js, **/*.ts, **/*.jsx, **/*.tsx, **/*.py, **/contracts/**/*.*, **/blockchain/**/*.*, **/web3/**/*.*, **/dapp/**/*.*, **/crypto/**/*.*
+Model: fusion
+Context_window: large
+Completion_style: security
+Rule_type: Auto Attached
+---
+# Web3 and Blockchain Security Guidelines
+
+These guidelines establish core security principles and best practices for Web3, blockchain, and decentralized application development. The goal is to prevent common vulnerabilities and ensure robust security posture.
+
+## Core Security Principles
+
+1. **Defense in Depth**: Implement multiple layers of security controls to protect against various threats
+2. **Least Privilege**: Grant minimum necessary permissions to users and components
+3. **Complete Mediation**: Verify every access to resources against authorization rules
+4. **Secure by Default**: Use secure defaults and require explicit opt-in for risky operations
+5. **Fail Securely**: Ensure that errors and exceptions don't create security vulnerabilities
+6. **Separation of Duties**: Distribute tasks and privileges to limit fraud and error risks
+
+## Related Security Guidelines
+
+1. **[API Security Guidelines](mdc:api_security.mdc)**: Comprehensive security guidelines for developing APIs in Web3 applications
+
+## Smart Contract Security
+
+### Common Vulnerabilities to Prevent
+
+1. **Reentrancy Attacks**
+   - Always manipulate contract state before external calls
+   - Use reentrancy guards (mutex pattern) for critical functions
+   - Follow checks-effects-interactions pattern
+
+   ```solidity
+   // BAD
+   function withdraw(uint amount) public {
+       require(balances[msg.sender] >= amount);
+       (bool success, ) = msg.sender.call{value: amount}("");
+       require(success);
+       balances[msg.sender] -= amount;
+   }
+
+   // GOOD
+   function withdraw(uint amount) public nonReentrant {
+       require(balances[msg.sender] >= amount);
+       balances[msg.sender] -= amount;
+       (bool success, ) = msg.sender.call{value: amount}("");
+       require(success);
+   }
+   ```
+
+2. **Integer Overflow/Underflow**
+   - Use SafeMath libraries or Solidity 0.8.x with built-in overflow checking
+   - Validate arithmetic operations that could exceed limits
+
+3. **Front-Running**
+   - Implement commit-reveal schemes for sensitive operations
+   - Use transaction ordering protection mechanisms
+
+4. **Access Control**
+   - Use modifiers to restrict function access
+   - Implement role-based access control
+   - Validate ownership and permissions rigorously
+
+5. **Oracle Manipulation**
+   - Use multiple oracles and median/average values
+   - Implement circuit breakers for extreme price movements
+   - Consider time-weighted averages for price feeds
+
+## Web Application Security
+
+### Client-Side Security
+
+1. **No Secrets in Frontend Code**
+   - Never store private keys, API keys, or sensitive data in client-side code
+   - Use secure authentication methods (OAuth, JWT with proper implementation)
+
+2. **Input Validation**
+   - Validate all inputs both client and server-side
+   - Sanitize data used in blockchain transactions
+   - Escape outputs to prevent XSS
+
+3. **Secure Communication**
+   - Use HTTPS for all communications
+   - Implement proper CORS policies
+   - Protect API endpoints that interact with blockchain
+
+### User Wallet and Key Management
+
+1. **Secure Key Storage**
+   - Never store private keys in localStorage or sessionStorage
+   - Consider using hardware wallets or secure enclaves
+   - Implement proper encryption for temporary key storage if necessary
+
+2. **Transaction Signing**
+   - Always show transaction details before signing
+   - Provide clear warnings for high-risk operations
+   - Implement multi-step confirmation for critical actions
+
+## HTML Template Security
+
+1. **Avoid Dangerous String Interpolation**
+   - Never use template literals for HTML content
+   - Use DOM APIs instead of innerHTML/outerHTML
+   - If dynamic HTML is needed, use a framework with built-in XSS protection
+
+   ```typescript
+   // BAD
+   element.innerHTML = `<div>${userInput}</div>`;
+
+   // GOOD
+   const div = document.createElement('div');
+   div.textContent = userInput;
+   element.appendChild(div);
+   ```
+
+2. **Framework-Specific Security**
+   - React: Use JSX instead of dangerouslySetInnerHTML
+   - Angular: Avoid bypassSecurityTrustHtml
+   - Vue: Avoid v-html with untrusted content
+
+## API and Backend Security
+
+1. **Secure RPC Endpoints**
+   - Validate all blockchain RPC requests
+   - Implement rate limiting and monitoring
+   - Use allow-lists for contract interactions
+
+2. **Secret Management**
+   - Use environment variables or secure vaults for API keys
+   - Rotate secrets regularly
+   - Implement proper access control for sensitive storage
+
+3. **Authentication and Authorization**
+   - Implement proper JWT handling with appropriate expiration
+   - Use signatures for blockchain-based authentication
+   - Consider decentralized identity solutions
+
+## Security Tooling
+
+1. **Automated Security Analysis**
+   - Use static analysis tools: Slither, MythX, Manticore
+   - Perform dynamic analysis with tools like Echidna
+   - Integrate security scanning in CI/CD pipeline
+
+2. **Contract Verification**
+   - Verify all deployed contracts on blockchain explorers
+   - Use reproducible builds to ensure code integrity
+   - Document contract addresses and versions
+
+3. **Bug Bounty Programs**
+   - Establish clear scope and reward structure
+   - Use a reputable platform to manage the program
+   - Respond promptly to reported vulnerabilities
+
+## Implementation Checklist
+
+Before deployment, ensure:
+
+- [ ] Smart contracts have undergone formal verification
+- [ ] All code has been audited by security professionals
+- [ ] Comprehensive test coverage including edge cases
+- [ ] Emergency response plan is in place for vulnerabilities
+- [ ] All third-party dependencies are vetted and monitored
+- [ ] Gas optimization doesn't compromise security
+- [ ] Upgradeability mechanisms have proper safeguards
+- [ ] Monitoring systems are in place for anomaly detection
+
+## Incident Response
+
+1. **Preparation**
+   - Maintain current contacts for emergency response
+   - Document procedures for contract freezing or replacement
+   - Establish communication channels for disclosures
+
+2. **Detection**
+   - Implement monitoring for suspicious transactions
+   - Set up alerting for security anomalies
+   - Monitor social media and forums for exploit reports
+
+3. **Containment and Recovery**
+   - Use circuit breakers or pause functions for emergencies
+   - Have upgrade mechanisms ready if needed
+   - Prepare communication templates for different scenarios
+
+This ruleset should be applied to all Web3 and blockchain-related code, with regular updates to address emerging threats and vulnerabilities in the ecosystem. 

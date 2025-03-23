@@ -1,0 +1,80 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript
+alwaysApply: false
+---
+# Snapshot Context Menu Options
+
+## Description
+
+This rule adds snapshot-related options to the context menu for easy access to component visualization and analysis tools.
+
+## Rule Type
+
+```yaml
+type: context_menu
+```
+
+## Menu Items
+
+```yaml
+menu_items:
+  - id: pinescript.snapshot.generateAll
+    title: "Generate All Component Snapshots"
+    command: npm run snapshot:all
+    cwd: ${workspace_root}
+    when: resourceLangId == 'typescript' || resourceLangId == 'typescriptreact' || resourceLangId == 'rust'
+    
+  - id: pinescript.snapshot.generateTS
+    title: "Generate TypeScript Component Snapshot"
+    command: npm run snapshot:ts
+    cwd: ${workspace_root}
+    when: resourceLangId == 'typescript' || resourceLangId == 'typescriptreact'
+    
+  - id: pinescript.snapshot.generateRust
+    title: "Generate Rust Component Snapshot"
+    command: npm run snapshot:rust
+    cwd: ${workspace_root}
+    when: resourceLangId == 'rust'
+    
+  - id: pinescript.snapshot.visualize
+    title: "View Component Visualization"
+    command: npm run serve
+    cwd: ${workspace_root}
+    when: resourceLangId == 'typescript' || resourceLangId == 'typescriptreact' || resourceLangId == 'rust'
+```
+
+## Documentation
+
+This rule adds the following options to the context menu:
+
+1. **Generate All Component Snapshots**: Creates snapshots for both TypeScript and Rust components
+2. **Generate TypeScript Component Snapshot**: Creates a snapshot of only TypeScript components (shown only for TypeScript files)
+3. **Generate Rust Component Snapshot**: Creates a snapshot of only Rust components (shown only for Rust files)
+4. **View Component Visualization**: Opens the interactive visualization interface
+
+The context menu options are only shown when relevant based on the file type:
+- TypeScript-specific options appear only when viewing TypeScript files
+- Rust-specific options appear only when viewing Rust files
+- General options appear for both file types
+
+## Usage
+
+1. Right-click on a TypeScript or Rust file in the editor
+2. Select the desired snapshot action from the context menu
+3. The command will execute in the background
+4. Check the output panel for results
+
+## Benefits
+
+- One-click access to snapshot functionality
+- Context-aware menu items based on file type
+- Integrated into the normal editor workflow
+- Consistent with other context menu commands
+
+## Related Files
+
+- `analyze-components.js` - TypeScript component analyzer
+- `analyze-rust-components.js` - Rust component analyzer
+- `compare-snapshots.js` - Tool for comparing snapshots
+- `visualize-components.html` - Visualization interface 

@@ -1,0 +1,64 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript
+alwaysApply: false
+---
+# Automatic Component Snapshot Rule
+
+## Description
+
+This rule automatically generates component snapshots whenever files in the Pine Script extension are modified. This ensures an up-to-date history of component changes for tracking evolution and making informed refactoring decisions.
+
+## Rule Type
+
+```yaml
+type: file_watcher
+```
+
+## Trigger
+
+```yaml
+patterns:
+  - pine-script-syntax/src/**/*.ts
+  - pine-script-syntax/src/**/*.tsx
+```
+
+## Action
+
+```yaml
+action:
+  command: npm run snapshot:all
+  cwd: ${workspace_root}
+  notification:
+    title: "Component Snapshots Generated"
+    message: "New component snapshots have been created for the Pine Script extension"
+```
+
+## Documentation
+
+This rule monitors changes to TypeScript files within the Pine Script extension's source directory. When changes are detected, it automatically:
+
+1. Generates new snapshots for both TypeScript and Rust components
+2. Updates the snapshot index
+3. Saves the snapshots with a timestamp
+4. Displays a notification when complete
+
+## Benefits
+
+- Ensures component history is always up-to-date
+- Eliminates the need to manually generate snapshots
+- Creates consistent historical data for analysis
+- Enables easy tracking of component evolution over time
+- Facilitates data-driven refactoring decisions
+
+## Configuration
+
+The rule triggers on any changes to TypeScript/TSX files in the `pine-script-syntax/src` directory. If you need to modify the trigger patterns, adjust the `patterns` section.
+
+## Related Files
+
+- `analyze-components.js` - TypeScript component analyzer
+- `analyze-rust-components.js` - Rust component analyzer
+- `compare-snapshots.js` - Tool for comparing snapshots
+- `snapshot-index.json` - Index of all generated snapshots
+- `visualize-components.html` - Visualization interface 

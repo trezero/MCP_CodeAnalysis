@@ -1,0 +1,195 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# TypeScript Migration Rules
+
+## Overview
+This document outlines the process and standards for migrating the Component Analyzer from JavaScript to TypeScript.
+
+## Migration Process
+
+### 1. File Structure
+- Keep original JavaScript files until migration is complete
+- Create new TypeScript files with `.ts` extension
+- Maintain parallel structure in `src/` directory
+- Use `tsconfig.json` for configuration
+
+### 2. Type Definitions
+- Define interfaces for all data structures
+- Create type definitions for external modules
+- Use strict type checking
+- Avoid `any` type unless absolutely necessary
+
+### 3. Code Conversion
+- Convert one file at a time
+- Maintain backward compatibility
+- Update imports and exports
+- Add type annotations
+
+## Type Definitions
+
+### Component Types
+```typescript
+interface Component {
+  name: string;
+  filePath: string;
+  dependencies: string[];
+  size: number;
+  complexity: number;
+}
+
+interface ReactComponent extends Component {
+  props: string[];
+  state: string[];
+  hooks: string[];
+  rendersComponents: string[];
+}
+
+interface RustComponent extends Component {
+  structs: string[];
+  traits: string[];
+  functions: string[];
+  modules: string[];
+}
+```
+
+### Analysis Types
+```typescript
+interface AnalysisResult {
+  timestamp: string;
+  components: Component[];
+  dependencies: Dependency[];
+  metrics: AnalysisMetrics;
+}
+
+interface Dependency {
+  source: string;
+  target: string;
+  type: 'import' | 'use' | 'renders';
+}
+
+interface AnalysisMetrics {
+  totalComponents: number;
+  totalDependencies: number;
+  averageComplexity: number;
+  circularDependencies: string[];
+}
+```
+
+## Migration Checklist
+
+### 1. Setup
+- [ ] Install TypeScript dependencies
+- [ ] Configure `tsconfig.json`
+- [ ] Set up ESLint with TypeScript
+- [ ] Configure build process
+
+### 2. Core Files
+- [ ] Migrate analyzer base classes
+- [ ] Convert utility functions
+- [ ] Update command handlers
+- [ ] Migrate visualization code
+
+### 3. Analyzers
+- [ ] Convert TypeScript analyzer
+- [ ] Convert React analyzer
+- [ ] Convert Rust analyzer
+- [ ] Update analyzer interfaces
+
+### 4. Testing
+- [ ] Update test files to TypeScript
+- [ ] Add type checking to tests
+- [ ] Update test utilities
+- [ ] Verify test coverage
+
+## Code Style
+
+### TypeScript Best Practices
+- Use strict mode
+- Prefer interfaces over type aliases
+- Use readonly when possible
+- Avoid type assertions
+
+### Naming Conventions
+- PascalCase for types and interfaces
+- camelCase for variables and functions
+- UPPER_CASE for constants
+- Prefix interfaces with 'I' (optional)
+
+### Documentation
+- Use JSDoc for public APIs
+- Document type parameters
+- Include usage examples
+- Explain complex types
+
+## Testing Requirements
+
+### Unit Tests
+- Test type definitions
+- Verify type constraints
+- Test generic functions
+- Check type inference
+
+### Integration Tests
+- Test type compatibility
+- Verify module imports
+- Test type exports
+- Check build process
+
+## Performance Considerations
+
+### Type Checking
+- Optimize type checking speed
+- Use incremental compilation
+- Cache type information
+- Profile type checking
+
+### Build Process
+- Optimize compilation
+- Use project references
+- Enable parallel builds
+- Monitor build times
+
+## Common Issues
+
+### Migration Challenges
+- Handling dynamic types
+- Dealing with third-party modules
+- Managing type conflicts
+- Handling legacy code
+
+### Solutions
+- Use type assertions sparingly
+- Create declaration files
+- Use type guards
+- Leverage utility types
+
+## Review Process
+
+### Code Review
+- Verify type safety
+- Check for type coverage
+- Review type definitions
+- Validate interfaces
+
+### Testing Review
+- Verify type tests
+- Check test coverage
+- Review type assertions
+- Validate test utilities
+
+## Documentation Updates
+
+### API Documentation
+- Update type documentation
+- Add type examples
+- Document type changes
+- Update migration guide
+
+### User Documentation
+- Update installation guide
+- Add type information
+- Document configuration
+- Update examples 

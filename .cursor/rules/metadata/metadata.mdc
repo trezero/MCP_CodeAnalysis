@@ -1,0 +1,316 @@
+---
+Description: Standards and guidelines for managing metadata in code files and projects to improve organization and discoverability.
+Globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.go, **/*.rb, **/*.rs, **/*.php, **/*.html, **/*.md, **/*.mdx, **/*.json, **/*.yml, **/*.yaml, **/*.pine, **/*.sol
+Model: fusion
+Context_window: large
+Completion_style: analytical
+Rule_type: Auto Attached
+---
+# Metadata Management Guidelines
+
+## Purpose
+
+Effective metadata management enhances code discoverability, maintainability, and integration. These guidelines establish standards for documenting code files, components, and projects with appropriate metadata that provides context and improves searchability.
+
+## Types of Metadata
+
+### 1. File-Level Metadata
+
+Information that describes individual files:
+
+- **File Purpose**: Clear statement of the file's role
+- **Author Information**: Original author and contributors
+- **Creation/Modification Dates**: When the file was created and last modified
+- **License**: Legal terms for the file's use
+- **Version**: File or component version
+- **Dependencies**: Other files or modules needed
+
+### 2. Component-Level Metadata
+
+Information about specific functions, classes, or modules:
+
+- **Component Purpose**: What the component does
+- **Usage Examples**: How to use the component
+- **API Stability**: Whether the API is stable, experimental, or deprecated
+- **Performance Characteristics**: Time/space complexity, limitations
+- **Cross-Module Dependencies**: Relationships with other components
+- **Testing Status**: Test coverage and validation approach
+
+### 3. Project-Level Metadata
+
+Information describing the entire project:
+
+- **Project Name**: Clear identification
+- **Version**: Project version following semantic versioning
+- **Requirements**: Dependencies, system requirements
+- **Configuration Options**: Available settings and their effects
+- **Compatibility**: Compatible platforms, browsers, environments
+- **Build Instructions**: How to build, test, and deploy
+
+## Metadata Format Standards
+
+### For Source Code Files
+
+In TypeScript/JavaScript files:
+
+```typescript
+/**
+ * @file formatter.ts - Pine Script code formatter implementation
+ * @version 1.2.0
+ * @author PineScriptTeam
+ * @copyright 2023 PineScript Project
+ * @license MIT
+ * 
+ * @description
+ * This file contains the core formatting logic for Pine Script.
+ * It processes source code and applies formatting rules to produce
+ * consistently formatted output.
+ * 
+ * @example
+ * import { formatPineScript } from './formatter';
+ * const formattedCode = formatPineScript(sourceCode, options);
+ * 
+ * @dependencies
+ * - parser.ts
+ * - formatting-rules.ts
+ * - utils/text-processing.ts
+ */
+
+// File implementation...
+```
+
+### For Configuration Files
+
+In JSON files:
+
+```json
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "pine-script-extension",
+  "version": "1.0.0",
+  "description": "Extension for Pine Script development",
+  "author": "PineScriptTeam",
+  "license": "MIT",
+  "keywords": ["pine-script", "trading", "indicators"],
+  "homepage": "https://github.com/pine-script/extension",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pine-script/extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pine-script/extension/issues"
+  }
+}
+```
+
+### For Documentation Files
+
+In Markdown files:
+
+```markdown
+---
+title: Pine Script Extension Documentation
+version: 1.0.0
+author: PineScriptTeam
+updated: 2023-07-15
+status: [Draft|Review|Approved|Deprecated]
+category: [Getting Started|API Reference|Tutorials]
+tags: [formatter, linter, pine-script]
+---
+
+# Pine Script Extension Documentation
+
+...
+```
+
+## Metadata Standards for Pine Script Files
+
+Pine Script files should include:
+
+```pine
+//@version=5
+// @author: PineScriptTeam
+// @description: Description of the indicator or strategy
+// @license: MIT
+// @date: 2023-07-15
+// @version: 1.0.0
+// @tags: Moving Average, Trend Analysis, Beginner Friendly
+
+indicator("Simple Moving Average Crossover", overlay=true)
+
+// Script implementation...
+```
+
+## Tools and Automation
+
+### Metadata Validation
+
+1. **Linting Rules**:
+   - Require specific metadata fields
+   - Check format and completeness
+   - Validate references to other files
+
+2. **CI/CD Checks**:
+   - Verify metadata in PRs
+   - Block merges with insufficient metadata
+   - Generate reports on metadata compliance
+
+### Metadata Generation
+
+1. **Template Systems**:
+   - Provide file/component templates with metadata sections
+   - Generate boilerplate metadata from project config
+
+2. **Automated Updates**:
+   - Update modification dates automatically
+   - Generate dependency lists based on imports
+   - Track and update version information
+
+### Query and Search
+
+1. **Metadata-Aware Search**:
+   - Enable searching by author, tags, version
+   - Find files by purpose or component
+
+2. **Dependency Analysis**:
+   - Generate graphs based on declared dependencies
+   - Identify orphaned or over-connected components
+
+## Guidelines for Specific File Types
+
+### TypeScript Files
+
+1. **Documentation Standards**:
+   - Use JSDoc comments for all exports
+   - Document parameters, return values, and exceptions
+   - Include examples for complex functions
+
+2. **Code Organization**:
+   - Group related functions and classes
+   - Use region comments for logical sections
+   - Define interfaces before implementations
+
+### JSON Configuration Files
+
+1. **Schema References**:
+   - Include $schema property when possible
+   - Document custom properties
+   - Use consistent naming patterns
+
+2. **Structure**:
+   - Organize properties by importance/frequency of use
+   - Group related configuration options
+   - Include default values in comments when helpful
+
+### Markdown Documentation
+
+1. **Front Matter**:
+   - Include title, date, author
+   - Tag with relevant categories
+   - Specify status (draft, reviewed, etc.)
+
+2. **Content Structure**:
+   - Start with purpose summary
+   - Include table of contents for longer documents
+   - Use consistent heading hierarchy
+
+## Integration with Development Workflow
+
+### Creation Phase
+
+1. **Initial Metadata**:
+   - Use file templates with required metadata
+   - Fill in basic information before code implementation
+   - Link to related requirements or tickets
+
+### Development Phase
+
+1. **Metadata Expansion**:
+   - Refine metadata as implementation progresses
+   - Document emerging dependencies
+   - Update API stability as design solidifies
+
+### Review Phase
+
+1. **Metadata Validation**:
+   - Review metadata completeness and accuracy
+   - Verify dependencies are correctly documented
+   - Ensure examples are current and functional
+
+### Documentation Phase
+
+1. **Metadata Extraction**:
+   - Generate documentation from code metadata
+   - Create reference materials based on metadata
+   - Produce dependency graphs and relationships
+
+### Deployment Phase
+
+1. **Release Metadata**:
+   - Update version information
+   - Document compatibility changes
+   - Prepare release notes from metadata
+
+## Example Metadata Implementation
+
+```typescript
+/**
+ * @file pine-formatter.ts
+ * @version 1.2.0
+ * @author PineScriptTeam
+ * @copyright 2023 PineScript Project
+ * @license MIT
+ * 
+ * @description
+ * Formatter for Pine Script code that applies consistent styling rules.
+ * 
+ * The formatter processes Pine Script source code and applies a series of
+ * formatting rules such as indentation, spacing, and line breaks to produce
+ * consistently formatted output according to configurable style guidelines.
+ * 
+ * @example
+ * ```typescript
+ * import { PineFormatter } from './pine-formatter';
+ * 
+ * const formatter = new PineFormatter({
+ *   indentSize: 4,
+ *   alignAssignments: true
+ * });
+ * 
+ * const formattedCode = formatter.format(sourceCode);
+ * ```
+ * 
+ * @stability stable
+ * @performance O(n) where n is the number of lines in the source code
+ * @dependencies Parser, FormattingRules
+ */
+
+import { Parser } from './parser';
+import { FormattingRules } from './formatting-rules';
+
+/**
+ * Configuration options for the Pine Script formatter.
+ * 
+ * @property indentSize - Number of spaces for each indentation level
+ * @property alignAssignments - Whether to align assignment operators in variable declarations
+ * @property maxLineLength - Maximum allowed line length before wrapping
+ * @property preserveNewlines - Whether to preserve user's newlines
+ */
+export interface FormatterOptions {
+  indentSize: number;
+  alignAssignments: boolean;
+  maxLineLength: number;
+  preserveNewlines: boolean;
+}
+
+/**
+ * Pine Script code formatter that applies style rules to source code.
+ * 
+ * @implements Formatter interface from the core module
+ * @since 1.0.0
+ * @modified 1.2.0 - Added support for preserving comments
+ */
+export class PineFormatter {
+  // Implementation...
+}
+``` 

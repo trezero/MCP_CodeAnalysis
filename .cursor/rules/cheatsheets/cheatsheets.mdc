@@ -1,0 +1,234 @@
+---
+description: 
+globs: **/*.md,**/*.markdown,**/*.txt,**/*.js,**/*.ts,**/*.jsx,**/*.tsx,**/*.py,**/*.html,**/*.css,**/*.pine
+alwaysApply: false
+---
+# Cheatsheet Guidelines
+
+## Purpose
+
+Cheatsheets provide quick reference guides for developers to access frequently used commands, syntax, patterns, or workflows. These guidelines ensure cheatsheets are organized, consistent, comprehensive, and maintainable.
+
+## Cheatsheet Structure
+
+### Header Section
+
+Each cheatsheet should include a consistent header with:
+
+1. **Title**: Clear, descriptive title of the cheatsheet
+2. **Version**: Version number of the technology or feature covered
+3. **Scope**: What the cheatsheet covers and doesn't cover
+4. **Audience**: Target audience (e.g., beginners, intermediate, advanced)
+5. **Author/Maintainer**: Who created and maintains the cheatsheet
+6. **Last Updated**: Date of last update
+
+### Content Organization
+
+1. **Logical Grouping**:
+   - Group related items together
+   - Use consistent section headings
+   - Present information from basic to advanced
+
+2. **Progressive Disclosure**:
+   - Place most common/important items first
+   - Group advanced or specialized items separately
+   - Include cross-references between related sections
+
+3. **Visual Hierarchy**:
+   - Use consistent heading levels
+   - Employ visual separators between sections
+   - Utilize whitespace effectively
+
+### Formatting Guidelines
+
+1. **Code Formatting**:
+   - Use syntax highlighting
+   - Present code in fixed-width font
+   - Include line breaks for readability
+
+2. **Table Structure**:
+   - Use tables for comparing related items
+   - Include clear headers for each column
+   - Align content for readability
+
+3. **Typography**:
+   - Use consistent font styles for different elements
+   - Employ bold or italic for emphasis
+   - Maintain readable font sizes
+
+## Content Requirements
+
+### Must-Have Elements
+
+1. **Core Syntax**: Essential syntax patterns and structures
+2. **Common Commands**: Frequently used commands or functions
+3. **Key Parameters**: Important parameters and their effects
+4. **Error Patterns**: Common errors and how to resolve them
+5. **Examples**: Concise, practical examples demonstrating usage
+
+### Optional Elements
+
+1. **Best Practices**: Recommended approaches and patterns
+2. **Anti-Patterns**: Approaches to avoid
+3. **Performance Tips**: Optimization guidelines
+4. **Version Differences**: Changes between versions
+5. **Related Resources**: Links to documentation or tutorials
+
+## Pine Script Cheatsheets
+
+### Required Pine Script Cheatsheets
+
+1. **Pine Script Syntax Cheatsheet**:
+   - Version declaration
+   - Variable declarations
+   - Function declarations
+   - Control structures
+   - Common errors
+
+2. **Pine Script Indicators Cheatsheet**:
+   - Indicator setup
+   - Essential built-in functions
+   - Plotting methods
+   - Alert conditions
+   - Color functions
+
+3. **Pine Script Strategies Cheatsheet**:
+   - Strategy setup
+   - Entry/exit functions
+   - Position sizing
+   - Backtesting parameters
+   - Performance metrics
+
+### Specialized Pine Script Cheatsheets
+
+1. **Math & Statistics Functions**:
+   - Mathematical operators
+   - Statistical functions
+   - Rounding and conversion functions
+   - Series manipulation
+
+2. **Timeframe & Data Management**:
+   - Timeframe specification
+   - Security function usage
+   - Requesting data
+   - Managing arrays and matrices
+
+3. **Visualization Techniques**:
+   - Plot styles
+   - Color management
+   - Labels and lines
+   - Tables and drawings
+
+## Maintenance Guidelines
+
+### Update Frequency
+
+1. **Regular Review**: Review all cheatsheets quarterly
+2. **Version-Based Updates**: Update when new versions are released
+3. **User Feedback Integration**: Incorporate user suggestions
+
+### Quality Control
+
+1. **Accuracy Check**: Verify all command syntax and examples
+2. **Completeness Audit**: Ensure all important items are included
+3. **Formatting Consistency**: Check for consistent styling
+
+### Versioning
+
+1. **Change Log**: Maintain a visible change log
+2. **Version Numbering**: Use semantic versioning for cheatsheets
+3. **Archive Previous Versions**: Maintain access to previous versions
+
+## Usage Recommendations
+
+### Integration Points
+
+1. **Development Environment**: Integrate with IDE or editor
+2. **Documentation System**: Link from main documentation
+3. **Onboarding Materials**: Include in new developer resources
+
+### Accessibility
+
+1. **Multiple Formats**: Provide in multiple formats (MD, PDF, HTML)
+2. **Search Capability**: Ensure content is searchable
+3. **Offline Access**: Make available for offline use
+
+## Example Pine Script Syntax Cheatsheet Structure
+
+```markdown
+# Pine Script Syntax Cheatsheet
+
+Version: Pine Script v5
+Scope: Core language syntax for Pine Script v5
+Audience: Beginner to Intermediate
+Last Updated: YYYY-MM-DD
+Maintainer: [Name]
+
+## Version Declaration
+
+```pine
+//@version=5
+indicator(title, overlay)   // For indicators
+strategy(title, overlay)    // For strategies
+library(title)              // For libraries
+```
+
+## Variable Declaration
+
+```pine
+// Types
+int variableName = 1        // Integer
+float variableName = 1.0    // Float
+bool variableName = true    // Boolean
+color variableName = #FF0000 // Color
+string variableName = "text" // String
+
+// Declaration modifiers
+var int variableName = 1    // Series variable persisting across bars
+varip int variableName = 1  // Series variable that can be modified within functions
+```
+
+## Functions
+
+```pine
+// Function declaration
+myFunction(param1, param2=defaultValue) =>
+    // Function body
+    result = param1 + param2
+    result  // Return value
+
+// Built-in function example
+sma(source, length)  // Simple moving average
+```
+
+## Control Structures
+
+```pine
+// Conditional
+if condition
+    // Execute if true
+else if otherCondition
+    // Execute if otherCondition is true
+else
+    // Execute if all conditions are false
+
+// Switch statement
+switch expression
+    case value1 => // action1
+    case value2 => // action2
+    => // default action
+
+// For loop (Pine Script v5)
+for i = 0 to 10
+    // Loop body
+```
+
+## Common Errors
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| Undeclared identifier | Using a variable before declaration | Declare the variable first |
+| Cannot modify global variable | Changing a global variable in function | Use varip or redesign |
+| Too many local variables | Exceeding variable limit | Optimize variable usage |
+| Cannot call request.* function | Security or request function used incorrectly | Review [Pine reference](mdc:https:/www.tradingview.com/pine-script-reference/v5) |
+``` 

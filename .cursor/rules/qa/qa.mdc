@@ -1,0 +1,305 @@
+---
+description: 
+globs: **/*.test.*, **/*.spec.*, **/test/**/*, **/tests/**/*, **/spec/**/*, **/testing/**/*, **/qa/**/*, **/quality/**/*, **/coverage/**/*, **/vitest.config.*, **/cypress.config.*, **/test.config.*, **/playwright.config.*, **/.github/workflows/*
+alwaysApply: false
+---
+# Quality Assurance Guidelines
+
+## Purpose
+
+These guidelines establish standards for testing, verification, and quality control in the codebase. Following these guidelines ensures reliable, robust, and maintainable code that meets functional and non-functional requirements.
+
+## Testing Standards
+
+### Test Coverage Requirements
+
+| Component Type | Minimum Coverage | Recommended Coverage |
+|----------------|------------------|----------------------|
+| Core libraries | 80% | 90% |
+| UI components | 70% | 85% |
+| Utilities | 75% | 90% |
+| Business logic | 85% | 95% |
+| Integration points | 80% | 90% |
+
+### Test Types
+
+1. **Unit Tests**
+   - Test individual functions, methods, and classes
+   - Focus on isolated behavior with mocked dependencies
+   - Should be fast, deterministic, and independent
+
+2. **Integration Tests**
+   - Test interactions between components
+   - Verify correct data flow and communication
+   - May involve real dependencies or realistic mocks
+
+3. **End-to-End Tests**
+   - Test complete user workflows
+   - Verify system behavior from user perspective
+   - Should cover critical user journeys
+
+4. **Performance Tests**
+   - Measure response times, throughput, and resource usage
+   - Establish baselines and regression thresholds
+   - Run on standardized environments
+
+### Test Organization
+
+1. **File Structure**
+   - Place tests alongside source code or in parallel directory structure
+   - Use clear naming conventions (e.g., `*.test.ts`, `*.spec.ts`)
+   - Group tests logically by feature or component
+
+2. **Test Suites**
+   - Organize tests into logical suites
+   - Use descriptive names for suites and test cases
+   - Structure tests to reflect component structure
+
+3. **Fixtures and Helpers**
+   - Create reusable test fixtures
+   - Implement helper functions for common test operations
+   - Document test utilities comprehensively
+
+## Pine Script Extension Testing
+
+### Pine Script Parser Testing
+
+1. **Input Coverage**
+   - Test all valid Pine Script syntax constructs
+   - Include edge cases and corner cases
+   - Test various script sizes and complexities
+
+2. **Error Handling**
+   - Test invalid syntax scenarios
+   - Verify error messages are clear and helpful
+   - Test recovery mechanisms when applicable
+
+### Formatter Testing
+
+1. **Format Preservation**
+   - Ensure semantics are preserved after formatting
+   - Verify comments and documentation are retained
+   - Test idempotence (formatting twice yields same result)
+
+2. **Configuration Testing**
+   - Test all formatting options
+   - Verify configuration overrides work correctly
+   - Test default settings
+
+### Linter Testing
+
+1. **Rule Testing**
+   - Test each linting rule independently
+   - Verify correct error detection
+   - Test suggestion/auto-fix functionality
+
+2. **Integration Testing**
+   - Test combined rule application
+   - Verify rule precedence is respected
+   - Test rule exclusions and configuration
+
+## Code Review Guidelines
+
+### Pre-Review Checklist
+
+Before submitting code for review:
+
+- [ ] All tests pass
+- [ ] Code coverage meets requirements
+- [ ] Linting issues addressed
+- [ ] Documentation updated
+- [ ] Self-review completed
+
+### Review Focus Areas
+
+1. **Correctness**
+   - Verify logic implements requirements
+   - Check for edge cases and error handling
+   - Ensure concurrency issues addressed
+
+2. **Code Quality**
+   - Review code structure and organization
+   - Check for code duplication
+   - Verify design patterns used appropriately
+
+3. **Performance**
+   - Identify potential performance issues
+   - Review algorithm efficiency
+   - Check resource usage
+
+4. **Security**
+   - Review for security vulnerabilities
+   - Verify input validation
+   - Check authorization and authentication
+
+### Review Process
+
+1. **Preparation**
+   - Understand requirements and context
+   - Review related documentation
+   - Run the code if possible
+
+2. **Review Comments**
+   - Be specific and constructive
+   - Differentiate between required changes and suggestions
+   - Provide examples or references when helpful
+
+3. **Resolution**
+   - Address all required changes
+   - Discuss complex issues
+   - Document reasons for not implementing suggestions
+
+## Bug Management
+
+### Bug Report Requirements
+
+Bug reports should include:
+
+1. **Summary**: Brief description of the issue
+2. **Steps to Reproduce**: Detailed steps to reproduce the bug
+3. **Expected Behavior**: What should happen
+4. **Actual Behavior**: What actually happens
+5. **Environment**: Relevant environment details
+6. **Severity**: Impact and urgency classification
+7. **Screenshots/Logs**: Visual evidence or log output
+
+### Bug Prioritization
+
+| Severity | Response Time | Resolution Time |
+|----------|---------------|-----------------|
+| Critical | Immediate | 24 hours |
+| High | 24 hours | 3 days |
+| Medium | 3 days | 1 week |
+| Low | 1 week | 2 weeks |
+
+### Regression Testing
+
+After fixing bugs:
+
+1. Verify the specific bug is fixed
+2. Run related tests to ensure no regressions
+3. Add new tests to prevent future recurrence
+
+## Continuous Integration
+
+### CI Pipeline Requirements
+
+1. **Build Verification**
+   - Compile all code
+   - Check for build warnings
+   - Verify dependencies
+
+2. **Test Execution**
+   - Run all applicable tests
+   - Generate coverage reports
+   - Flag any failing tests
+
+3. **Static Analysis**
+   - Run linters and static analyzers
+   - Check code style conformance
+   - Identify potential issues
+
+4. **Performance Benchmarks**
+   - Run performance tests
+   - Compare against baselines
+   - Flag performance regressions
+
+### CI/CD Integration
+
+1. **Pull Request Validation**
+   - Run CI pipeline on all PRs
+   - Block merging if checks fail
+   - Provide feedback to developers
+
+2. **Deployment Validation**
+   - Verify deployment artifacts
+   - Run smoke tests after deployment
+   - Monitor initial performance
+
+## Quality Metrics
+
+Track and monitor these quality metrics:
+
+1. **Test Coverage**: Percentage of code covered by tests
+2. **Bug Density**: Number of bugs per 1000 lines of code
+3. **Technical Debt**: Measured via static analysis
+4. **Time to Resolution**: Average time to fix bugs
+5. **Regression Rate**: Percentage of fixed bugs that recur
+
+## Documentation
+
+### Test Documentation
+
+1. **Test Plan**
+   - Document test strategy and approach
+   - List test scenarios and priority
+   - Define acceptance criteria
+
+2. **Test Reports**
+   - Generate reports after test execution
+   - Include metrics and results summary
+   - Highlight failed tests and issues
+
+### Quality Documentation
+
+1. **Quality Standards**
+   - Document quality requirements
+   - Define acceptable thresholds
+   - Specify validation methods
+
+2. **Process Documentation**
+   - Document QA processes
+   - Define roles and responsibilities
+   - Specify tools and environments
+
+## Example Test Structure
+
+```typescript
+// Example unit test for a Pine Script formatter rule
+describe('AlignEqualsRule', () => {
+  const rule = new AlignEqualsRule();
+  
+  it('should align equals signs in variable declarations', () => {
+    const input = `
+a = 1
+longVariable = 2
+x = 3
+    `;
+    
+    const expected = `
+a           = 1
+longVariable = 2
+x           = 3
+    `;
+    
+    expect(rule.apply(input)).toEqual(expected);
+  });
+  
+  it('should not align equals in different blocks', () => {
+    const input = `
+a = 1
+if (condition)
+    b = 2
+    c = 3
+`;
+    
+    // Test expected output
+    const result = rule.apply(input);
+    expect(result).toContain('a = 1');
+    expect(result).toContain('    b = 2');
+    expect(result).toContain('    c = 3');
+  });
+  
+  // More test cases...
+});
+``` 
+
+const importantFiles = files.filter(file => 
+  file.includes('package.json') || 
+  file.includes('tsconfig.json') || 
+  file.includes('webpack.config') ||
+  file.includes('.eslintrc') ||
+  file.includes('vitest.config') ||
+  file.includes('Dockerfile') ||
+  file.includes('docker-compose.yml')
+); 

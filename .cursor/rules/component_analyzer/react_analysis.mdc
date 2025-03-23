@@ -1,0 +1,228 @@
+---
+description: 
+globs: **/*.jsx, **/*.tsx
+alwaysApply: false
+---
+# React Virtual DOM Analysis Rules
+
+## Overview
+This document outlines the standards and best practices for analyzing React components and their Virtual DOM behavior in the Component Analyzer.
+
+## Analysis Requirements
+
+### 1. Component Detection
+- Identify React components (functional and class)
+- Detect component hierarchy
+- Track component relationships
+- Identify component types
+
+### 2. Props Analysis
+- Track prop usage
+- Identify prop types
+- Detect prop drilling
+- Find unused props
+
+### 3. State Management
+- Track state usage
+- Identify state dependencies
+- Detect state updates
+- Find unnecessary state
+
+### 4. Hook Analysis
+- Track hook usage
+- Identify hook dependencies
+- Detect hook violations
+- Find hook optimizations
+
+## Virtual DOM Analysis
+
+### 1. Render Tracking
+- Track component renders
+- Identify render triggers
+- Detect unnecessary renders
+- Find render optimizations
+
+### 2. Re-render Analysis
+- Track re-render paths
+- Identify re-render causes
+- Detect re-render chains
+- Find re-render optimizations
+
+### 3. Performance Metrics
+- Measure render times
+- Track render frequency
+- Identify bottlenecks
+- Suggest optimizations
+
+## Component Types
+
+### Functional Components
+```typescript
+interface FunctionalComponent {
+  name: string;
+  props: string[];
+  hooks: Hook[];
+  renderedComponents: string[];
+  renderCount: number;
+  lastRenderTime: number;
+}
+```
+
+### Class Components
+```typescript
+interface ClassComponent {
+  name: string;
+  props: string[];
+  state: string[];
+  lifecycleMethods: string[];
+  renderedComponents: string[];
+  renderCount: number;
+  lastRenderTime: number;
+}
+```
+
+### Hooks
+```typescript
+interface Hook {
+  name: string;
+  dependencies: string[];
+  usage: string[];
+  optimization: string[];
+}
+```
+
+## Analysis Process
+
+### 1. Component Scanning
+- Parse component files
+- Extract component info
+- Build component tree
+- Track relationships
+
+### 2. Hook Analysis
+- Identify hook usage
+- Track hook dependencies
+- Find hook violations
+- Suggest optimizations
+
+### 3. Render Analysis
+- Track render triggers
+- Build render tree
+- Identify re-renders
+- Find optimizations
+
+## Optimization Suggestions
+
+### 1. Memoization
+- Suggest useMemo usage
+- Recommend useCallback
+- Identify memo candidates
+- Track memo effectiveness
+
+### 2. State Management
+- Suggest state consolidation
+- Recommend context usage
+- Identify state splitting
+- Track state updates
+
+### 3. Component Structure
+- Suggest component splitting
+- Recommend composition
+- Identify prop drilling
+- Track component size
+
+## Visualization Requirements
+
+### 1. Component Graph
+- Show component hierarchy
+- Display relationships
+- Highlight re-renders
+- Show optimization points
+
+### 2. Performance View
+- Display render times
+- Show re-render paths
+- Highlight bottlenecks
+- Track optimizations
+
+### 3. Hook View
+- Show hook usage
+- Display dependencies
+- Highlight violations
+- Track optimizations
+
+## Testing Requirements
+
+### 1. Unit Tests
+- Test component detection
+- Verify hook analysis
+- Check render tracking
+- Validate optimizations
+
+### 2. Integration Tests
+- Test analysis pipeline
+- Verify visualization
+- Check performance
+- Validate suggestions
+
+### 3. Performance Tests
+- Measure analysis speed
+- Track memory usage
+- Test large codebases
+- Profile visualization
+
+## Documentation
+
+### 1. Analysis Documentation
+- Document analysis process
+- Explain metrics
+- Detail optimizations
+- Provide examples
+
+### 2. User Documentation
+- Explain features
+- Show usage examples
+- Provide best practices
+- Include troubleshooting
+
+## Common Issues
+
+### 1. Analysis Challenges
+- Complex component trees
+- Dynamic imports
+- Higher-order components
+- Render optimization
+
+### 2. Solutions
+- Incremental analysis
+- Caching results
+- Parallel processing
+- Smart heuristics
+
+## Review Process
+
+### 1. Code Review
+- Verify analysis accuracy
+- Check optimization suggestions
+- Review performance
+- Validate documentation
+
+### 2. Testing Review
+- Verify test coverage
+- Check edge cases
+- Review performance tests
+- Validate suggestions
+
+## Performance Guidelines
+
+### 1. Analysis Performance
+- Optimize scanning
+- Cache results
+- Parallel processing
+- Incremental updates
+
+### 2. Visualization Performance
+- Efficient rendering
+- Lazy loading
+- Memory management
+- Background processing 

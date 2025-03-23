@@ -1,0 +1,129 @@
+---
+Description: Rules and best practices for Pine Script development on TradingView
+Globs: **/*.pine, **/*.pinescript
+Model: fusion
+Context_window: large
+Completion_style: coding
+Rule_type: Auto Attached
+Includes:
+  - structure.mdc
+  - example.mdc
+  - refactoring.mdc
+  - headers.mdc
+  - auto_snapshot.mdc
+  - snapshot_commands.mdc
+  - snapshot_context_menu.mdc
+  - test_cleanup.mdc
+---
+# Pine Script Coding Rules
+
+## Overview
+This document outlines the coding standards and best practices for Pine Script development to be enforced by Cursor.
+
+Pine Script is a specialized language for creating custom indicators and trading strategies on TradingView. While it shares concepts with other programming languages, it has its own unique syntax and limitations that must be considered.
+
+## Key Rules
+
+1. [**Code Structure**](mdc:structure.mdc) - Follow the recommended file organization pattern
+2. [**Code Examples**](mdc:example.mdc) - See examples of properly structured Pine Script code
+3. [**Refactoring Guidelines**](mdc:refactoring.mdc) - How to properly refactor disorganized Pine Script code
+4. [**Section Headers**](mdc:headers.mdc) - Standardized section headers for consistent organization
+5. [**Test Cleanup**](mdc:test_cleanup.mdc) - Rules for cleaning up Pine Script test files
+6. [**Component Snapshots**](mdc:snapshot_commands.mdc) - Automated component analysis and historical tracking
+
+## Pine Script Extension Development Rules
+
+When developing the Pine Script extension (syntax highlighting, formatting, linting):
+
+1. [**TypeScript Workflow**](mdc:../code_quality/typescript_workflow.mdc) - Rules for making changes to the extension's TypeScript code
+2. [**TypeScript Test Cleanup**](mdc:../code_quality/typescript_test_cleanup.mdc) - Guidelines for cleaning up TypeScript test files
+3. [**Test Cleanup**](mdc:test_cleanup.mdc) - Rules for cleaning up Pine Script test files
+4. [**Component Snapshots**](mdc:snapshot_commands.mdc) - Tracking code evolution with component snapshots
+
+## Component Analysis and Snapshots
+
+The component analysis system provides historical tracking of both TypeScript and Rust components in the Pine Script extension. This allows for:
+
+1. Tracking component evolution over time
+2. Comparing changes between snapshots
+3. Visualizing the component structure
+4. Identifying potential refactoring opportunities
+
+Snapshots are automatically generated when files in the Pine Script extension are modified. You can also manually generate snapshots using the command palette or context menu options.
+
+For more information, see the [Component Snapshots](mdc:snapshot_commands.mdc) documentation.
+
+## Function Placement
+
+Functions should be placed in the designated function definitions section, not scattered throughout the code or appended at the bottom of the file.
+
+```pine
+// INCORRECT - Adding functions at the end of the file
+// ... rest of code ...
+
+// Added at the end (WRONG)
+f_new_function() =>
+    // function body
+```
+
+```pine
+// CORRECT - Adding functions in the function definitions section
+// ... beginning of file ...
+
+// =================== FUNCTION DEFINITIONS =================== //
+f_helper_function() =>
+    // helper function body
+
+f_new_function() =>
+    // new function body
+
+// ... rest of code ...
+```
+
+## Input Parameters Organization
+
+Input parameters should be grouped logically and placed in the input parameters section.
+
+```pine
+// INCORRECT - Adding inputs throughout the code
+// ... some code ...
+
+new_param = input.int(10, "New Parameter")
+
+// ... more code ...
+```
+
+```pine
+// CORRECT - Adding inputs in the input parameters section with proper grouping
+var string G_NEW_GROUP = "New Group" // If needed
+
+// In the input parameters section:
+new_param = input.int(10, "New Parameter", group=G_NEW_GROUP)
+
+// ... rest of code ...
+```
+
+## Standard Section Headers
+
+Use these standard section headers in your Pine Script code to maintain consistency. For a complete set of headers that you can copy and paste, see the [Section Headers](mdc:headers.mdc) guide.
+
+```pine
+// =================== METADATA =================== //
+// =================== INPUT GROUPS =================== //
+// =================== INPUT PARAMETERS =================== //
+// =================== VARIABLE DECLARATIONS =================== //
+// =================== FUNCTION DEFINITIONS =================== //
+// =================== MAIN CALCULATIONS =================== //
+// =================== VISUALIZATION =================== //
+// =================== ALERTS =================== //
+```
+
+## Performance Considerations
+
+- Avoid excessive use of arrays in tight loops
+- Minimize drawing operations
+- Manage data structures to prevent memory buildup
+- Use conditional logic to skip unnecessary calculations
+- Consider using lightweight mode for complex indicators
+
+By following these rules, your Pine Script code will be more maintainable, performant, and easier to debug. 

@@ -1,0 +1,139 @@
+---
+description: 
+globs: **/*.css, **/*.scss, **/*.less, **/*.js, **/*.jsx, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Theme Guidelines
+
+Themes provide consistent, customizable visual experiences that adapt to user preferences and needs. These guidelines ensure themes are implemented correctly and accessibly.
+
+## Theme Structure
+
+Every theme should be structured using CSS custom properties (variables) with a semantic naming convention:
+
+```css
+:root {
+  /* Base theme (light mode default) */
+  --color-primary: #3b82f6;
+  --color-secondary: #10b981;
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text: #333333;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-accent: #8b5cf6;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --color-primary: #60a5fa;
+  --color-secondary: #34d399;
+  --color-background: #1f2937;
+  --color-surface: #111827;
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-border: #374151;
+  --color-accent: #a78bfa;
+  --color-error: #f87171;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-info: #60a5fa;
+}
+
+/* High contrast theme */
+[data-theme="high-contrast"] {
+  --color-primary: #0072b2;
+  --color-secondary: #009e73;
+  --color-background: #000000;
+  --color-surface: #121212;
+  --color-text: #ffffff;
+  --color-text-muted: #f0f0f0;
+  --color-border: #ffffff;
+  --color-accent: #cc79a7;
+  --color-error: #d55e00;
+  --color-success: #009e73;
+  --color-warning: #e69f00;
+  --color-info: #56b4e9;
+}
+```
+
+## Implementation Requirements
+
+1. **Default Theme**: Projects must have a default theme (typically light mode)
+2. **Dark Mode**: All projects must include a dark mode theme
+3. **High Contrast**: All projects must include a high contrast theme for accessibility
+4. **Colorblind-Safe**: All themes must be tested for colorblind accessibility
+5. **Storage**: User theme preferences must be persisted using localStorage or similar
+
+## Theme Switching
+
+1. **Manual Controls**: Provide explicit controls for theme switching
+2. **System Preference**: Default to system preference using `prefers-color-scheme` media query
+3. **Transition**: Apply smooth transitions when changing themes (150-300ms)
+4. **No Flash**: Prevent Flash of Incorrect Theme (FOIT) by using server-side detection or early client script
+
+## Theme Switching Implementation
+
+```javascript
+// Example theme switching implementation
+function setTheme(themeName) {
+  // Update data attribute on document
+  document.documentElement.setAttribute('data-theme', themeName);
+  
+  // Store preference
+  localStorage.setItem('theme-preference', themeName);
+}
+
+function initTheme() {
+  // Get saved preference
+  const savedTheme = localStorage.getItem('theme-preference');
+  
+  if (savedTheme) {
+    // Apply saved preference
+    setTheme(savedTheme);
+  } else {
+    // Check system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+    
+    // Listen for changes in system preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme-preference')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', initTheme);
+```
+
+## Component Theming
+
+1. **Component-Specific Variables**: Define component-specific variables that inherit from global theme
+2. **No Hard-Coded Colors**: Never use hard-coded color values in components
+3. **Nested Themes**: Support nested theme contexts when needed
+4. **Testing**: Test all components in each theme variation
+
+## Accessibility Requirements
+
+1. **Contrast Ratios**: Maintain WCAG 2.1 AA standard (4.5:1 for normal text, 3:1 for large text)
+2. **Focus Indicators**: Ensure focus indicators are visible in all themes
+3. **High Contrast Support**: Test with high contrast mode enabled
+4. **Motion Sensitivity**: Respect `prefers-reduced-motion` for transitions
+5. **Color Independence**: Don't rely solely on color to convey information
+
+## Theme Documentation
+
+Every project must include theme documentation that covers:
+
+1. Available themes and their purpose
+2. How to switch themes manually
+3. How themes respond to system preferences
+4. How to extend or customize themes
+5. Accessibility considerations for each theme 

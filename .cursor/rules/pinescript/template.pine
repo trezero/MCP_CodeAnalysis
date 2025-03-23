@@ -1,0 +1,123 @@
+//@version=6
+// @description This is a template Pine Script file that follows TradingView's style guide
+// @author Your Name
+// @license MIT
+
+// =================== METADATA =================== //
+indicator("Template Indicator", overlay=true)
+
+// =================== INPUT GROUPS =================== //
+// Define input groups for better organization
+var string gAppearance = "Appearance"
+var string gSettings = "Settings"
+var string gAlerts = "Alerts"
+
+// =================== INPUT PARAMETERS =================== //
+// Input parameters with proper naming conventions
+length = input.int(14, "Length", minval=1, group=gSettings)
+source = input.source(close, "Source", group=gSettings)
+showMa = input.bool(true, "Show Moving Average", group=gAppearance)
+maColor = input.color(color.blue, "MA Color", group=gAppearance)
+alertEnabled = input.bool(false, "Enable Alerts", group=gAlerts)
+
+// =================== VARIABLE DECLARATIONS =================== //
+// Variables with proper naming conventions
+var buffer = array.new_float(0)
+var lastSignal = 0
+var int count = 0
+var float highestValue = 0.0
+var float lowestValue = 0.0
+
+// Constants with proper naming conventions
+var MAX_LOOKBACK = 100
+var SIGNAL_BUY = 1
+var SIGNAL_SELL = -1
+var SIGNAL_NEUTRAL = 0
+
+// =================== FUNCTION DEFINITIONS =================== //
+// Functions with proper naming conventions and documentation
+
+// Calculate the simple moving average
+// @param src - Source price series
+// @param len - Lookback period
+// @returns float - The SMA value
+sma(src, len) =>
+    sum = 0.0
+    for i = 0 to len - 1
+        sum += src[i]
+    sum / len
+
+// Calculate the exponential moving average
+// @param src - Source price series
+// @param len - Lookback period
+// @returns float - The EMA value
+ema(src, len) =>
+    alpha = 2 / (len + 1)
+    sum = src
+    for i = 1 to len - 1
+        sum := alpha * src[i] + (1 - alpha) * sum
+    sum
+
+// Generate a signal based on price action
+// @param src - Source price series
+// @param ma - Moving average value
+// @returns int - Signal value (1=buy, -1=sell, 0=neutral)
+generateSignal(src, ma) =>
+    signal = SIGNAL_NEUTRAL
+    if src > ma and src[1] <= ma[1]
+        signal := SIGNAL_BUY
+    else if src < ma and src[1] >= ma[1]
+        signal := SIGNAL_SELL
+    signal
+
+// =================== MAIN CALCULATIONS =================== //
+// Main calculation logic
+ma = ema(source, length)
+
+// Update highest and lowest values
+highestValue := math.max(highestValue, high)
+lowestValue := math.min(lowestValue, low)
+
+// Generate signal
+currentSignal = generateSignal(source, ma)
+
+// Update last signal if changed
+if currentSignal != SIGNAL_NEUTRAL
+    lastSignal := currentSignal
+    count := count + 1
+
+// =================== VISUALIZATION =================== //
+// Plot the moving average
+plot(showMa ? ma : na, "EMA", color=maColor, linewidth=2)
+
+// Plot buy signals
+plotshape(
+    currentSignal == SIGNAL_BUY ? ma : na,
+    "Buy Signal",
+    shape.triangleup,
+    location.belowbar,
+    color.green,
+    size=size.small
+)
+
+// Plot sell signals
+plotshape(
+    currentSignal == SIGNAL_SELL ? ma : na,
+    "Sell Signal",
+    shape.triangledown,
+    location.abovebar,
+    color.red,
+    size=size.small
+)
+
+// =================== ALERTS =================== //
+// Alert conditions
+alertcondition(currentSignal == SIGNAL_BUY, "Buy Signal", "Price crossed above EMA")
+alertcondition(currentSignal == SIGNAL_SELL, "Sell Signal", "Price crossed below EMA")
+
+// Create alerts if enabled
+if alertEnabled
+    if currentSignal == SIGNAL_BUY
+        alert("Buy Signal: Price crossed above EMA", alert.freq_once_per_bar)
+    else if currentSignal == SIGNAL_SELL
+        alert("Sell Signal: Price crossed below EMA", alert.freq_once_per_bar) 

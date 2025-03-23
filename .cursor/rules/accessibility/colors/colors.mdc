@@ -1,0 +1,134 @@
+---
+description: 
+globs: **/*.css, **/*.scss, **/*.less, **/*.js, **/*.jsx, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Accessible Color Guidelines
+
+Color is a powerful design element that must be implemented thoughtfully to ensure all users can perceive and understand your interface, regardless of visual ability.
+
+## Contrast Requirements
+
+All text and interactive elements must meet the following contrast ratios:
+
+1. **Normal Text (< 18pt)**: Minimum 4.5:1 contrast ratio against its background
+2. **Large Text (≥ 18pt or 14pt bold)**: Minimum 3:1 contrast ratio
+3. **UI Components/Graphical Objects**: Minimum 3:1 contrast ratio
+4. **Focus Indicators**: Minimum 3:1 contrast ratio
+
+## Colorblind-Friendly Palettes
+
+Use these pre-approved colorblind-friendly palettes for data visualization and interface elements:
+
+### Primary Palette (Blue-Orange)
+- Primary Blue: #0072B2 (RGB: 0, 114, 178)
+- Primary Orange: #E69F00 (RGB: 230, 159, 0)
+- Green: #009E73 (RGB: 0, 158, 115)
+- Pink: #CC79A7 (RGB: 204, 121, 167)
+- Yellow: #F0E442 (RGB: 240, 228, 66)
+- Red: #D55E00 (RGB: 213, 94, 0)
+- Purple: #5F4B8B (RGB: 95, 75, 139)
+
+### Viridis Palette (Sequential)
+- #440154 (dark purple)
+- #414487 (purple)
+- #2A788E (teal)
+- #22A884 (green)
+- #7AD151 (lime)
+- #FDE725 (yellow)
+
+### Cividis Palette (Colorblind-optimized)
+- #00204C (dark blue)
+- #414D6B (slate)
+- #7B7B78 (gray)
+- #BCAF77 (tan)
+- #FFE945 (yellow)
+
+## Color Usage Rules
+
+1. **Never Rely on Color Alone**: Always pair color with another indicator (icon, pattern, label, etc.)
+2. **Text on Color**: Ensure text remains readable when placed on colored backgrounds
+3. **Feedback States**: Error, warning, success, and info states must be distinguishable without color
+4. **Links**: Links must be distinguishable from surrounding text (underline, weight, etc. in addition to color)
+5. **Focus States**: Focus indicators must be clearly visible in all color schemes
+
+## Testing Requirements
+
+1. **Contrast Checking**: All color combinations must be verified with a contrast checker tool
+2. **Colorblind Simulation**: Test interfaces with colorblind simulation tools for all types:
+   - Deuteranopia (red-green, most common)
+   - Protanopia (red-green)
+   - Tritanopia (blue-yellow)
+   - Achromatopsia (total color blindness)
+3. **Grayscale Testing**: Interfaces should remain usable when viewed in grayscale
+
+## Implementation Guidelines
+
+### CSS Custom Properties
+
+Use semantic color naming that separates color from function:
+
+```css
+:root {
+  /* Semantic colors */
+  --color-primary: #0072B2;
+  --color-secondary: #E69F00;
+  --color-success: #009E73;
+  --color-warning: #E69F00;
+  --color-danger: #D55E00;
+  --color-info: #0072B2;
+  
+  /* Text colors */
+  --color-text-primary: #333333;
+  --color-text-secondary: #6B7280;
+  --color-text-on-dark: #FFFFFF;
+  --color-text-on-light: #333333;
+  
+  /* Background colors */
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F3F4F6;
+  --color-background-tertiary: #E5E7EB;
+}
+```
+
+### Color Utility Classes
+
+Provide utility classes that handle contrast automatically:
+
+```css
+/* Text colors with automatic contrast */
+.text-on-primary {
+  color: var(--color-text-on-primary);
+}
+
+.text-on-secondary {
+  color: var(--color-text-on-secondary);
+}
+
+/* High contrast overrides */
+.high-contrast .border {
+  border-width: 2px;
+}
+
+.high-contrast .focus-indicator {
+  outline-width: 3px;
+}
+```
+
+## Resource Tools
+
+1. **WebAIM Contrast Checker**: https://webaim.org/resources/contrastchecker/
+2. **Colblindor**: https://www.color-blindness.com/coblis-color-blindness-simulator/
+3. **Colorable**: https://colorable.jxnblk.com/
+4. **Accessible Color Palette Builder**: https://toolness.github.io/accessible-color-matrix/
+5. **Color Oracle**: https://colororacle.org/ (Desktop app for colorblind simulation)
+
+## Documentation Requirements
+
+All projects must include color documentation that covers:
+
+1. Primary and secondary color palettes with contrast ratios
+2. State colors (success, error, warning, info) with contrast ratios
+3. Examples of correct and incorrect color usage
+4. Color combinations to avoid
+5. How colors adapt across different themes (light, dark, high contrast) 

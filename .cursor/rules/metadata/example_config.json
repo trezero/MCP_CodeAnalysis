@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json.schemastore.org/metadataconfig.json",
+  "name": "metadata-standards",
+  "version": "1.0.0",
+  "description": "Configuration for metadata standards and validation",
+  "author": "MetadataTeam",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metadata-team/standards.git"
+  },
+  "homepage": "https://metadata-standards.dev",
+  "keywords": ["metadata", "documentation", "standards", "validation"],
+  "created": "2023-09-15",
+  "updated": "2023-10-12",
+  "status": "stable",
+  
+  "validationRules": {
+    "requiredFields": {
+      "all": ["version", "description"],
+      "javascript": ["file", "version", "author", "description"],
+      "python": ["file", "version", "author", "description"],
+      "markdown": ["title", "version", "status"]
+    },
+    "formatValidation": {
+      "version": "^\\d+\\.\\d+\\.\\d+$",
+      "email": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+      "date": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "allowedValues": {
+      "license": ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause", "Proprietary"],
+      "status": ["draft", "review", "stable", "deprecated"]
+    }
+  },
+  
+  "extractionRules": {
+    "javascript": {
+      "filePattern": "\\.js$|\\.jsx$|\\.ts$|\\.tsx$",
+      "commentStyle": "jsdoc",
+      "tagPrefix": "@"
+    },
+    "python": {
+      "filePattern": "\\.py$",
+      "commentStyle": "docstring",
+      "tagPrefix": "@"
+    },
+    "markdown": {
+      "filePattern": "\\.md$|\\.mdx$",
+      "commentStyle": "frontmatter",
+      "tagPrefix": ""
+    }
+  },
+  
+  "outputSettings": {
+    "format": "json",
+    "outputDir": "./metadata-output",
+    "createIndexFile": true,
+    "includeStats": true,
+    "prettify": true
+  },
+  
+  "integrations": {
+    "ide": {
+      "vscode": {
+        "highlightMissingMetadata": true,
+        "quickFix": true,
+        "templateSnippets": true
+      },
+      "jetbrains": {
+        "highlightMissingMetadata": true,
+        "inspections": true
+      }
+    },
+    "ci": {
+      "github": {
+        "validateOnPR": true,
+        "commentOnIssues": true,
+        "blockerThreshold": "error"
+      },
+      "gitlab": {
+        "validateOnMR": true,
+        "reportFormat": "junit"
+      }
+    }
+  },
+  
+  "templates": {
+    "javascript": {
+      "file": [
+        "/**",
+        " * @file ${filename}",
+        " * @version 0.1.0",
+        " * @author ${author}",
+        " * @license ${license}",
+        " * ",
+        " * @description",
+        " * ${description}",
+        " * ",
+        " * @dependencies",
+        " * ",
+        " * @example",
+        " * ```javascript",
+        " * ",
+        " * ```",
+        " */",
+        ""
+      ],
+      "function": [
+        "/**",
+        " * ${functionName}",
+        " * ",
+        " * @description ${description}",
+        " * @param {${paramType}} ${paramName} - ${paramDescription}",
+        " * @returns {${returnType}} ${returnDescription}",
+        " * @throws {${errorType}} ${errorDescription}",
+        " * @example ${example}",
+        " */",
+        "function ${functionName}(${paramName}) {",
+        "  // Implementation",
+        "}"
+      ]
+    },
+    "python": {
+      "file": [
+        "\"\"\"",
+        "@file ${filename}",
+        "@version 0.1.0",
+        "@author ${author}",
+        "@license ${license}",
+        "",
+        "@description",
+        "${description}",
+        "",
+        "@dependencies",
+        "",
+        "@example",
+        "```python",
+        "",
+        "```",
+        "\"\"\"",
+        ""
+      ]
+    }
+  },
+  
+  "metadataFields": {
+    "file": {
+      "required": ["file", "version", "description"],
+      "recommended": ["author", "license", "dependencies"],
+      "optional": ["example", "stability", "performance"]
+    },
+    "function": {
+      "required": ["description"],
+      "recommended": ["param", "returns"],
+      "optional": ["throws", "example", "complexity"]
+    },
+    "class": {
+      "required": ["description"],
+      "recommended": ["author", "since"],
+      "optional": ["example", "stability", "implements"]
+    }
+  },
+  
+  "statistics": {
+    "collectUsageData": true,
+    "trackMostCommonIssues": true,
+    "generateCompliance": true,
+    "trackTrends": true
+  }
+} 

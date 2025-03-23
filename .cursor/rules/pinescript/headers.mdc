@@ -1,0 +1,82 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript
+alwaysApply: false
+---
+# Pine Script Section Headers
+
+Use these standardized section headers in your Pine Script files to maintain consistent organization. You can copy and paste these directly into your code:
+
+```pine
+// =================== METADATA =================== //
+
+// =================== INPUT GROUPS =================== //
+
+// =================== INPUT PARAMETERS =================== //
+
+// =================== VARIABLE DECLARATIONS =================== //
+
+// =================== FUNCTION DEFINITIONS =================== //
+
+// =================== MAIN CALCULATIONS =================== //
+
+// =================== VISUALIZATION =================== //
+
+// =================== ALERTS =================== //
+```
+
+## Annotated Headers with Descriptions
+
+```pine
+// =================== METADATA =================== //
+// Version declaration, indicator/strategy description, credits, etc.
+
+// =================== INPUT GROUPS =================== //
+// Define all input group strings (var string G_NAME = "Group Name")
+
+// =================== INPUT PARAMETERS =================== //
+// All input parameters organized by their respective groups
+
+// =================== VARIABLE DECLARATIONS =================== //
+// All persistent variables (var) and array initializations
+
+// =================== FUNCTION DEFINITIONS =================== //
+// All function definitions, with helper functions before dependent ones
+
+// =================== MAIN CALCULATIONS =================== //
+// Core logic, state updates, and main algorithm implementation
+
+// =================== VISUALIZATION =================== //
+// Drawing operations: plots, fills, labels, boxes, etc.
+
+// =================== ALERTS =================== //
+// Alert conditions and messages
+```
+
+## Subsection Headers
+
+For complex scripts, you might want to use subsection headers:
+
+```pine
+// =================== FUNCTION DEFINITIONS =================== //
+// ----- Helper Functions ----- //
+
+// ----- Calculation Functions ----- //
+
+// ----- Drawing Functions ----- //
+
+// =================== MAIN CALCULATIONS =================== //
+// ----- Data Processing ----- //
+
+// ----- Signal Generation ----- //
+
+// ----- State Management ----- //
+```
+
+## Header Format Rules
+
+1. Use exactly 20 equals signs on each side of the section name
+2. Use all caps for section names
+3. Include a single space after the comment markers and before/after the section name
+4. Always include trailing comment markers
+5. Add a blank line after each header 

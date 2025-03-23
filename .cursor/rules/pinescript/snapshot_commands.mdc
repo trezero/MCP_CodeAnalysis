@@ -1,0 +1,78 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript
+alwaysApply: false
+---
+# Pine Script Snapshot Commands
+
+## Description
+
+This rule adds snapshot-related commands to the command palette for easy access to component visualization and analysis tools.
+
+## Rule Type
+
+```yaml
+type: command
+```
+
+## Commands
+
+```yaml
+commands:
+  - id: pinescript.snapshot.generateAll
+    title: "Pine Script: Generate All Component Snapshots"
+    command: npm run snapshot:all
+    cwd: ${workspace_root}
+    
+  - id: pinescript.snapshot.generateTS
+    title: "Pine Script: Generate TypeScript Component Snapshot"
+    command: npm run snapshot:ts
+    cwd: ${workspace_root}
+    
+  - id: pinescript.snapshot.generateRust
+    title: "Pine Script: Generate Rust Component Snapshot"
+    command: npm run snapshot:rust
+    cwd: ${workspace_root}
+    
+  - id: pinescript.snapshot.visualize
+    title: "Pine Script: View Component Visualization"
+    command: npm run serve
+    cwd: ${workspace_root}
+    
+  - id: pinescript.snapshot.compareLatest
+    title: "Pine Script: Compare Latest Snapshots"
+    command: node compare-snapshots.js $(ls -t component-snapshots/ts-analysis-*.json | head -n 1 | xargs basename) $(ls -t component-snapshots/rust-analysis-*.json | head -n 1 | xargs basename)
+    cwd: ${workspace_root}
+```
+
+## Documentation
+
+This rule adds the following commands to the command palette:
+
+1. **Generate All Component Snapshots**: Creates snapshots for both TypeScript and Rust components
+2. **Generate TypeScript Component Snapshot**: Creates a snapshot of only TypeScript components
+3. **Generate Rust Component Snapshot**: Creates a snapshot of only Rust components
+4. **View Component Visualization**: Opens the interactive visualization interface
+5. **Compare Latest Snapshots**: Compares the most recent TypeScript and Rust snapshots
+
+These commands can be accessed through the command palette (Ctrl+Shift+P or Cmd+Shift+P) and provide quick access to the component analysis tools.
+
+## Usage
+
+1. Open the command palette with Ctrl+Shift+P (Windows/Linux) or Cmd+Shift+P (macOS)
+2. Type "Pine Script" to see all available component analysis commands
+3. Select the desired command to execute it
+
+## Benefits
+
+- Quick access to snapshot functionality without remembering terminal commands
+- Integrated into the normal editor workflow
+- Easy comparison of latest snapshots with a single command
+- Consistent with other editor commands
+
+## Related Files
+
+- `analyze-components.js` - TypeScript component analyzer
+- `analyze-rust-components.js` - Rust component analyzer
+- `compare-snapshots.js` - Tool for comparing snapshots
+- `visualize-components.html` - Visualization interface 

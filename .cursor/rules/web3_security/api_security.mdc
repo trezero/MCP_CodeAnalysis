@@ -1,0 +1,262 @@
+---
+description: 
+globs: **/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.py, **/api/**/*, **/routes/**/*, **/controllers/**/*, **/endpoints/**/*, **/services/**/*, **/handlers/**/*, **/middleware/**/*, **/graphql/**/*, **/resolvers/**/*, **/server.*
+alwaysApply: false
+---
+# API Security Guidelines for Web3
+
+This document provides comprehensive security guidelines for developing APIs in Web3 applications, focusing on protecting sensitive operations, data, and assets.
+
+## Core API Security Principles
+
+1. **Defense in Depth**: Implement multiple security layers for all API endpoints
+2. **Zero Trust**: Verify every request regardless of source
+3. **Rate Limiting**: Protect against abuse and DoS attacks
+4. **Monitoring**: Log and alert on suspicious activities
+5. **Least Privilege**: Limit API access to only what's necessary
+
+## Authentication and Authorization
+
+### Web3-Specific Authentication
+
+1. **Wallet-Based Authentication**
+   - Implement message signing for authentication
+   - Verify signatures server-side before granting access
+   - Use nonces to prevent replay attacks
+
+   ```typescript
+   // GOOD: Secure wallet authentication with nonce
+   async function authenticateUser(address: string, signature: string): Promise<boolean> {
+     // Get the current nonce for this address
+     const nonce = await getUserNonce(address);
+     
+     // Create the message that was signed (must match exactly)
+     const message = `Sign this message to authenticate with our service: ${nonce}`;
+     
+     // Recover the address from the signature
+     const recoveredAddress = ethers.utils.verifyMessage(message, signature);
+     
+     // Verify the recovered address matches the claimed address
+     if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
+       return false;
+     }
+     
+     // Update the nonce to prevent replay attacks
+     await updateUserNonce(address);
+     
+     return true;
+   }
+   ```
+
+2. **JWT Implementation**
+   - Use short expiration times (15-60 minutes)
+   - Include address and permissions in payload
+   - Implement proper refresh token rotation
+   - Sign tokens using secure algorithms (ES256 or RS256)
+
+   ```typescript
+   // GOOD: Creating a JWT with appropriate settings
+   function createJWT(address: string, permissions: string[]): string {
+     const payload = {
+       address: address.toLowerCase(),
+       permissions,
+       exp: Math.floor(Date.now() / 1000) + (15 * 60), // 15 minutes
+       iat: Math.floor(Date.now() / 1000)
+     };
+     
+     return jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'ES256' });
+   }
+   ```
+
+3. **Multi-Factor Authentication**
+   - Require additional verification for high-value operations
+   - Support hardware security keys where possible
+   - Implement time-based one-time passwords (TOTP)
+
+### Authorization Best Practices
+
+1. **Role-Based Access Control (RBAC)**
+   - Define clear roles with specific permissions
+   - Check permissions for every operation
+   - Maintain audit logs for permission changes
+
+2. **Contract-Level Permissions**
+   - Validate on-chain permissions when appropriate
+   - Mirror on-chain roles in API authorization
+   - Keep off-chain and on-chain permissions in sync
+
+## API Rate Limiting and Abuse Prevention
+
+1. **Graduated Rate Limiting**
+   - Implement per-endpoint rate limits based on sensitivity
+   - Use sliding window rate limiters
+   - Apply more restrictive limits for unauthenticated requests
+
+   ```typescript
+   // GOOD: Different rate limits based on endpoint sensitivity
+   app.use('/api/public', rateLimiter({
+     windowMs: 15 * 60 * 1000, // 15 minutes
+     max: 100 // 100 requests per windowMs
+   }));
+   
+   app.use('/api/transactions', rateLimiter({
+     windowMs: 15 * 60 * 1000, // 15 minutes
+     max: 50 // More restrictive for sensitive operations
+   }));
+   
+   app.use('/api/admin', rateLimiter({
+     windowMs: 15 * 60 * 1000, // 15 minutes
+     max: 30 // Most restrictive for admin functions
+   }));
+   ```
+
+2. **DDoS Protection**
+   - Implement circuit breakers for abnormal traffic patterns
+   - Use cloud-based DDoS protection services
+   - Apply exponential backoff for repeated failed attempts
+
+## Secure Data Handling
+
+1. **Sensitive Data Protection**
+   - Never expose private keys or seed phrases via API
+   - Encrypt sensitive data at rest
+   - Minimize sensitive data in logs and error messages
+
+2. **Input Validation**
+   - Validate and sanitize all input parameters
+   - Use schema validation for request bodies
+   - Apply strict typing with TypeScript
+
+   ```typescript
+   // GOOD: Schema validation for transaction requests
+   const transactionSchema = z.object({
+     toAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
+     amount: z.string().regex(/^[0-9]+$/),
+     tokenAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional(),
+     gasLimit: z.number().optional()
+   });
+   
+   app.post('/api/transactions', (req, res) => {
+     const result = transactionSchema.safeParse(req.body);
+     if (!result.success) {
+       return res.status(400).json({ error: 'Invalid transaction request' });
+     }
+     
+     // Process valid transaction
+     // ...
+   });
+   ```
+
+3. **Secure Response Handling**
+   - Use appropriate HTTP status codes
+   - Implement consistent error format
+   - Avoid leaking implementation details in errors
+
+## Transaction Security
+
+1. **Transaction Validation**
+   - Verify transaction parameters before processing
+   - Implement approval workflows for high-value transactions
+   - Set appropriate gas limits
+
+2. **Simulation First**
+   - Simulate transactions before sending to detect potential issues
+   - Validate expected outcomes match actual outcomes
+   - Implement dry-run endpoints for client testing
+
+   ```typescript
+   // GOOD: Simulate transaction before sending
+   async function sendTransaction(txData) {
+     try {
+       // First simulate the transaction
+       const simResult = await provider.call(txData);
+       
+       // Check simulation result for expected outcome
+       if (!validateSimulationResult(simResult, txData)) {
+         throw new Error('Transaction simulation failed validation');
+       }
+       
+       // Proceed with actual transaction
+       const tx = await wallet.sendTransaction(txData);
+       return tx.hash;
+     } catch (error) {
+       logger.error('Transaction failed', { error, txData });
+       throw new Error('Transaction could not be processed');
+     }
+   }
+   ```
+
+3. **Replay Protection**
+   - Use nonces for transaction sequencing
+   - Implement idempotency keys for API requests
+   - Store processed transaction IDs to prevent duplicates
+
+## API Documentation and Security Headers
+
+1. **Security Headers**
+   - Implement CORS properly
+   - Use Content-Security-Policy headers
+   - Apply Strict-Transport-Security (HSTS)
+
+   ```typescript
+   // GOOD: Setting security headers
+   app.use((req, res, next) => {
+     // Strict Transport Security
+     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+     
+     // Content Security Policy
+     res.setHeader('Content-Security-Policy', "default-src 'self'");
+     
+     // Prevent MIME type sniffing
+     res.setHeader('X-Content-Type-Options', 'nosniff');
+     
+     // Disable iframe embedding
+     res.setHeader('X-Frame-Options', 'DENY');
+     
+     // Enable XSS protection
+     res.setHeader('X-XSS-Protection', '1; mode=block');
+     
+     next();
+   });
+   ```
+
+2. **Documentation Security**
+   - Document security requirements and expectations
+   - Include rate limit information
+   - Provide examples of secure implementation
+
+## Monitoring and Incident Response
+
+1. **Security Monitoring**
+   - Log all authentication attempts
+   - Track unusual patterns or volumes
+   - Set up alerts for suspicious activities
+
+2. **Incident Response Plan**
+   - Document API-specific incident procedures
+   - Include contact information for responsible team
+   - Test incident response process regularly
+
+## Implementation Checklist
+
+Before deploying your API, ensure:
+
+- [ ] All endpoints are protected with appropriate authentication
+- [ ] Rate limiting is implemented for all routes
+- [ ] Input validation is thorough and complete
+- [ ] Sensitive operations require additional verification
+- [ ] Error handling is secure and doesn't leak details
+- [ ] All communications use HTTPS
+- [ ] Security headers are properly implemented
+- [ ] Logging excludes sensitive information
+- [ ] Monitoring and alerting are configured
+
+## Regular Security Review
+
+Schedule regular security reviews of your API:
+
+- Conduct penetration testing quarterly
+- Review authentication mechanisms after significant changes
+- Update dependencies and monitor for vulnerabilities
+- Review and rotate API secrets regularly
+- Analyze logs for potential security issues 

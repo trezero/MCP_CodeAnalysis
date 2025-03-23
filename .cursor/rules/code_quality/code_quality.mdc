@@ -1,0 +1,47 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.rb, **/*.php
+alwaysApply: false
+---
+# Code Quality Guidelines
+
+## Overview
+
+These guidelines ensure high code quality across the project, focusing on development workflows, test management, and code organization.
+
+## TypeScript Development
+
+TypeScript development in this project follows these guidelines:
+
+1. [TypeScript Workflow](mdc:typescript_workflow.mdc) - Rules for TypeScript source development, compilation, and testing
+2. [TypeScript Test Cleanup](mdc:typescript_test_cleanup.mdc) - Guidelines for cleaning up TypeScript test files
+
+## Code Analysis
+
+The following tools analyze code quality:
+
+1. [Complexity Analyzer](mdc:complexity_analyzer.py) - Analyzes code complexity
+2. [Documentation Analyzer](mdc:documentation_analyzer.py) - Checks documentation quality
+3. [Test Coverage Analyzer](mdc:test_coverage_analyzer.py) - Analyzes test coverage
+4. [Duplication Detector](mdc:duplication_detector.py) - Identifies code duplication
+
+## Best Practices
+
+When developing or modifying code in this project:
+
+1. Always follow the established workflow for your language/platform
+2. Clean up test files after feature completion
+3. Document code extensively
+4. Monitor and manage code complexity
+5. Verify adequate test coverage
+6. Eliminate code duplication
+
+## Application to Pine Script Extension
+
+For the Pine Script extension development:
+
+1. Use TypeScript for all new features
+2. Follow the TypeScript workflow for making changes
+3. Ensure changes align with Pine Script best practices
+4. Clean up temporary test files after verification
+5. Document all formatter and linter behavior 

@@ -1,0 +1,68 @@
+---
+Description: Guidelines for maintaining consistent coding styles and standards across the project.
+Globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.go, **/*.rb, **/*.php, **/*.swift, **/*.kt, **/*.html, **/*.css, **/*.scss, **/*.sass, **/*.less, **/*.pine, **/*.sol
+Model: fusion
+Context_window: large
+Completion_style: stylistic
+Rule_type: Auto Attached
+---
+# Living Style Guide Guidelines
+
+## Purpose
+The living style guide provides consistent coding standards across the project, ensuring readability, maintainability, and quality.
+
+## Implementation
+
+### Style Guide Organization
+- Language-specific guides in dedicated files
+- Common principles in shared documentation
+- Examples of both good and bad practices
+- Rationale for style decisions
+
+### Core Style Principles
+- **Consistency**: Follow established patterns
+- **Readability**: Optimize for human understanding
+- **Simplicity**: Prefer simple solutions over clever ones
+- **Maintainability**: Write code for future developers
+- **Performance**: Consider efficiency where it matters
+
+### Language-Specific Guides
+- [JavaScript Style Guide](mdc:style_guide/javascript_style_guide.md)
+- [TypeScript Style Guide](mdc:style_guide/typescript_style_guide.md)
+- [Python Style Guide](mdc:style_guide/python_style_guide.md)
+- [Pine Script Style Guide](mdc:style_guide/pine_script_style_guide.md)
+
+### Enforcement Tools
+- ESLint for JavaScript/TypeScript
+- Pylint for Python
+- Prettier for formatting
+- EditorConfig for editor settings
+- CI/CD pipeline validation
+
+## Style Guide Evolution
+
+### Adding New Rules
+1. Propose rule with rationale
+2. Provide examples of correct and incorrect usage
+3. Discuss impact on existing codebase
+4. Implement automated enforcement if possible
+5. Document in appropriate style guide file
+
+### Deprecating Rules
+1. Identify rules that no longer serve their purpose
+2. Document rationale for deprecation
+3. Provide migration path for existing code
+4. Update automated enforcement tools
+5. Remove from style guide with deprecation notice
+
+### Handling Exceptions
+- Document when and why exceptions are allowed
+- Require explicit inline comments for exceptions
+- Consider refactoring to avoid need for exceptions
+
+## Integration with Five-Step Process
+1. **Question Requirements**: Are style rules serving their purpose?
+2. **Remove Unnecessary**: Eliminate rules that add complexity without value
+3. **Simplify and Optimize**: Make rules easy to understand and follow
+4. **Accelerate Cycle Time**: Automate style enforcement
+5. **Automate**: Use code generators that follow style guidelines

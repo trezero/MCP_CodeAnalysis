@@ -1,0 +1,21 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.rb, **/*.php, **/*.pine, **/*.pinescript, **/*.sol
+alwaysApply: false
+---
+# Cross-Reference Index Guidelines
+
+## Purpose
+The cross-reference index helps maintain awareness of relationships between components, ensuring that changes to one part of the codebase consider impacts on related parts.
+
+## Implementation
+
+### Cross-Reference Comment Format
+
+#### JavaScript/TypeScript
+
+# Cross_reference Guidelines
+
+- Follow best practices for cross reference 
+- Ensure consistent standards across the codebase
+- Prioritize maintainability and readability

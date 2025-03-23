@@ -1,0 +1,325 @@
+---
+description: 
+globs: **/*.css, **/*.scss, **/*.less, **/*.html, **/*.js, **/*.jsx, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Accessible Responsive Design Guidelines
+
+Creating interfaces that adapt to different screen sizes while maintaining accessibility is essential for inclusive design. These guidelines ensure responsive designs remain accessible across devices and contexts.
+
+## Responsive Layout Principles
+
+1. **Mobile-First Approach**:
+   - Start with the smallest viewport and enhance for larger screens
+   - Core content and functionality must be available on all viewports
+   - Progressively enhance features based on available screen space
+   - Test all breakpoints with assistive technologies
+
+2. **Responsive Grid System**:
+   - Use flexible grid layouts (flexbox, CSS Grid)
+   - Define logical content order in HTML independent of visual display
+   - Ensure reading order matches visual order across breakpoints
+   - Use relative units (%, rem, em) instead of fixed pixels for layout
+
+3. **Breakpoint Planning**:
+   ```css
+   /* Base system - can be customized */
+   :root {
+     --breakpoint-sm: 640px;   /* Small devices */
+     --breakpoint-md: 768px;   /* Medium devices */
+     --breakpoint-lg: 1024px;  /* Large devices */
+     --breakpoint-xl: 1280px;  /* Extra large devices */
+     --breakpoint-2xl: 1536px; /* 2X large devices */
+   }
+   
+   /* Mobile-first media queries */
+   @media (min-width: 640px) { /* Small screens and up */ }
+   @media (min-width: 768px) { /* Medium screens and up */ }
+   @media (min-width: 1024px) { /* Large screens and up */ }
+   @media (min-width: 1280px) { /* Extra large screens and up */ }
+   
+   /* Accessibility-specific queries */
+   @media screen and (prefers-reduced-motion: reduce) { /* Motion reduction */ }
+   @media screen and (prefers-color-scheme: dark) { /* Dark mode */ }
+   @media screen and (prefers-contrast: more) { /* High contrast */ }
+   @media print { /* Print styles */ }
+   ```
+
+## Content Adaptation
+
+1. **Text Readability**:
+   - Base font size minimum: 16px
+   - Line length: 45-75 characters (approximately 30-40em)
+   - Text must be readable without horizontal scrolling
+   - Line height should adapt to viewport width (1.5-1.6 for mobile, 1.5 for desktop)
+
+2. **Image Responsiveness**:
+   - Use responsive images with `srcset` and `sizes` attributes
+   - Provide appropriate alt text for all images
+   - Consider art direction needs with `<picture>` element
+   - Use CSS object-fit/object-position for flexible image display
+
+   ```html
+   <!-- Responsive image example -->
+   <img 
+     src="image-800w.jpg" 
+     srcset="image-400w.jpg 400w, image-800w.jpg 800w, image-1200w.jpg 1200w" 
+     sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+     alt="Descriptive alternative text"
+   >
+   
+   <!-- Art direction with picture -->
+   <picture>
+     <source media="(max-width: 600px)" srcset="small-hero.jpg">
+     <source media="(max-width: 1200px)" srcset="medium-hero.jpg">
+     <img src="large-hero.jpg" alt="Descriptive alternative text">
+   </picture>
+   ```
+
+3. **Video and Media**:
+   - Ensure controls are large enough for touch on mobile
+   - Provide captions and transcripts for all video content
+   - Use responsive video embeds with aspect ratio preservation
+   - Consider connection speeds with adaptive streaming options
+
+   ```css
+   /* Responsive video container */
+   .video-container {
+     position: relative;
+     padding-bottom: 56.25%; /* 16:9 ratio */
+     height: 0;
+     overflow: hidden;
+   }
+   
+   .video-container iframe,
+   .video-container video {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+   }
+   ```
+
+## Navigation and Interaction
+
+1. **Responsive Navigation**:
+   - Primary navigation must be accessible on all screens
+   - Mobile navigation patterns must be keyboard accessible
+   - Hamburger menus must have proper ARIA roles
+   - Consider skip links to bypass repetitive navigation
+   - Ensure touch targets meet size requirements (44×44px minimum)
+
+   ```html
+   <!-- Skip link example -->
+   <a href="#main-content" class="skip-link">Skip to main content</a>
+   
+   <!-- Accessible mobile menu button -->
+   <button 
+     aria-expanded="false" 
+     aria-controls="mobile-nav" 
+     class="menu-toggle"
+   >
+     <span class="visually-hidden">Menu</span>
+     <svg aria-hidden="true"><!-- Menu icon --></svg>
+   </button>
+   
+   <nav id="mobile-nav" aria-hidden="true">
+     <!-- Navigation items -->
+   </nav>
+   ```
+
+2. **Touch Interactions**:
+   - Increase touch targets on small screens
+   - Ensure sufficient space between interactive elements
+   - Provide visual feedback for touch interactions
+   - Use native gestures consistently
+
+   ```css
+   /* Larger touch targets on mobile */
+   @media (max-width: 767px) {
+     .touch-target {
+       min-height: 48px;
+       min-width: 48px;
+       padding: 12px;
+       margin: 8px 0;
+     }
+     
+     .nav-link {
+       padding: 12px 16px;
+     }
+     
+     button, .button, [role="button"] {
+       min-height: 44px;
+       padding: 12px 16px;
+     }
+   }
+   ```
+
+3. **Form Inputs**:
+   - Inputs must be easily tappable on small screens
+   - Labels must remain visible on all screen sizes
+   - Error messages must be clear and properly positioned
+   - Consider stacking form elements on narrow screens
+
+## Content Prioritization
+
+1. **Content Hierarchy**:
+   - Identify core vs. supplementary content
+   - Maintain consistent hierarchy across viewports
+   - Critical actions must be immediately visible on all devices
+   - Consider "content choreography" - rearranging content based on importance
+
+2. **Progressive Disclosure**:
+   - Use accordions, tabs, or progressive disclosure patterns for dense content
+   - Ensure all disclosure widgets are keyboard accessible
+   - Indicate hidden content clearly with appropriate ARIA attributes
+
+   ```html
+   <!-- Responsive accordion example -->
+   <div class="accordion">
+     <h3>
+       <button 
+         aria-expanded="false" 
+         aria-controls="section1-content" 
+         class="accordion-trigger"
+       >
+         Section Title
+       </button>
+     </h3>
+     <div 
+       id="section1-content" 
+       class="accordion-content" 
+       hidden
+     >
+       Content here
+     </div>
+   </div>
+   ```
+
+## Layout Shifts and Stability
+
+1. **Content Stability**:
+   - Minimize layout shifts during page load
+   - Reserve space for dynamic content with aspect ratios or skeleton screens
+   - Set explicit width/height on media to reduce CLS (Cumulative Layout Shift)
+   - Use CSS containment for complex independent sections
+
+2. **Font Loading Strategy**:
+   - Use `font-display: swap` or `font-display: optional`
+   - Provide good fallback system fonts
+   - Consider preloading critical fonts
+   - Implement progressive font loading for better performance
+
+## Responsive Tables
+
+1. **Table Adaptation Strategies**:
+   - Horizontal scrolling for complex data tables with clear indicators
+   - Responsive patterns for simpler tables (cards, collapse, etc.)
+   - Maintain data associations in all responsive variations
+   - Ensure proper table markup regardless of display method
+
+   ```css
+   /* Horizontal scroll approach */
+   .table-container {
+     overflow-x: auto;
+     position: relative;
+   }
+   
+   /* Scroll indicator */
+   .table-container::after {
+     content: "→";
+     position: absolute;
+     top: 0;
+     right: 0;
+     padding: 0 5px;
+     background: rgba(0,0,0,0.1);
+     color: #000;
+   }
+   
+   /* Or card layout for small screens */
+   @media (max-width: 767px) {
+     table, thead, tbody, th, td, tr {
+       display: block;
+     }
+     
+     thead tr {
+       position: absolute;
+       top: -9999px;
+       left: -9999px;
+     }
+     
+     tr {
+       margin-bottom: 1rem;
+       border: 1px solid #ddd;
+     }
+     
+     td {
+       position: relative;
+       padding-left: 50%;
+       text-align: left;
+     }
+     
+     td:before {
+       position: absolute;
+       left: 10px;
+       width: 45%;
+       padding-right: 10px;
+       white-space: nowrap;
+       content: attr(data-label);
+       font-weight: bold;
+     }
+   }
+   ```
+
+## Testing Requirements
+
+1. **Device Testing**:
+   - Test on actual devices, not just device emulators
+   - Include iOS and Android testing (multiple versions)
+   - Test with touch, keyboard, and screen readers
+   - Test in portrait and landscape orientations
+
+2. **Viewport Testing**:
+   - Test at standard breakpoints:
+     - Small mobile: 320-375px
+     - Large mobile: 376-767px
+     - Tablet: 768-1023px
+     - Desktop: 1024-1439px
+     - Large desktop: 1440px+
+   - Test zoomed interfaces (up to 400%)
+   - Test with browser text size adjustments
+   - Test with Windows High Contrast Mode
+
+3. **Connection Testing**:
+   - Test on slow connections (throttled)
+   - Test progressive loading behavior
+   - Ensure critical content loads first
+   - Verify offline capabilities if applicable
+
+## Implementation Checklist
+
+1. **CSS Best Practices**:
+   - Use relative units (rem, em, %) instead of fixed pixels
+   - Add print styles for printable pages
+   - Set appropriate viewport meta tag
+   - Implement logical properties when appropriate
+   - Use feature queries for progressive enhancement
+
+2. **HTML Structure**:
+   - Maintain semantic structure regardless of visual presentation
+   - Use appropriate HTML elements for their intended purpose
+   - Ensure reading order matches visual order in responsive layouts
+   - Use ARIA to supplement (not replace) semantic HTML
+
+3. **JavaScript Considerations**:
+   - Ensure all JS interactions work across devices
+   - Implement touch events with pointer events or both touch/click
+   - Avoid device-specific assumptions
+   - Test with JS disabled as a progressive enhancement baseline
+
+4. **Documentation Requirements**:
+   - Document breakpoints and their behavior
+   - Note any device-specific accommodations
+   - Document responsive patterns and their accessibility features
+   - Provide guidance for maintaining accessibility in responsive designs 

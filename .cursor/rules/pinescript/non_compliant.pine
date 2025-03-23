@@ -1,0 +1,31 @@
+//@version=6
+
+// =================== METADATA =================== //
+indicator("Non-Compliant Indicator", overlay=true)
+
+// =================== INPUT GROUPS =================== //
+
+// =================== INPUT PARAMETERS =================== //
+length = input.int(14, "Length", minval=1, group=gSettings)
+source = input.source(close, "Source", group=gSettings)
+
+// =================== VARIABLE DECLARATIONS =================== //
+var string gSettings = "Settings"
+var buffer = array.new_float(0)
+var lastSignal = 0
+
+// =================== FUNCTION DEFINITIONS =================== //
+sma(src, len) =>
+    sum = 0.0
+    for i = 0 to len - 1
+        sum += src[i]
+    sum / len
+
+// =================== MAIN CALCULATIONS =================== //
+ma = sma(source, length)
+
+// =================== VISUALIZATION =================== //
+plot(ma, "SMA", color=color.blue, linewidth=2)
+
+// =================== ALERTS =================== //
+alertcondition(source > ma, "Buy Signal", "Price crossed above SMA") 

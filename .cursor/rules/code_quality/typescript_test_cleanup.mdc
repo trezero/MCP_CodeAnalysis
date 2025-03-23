@@ -1,0 +1,86 @@
+---
+description: 
+globs: **/*test*.ts, **/*test*.tsx, **/*spec*.ts, **/*spec*.tsx
+alwaysApply: false
+---
+# TypeScript Test File Cleanup Rule
+
+## Purpose
+This rule defines a process for identifying and removing temporary TypeScript test files created during development of the Pine Script extension.
+
+## Types of TypeScript Test Files
+
+### 1. Compiler Test Files
+Files created to test TypeScript compilation:
+- `*_compiler_test.ts` - Tests for TypeScript compiler integration
+- `tsc_*.ts` - TypeScript compiler test files
+- Files containing "compile", "tsc", or "typescript" in their name
+
+### 2. Formatter Test JavaScript Files
+Files created to test the formatter functionality:
+- Files with "format", "formatter", "test", "verify" in their name
+- JavaScript test files like `*_test.js`, `test_*.js`
+- Files with extensions like `.test.js` or `.spec.js`
+
+### 3. Temporary Output Files
+Generated files from TypeScript or formatting tests:
+- Files with `.formatted` or `.js.map` extensions
+- Files with "temp", "output", or "result" in their name
+- JavaScript files that are direct compilations of TypeScript files
+
+## Cleanup Assessment Criteria
+
+For TypeScript and related test files, use these criteria to determine if a file is a cleanup candidate:
+
+1. **Purpose**: Was the file created for a single debugging or verification task?
+2. **Integration**: Has the functionality been integrated into the main test suite?
+3. **Documentation**: Is the test case documented in TypeScript workflow documentation?
+4. **Duplication**: Does the file duplicate the testing provided by the main test files?
+5. **Age**: Has the file not been modified in the last 30 days?
+
+## TypeScript-Specific Cleanup Considerations
+
+1. **Source Maps**: Clean up source map files (`.js.map`) once testing is complete
+2. **Compiled JS**: If directly editing JS files was necessary as a workaround, clean up once the TypeScript workflow is established
+3. **Test Scripts**: Remove temporary test scripts after the functionality is verified
+
+## Standard Cleanup Workflow
+
+1. **Identify Candidates**: Use commands like `find . -name "*test*.js" -not -path "*/node_modules/*"`
+2. **Create Branch**: `git checkout -b cleanup/typescript-test-files`
+3. **Remove Files**: `git rm [file paths]` for tracked files or `rm [file paths]` for untracked files
+4. **Document Changes**: Create a commit with clear explanation of what was removed and why
+5. **Verify**: Ensure that removing these files doesn't break any functionality
+
+## Files to Preserve
+
+The following files should NOT be removed:
+
+1. `test-formatter.js` - The main formatter test script
+2. Files referenced in `package.json` scripts
+3. Files used in regular development workflows
+4. Test files for features currently under development
+
+## Integration with TypeScript Workflow
+
+This cleanup rule complements the TypeScript workflow rule. When following the TypeScript workflow:
+
+1. Make changes to TypeScript source files
+2. Compile to JavaScript
+3. Test the changes
+4. Clean up any temporary test files created during the process
+
+## Documentation Template
+
+When documenting cleanup in commit messages, use this format:
+
+```
+Clean up TypeScript test files
+
+Removed:
+- file1.js: Temporary test for formatter, functionality now in test-formatter.js
+- file2.ts.bak: Backup file no longer needed
+- temp_test.js: One-time verification script for compiler setup
+
+All functionality is verified to be working correctly with the main test files.
+``` 

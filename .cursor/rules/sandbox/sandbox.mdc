@@ -1,0 +1,32 @@
+---
+description: 
+globs: **/sandbox/**/*, **/experiment/**/*, **/playground/**/*, **/demo/**/*, **/prototype/**/*, **/poc/**/*, **/scratch/**/*, **/temp/**/*, **/wip/**/*, **/*.example.*, **/*.demo.*, **/*.sandbox.*
+alwaysApply: false
+---
+# Sandbox Environment Guidelines
+
+## Purpose
+The sandbox environment provides a safe, isolated space for experimenting with code changes, testing new features, and exploring alternative approaches without affecting the main codebase.
+
+## Implementation
+
+### Sandbox Structure
+- Isolated directory (`sandbox/`)
+- Minimal dependencies on production code
+- Clear separation from production assets
+- Temporary nature - not intended for long-term storage
+
+### Sandbox Usage Workflow
+1. **Create**: Set up a new sandbox experiment
+2. **Experiment**: Implement and test ideas freely
+3. **Evaluate**: Assess results and learnings
+4. **Extract**: Move successful concepts to production
+5. **Clean up**: Remove or archive the sandbox
+
+### Sandbox Documentation Format
+
+# Sandbox Guidelines
+
+- Follow best practices for sandbox 
+- Ensure consistent standards across the codebase
+- Prioritize maintainability and readability

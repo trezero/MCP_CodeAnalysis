@@ -1,0 +1,210 @@
+---
+description: 
+globs: **/*.ts, **/*.js, **/*.tsx, **/*.jsx, **/*.py, **/*Factory.*, **/*Builder.*, **/*Manager.*, **/*Provider.*, **/*Strategy.*, **/*Observer.*, **/*Visitor.*, **/*Adapter.*, **/*Decorator.*, **/patterns/**.*, **/architecture/**.*
+alwaysApply: false
+---
+# Code Pattern Guidelines
+
+## Purpose
+
+Design patterns provide proven solutions to common programming problems. These guidelines help identify appropriate patterns, implement them correctly, and maintain pattern integrity throughout the codebase.
+
+## Recommended Design Patterns
+
+### Creational Patterns
+
+1. **Factory Method**
+   - Use for creating objects without specifying exact class
+   - Example: Creating formatters for different file types
+
+2. **Singleton**
+   - Use sparingly for truly global resources
+   - Example: Configuration manager, logging system
+
+3. **Builder**
+   - Use for complex object construction
+   - Example: Creating complex AST structures
+
+### Structural Patterns
+
+1. **Adapter**
+   - Use to make incompatible interfaces work together
+   - Example: Adapting external linting rules to internal format
+
+2. **Composite**
+   - Use for tree structures where components and containers are treated uniformly
+   - Example: AST node hierarchy
+
+3. **Decorator**
+   - Use to add responsibilities to objects dynamically
+   - Example: Adding logging or caching to formatters
+
+### Behavioral Patterns
+
+1. **Observer**
+   - Use for event handling and propagation
+   - Example: Notifying UI of formatting changes
+
+2. **Strategy**
+   - Use for swappable algorithms
+   - Example: Different formatting strategies for different language versions
+
+3. **Visitor**
+   - Use for operations on complex object structures
+   - Example: AST traversal for formatting or linting
+
+## Pattern Implementation Guidelines
+
+### When to Use Patterns
+
+1. **Problem Recognition**: Identify when a problem matches a pattern
+2. **Simplicity First**: Use the simplest solution that works
+3. **Consistency**: Follow existing patterns in the codebase
+4. **Documentation**: Clearly document pattern usage
+
+### Implementation Best Practices
+
+1. **Naming Conventions**
+   - Use pattern name in class/interface names when appropriate
+   - Example: `PineScriptFormatterFactory`, `FormattingStrategy`
+
+2. **Interface Design**
+   - Define clear interfaces for pattern components
+   - Keep interfaces focused and cohesive
+
+3. **Testing**
+   - Test pattern-based code extensively
+   - Verify that the pattern behaves as expected
+
+4. **Documentation**
+   - Document the pattern's intent and implementation
+   - Explain why the pattern was chosen
+
+## Pine Script Extension Patterns
+
+The Pine Script extension should consistently use these patterns:
+
+### 1. Formatter Pipeline Pattern
+Process text through a series of transformation steps:
+```typescript
+// Pipeline pattern example
+function formatPineScriptText(content: string): string {
+  // Pipeline of transformations
+  content = fixBrokenCompoundOperators(content);
+  content = preserveCompoundOperatorsInConditionals(content);
+  content = alignEqualsInBlocks(content);
+  content = fixExcessiveSpacesBeforeCompoundOperators(content);
+  return content;
+}
+```
+
+### 2. Rule Strategy Pattern
+Encapsulate formatting/linting rules as interchangeable strategies:
+```typescript
+// Strategy pattern example
+interface FormattingRule {
+  apply(content: string): string;
+}
+
+class AlignEqualsRule implements FormattingRule {
+  apply(content: string): string {
+    // Implementation
+  }
+}
+
+class Formatter {
+  private rules: FormattingRule[] = [];
+  
+  addRule(rule: FormattingRule): void {
+    this.rules.push(rule);
+  }
+  
+  format(content: string): string {
+    return this.rules.reduce((text, rule) => rule.apply(text), content);
+  }
+}
+```
+
+### 3. Visitor Pattern for AST Processing
+Use the visitor pattern for traversing and operating on AST nodes:
+```typescript
+// Visitor pattern example
+interface AstVisitor {
+  visitVariableDeclaration(node: VariableDeclarationNode): void;
+  visitFunctionDeclaration(node: FunctionDeclarationNode): void;
+  // Other node types...
+}
+
+class FormattingVisitor implements AstVisitor {
+  // Implementation of visit methods
+}
+
+class AstNode {
+  accept(visitor: AstVisitor): void {
+    // Implementation depends on node type
+  }
+}
+```
+
+## Anti-Patterns to Avoid
+
+1. **God Object**
+   - Avoid classes that know or do too much
+   - Break large classes into focused components
+
+2. **Spaghetti Code**
+   - Avoid complex, tangled control flow
+   - Use clear structure and appropriate patterns
+
+3. **Callback Hell**
+   - Avoid deeply nested callbacks
+   - Use promises, async/await, or reactive patterns
+
+4. **Premature Optimization**
+   - Avoid optimizing before understanding performance needs
+   - Measure before optimizing
+
+## Pattern Refactoring
+
+When refactoring code to implement patterns:
+
+1. **Incremental Approach**
+   - Refactor in small, testable steps
+   - Maintain functionality throughout
+
+2. **Test Coverage**
+   - Ensure good test coverage before refactoring
+   - Write tests for the new implementation
+
+3. **Documentation**
+   - Document the refactoring intent and approach
+   - Update architecture documentation
+
+## Pattern Documentation Template
+
+When documenting a pattern implementation, include:
+
+```markdown
+## Pattern: [Pattern Name]
+
+### Intent
+[Brief description of what problem the pattern solves]
+
+### Implementation
+[Description of how the pattern is implemented]
+
+### Components
+- [Component 1]: [Purpose]
+- [Component 2]: [Purpose]
+...
+
+### Usage Example
+```typescript
+// Example code showing pattern usage
+```
+
+### Considerations
+- [Performance implications]
+- [Maintenance considerations]
+- [Alternative patterns considered]
+``` 

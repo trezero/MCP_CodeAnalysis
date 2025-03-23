@@ -1,0 +1,261 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.vue, **/*.svelte
+alwaysApply: false
+---
+# Accessible Interaction Guidelines
+
+Creating interfaces that can be operated by all users requires thoughtful implementation of interaction patterns. These guidelines ensure interfaces remain accessible regardless of input method or ability.
+
+## Focus Management
+
+1. **Focus Visibility**:
+   - All interactive elements must have a visible focus indicator
+   - Focus indicators must have at least 3:1 contrast against adjacent colors
+   - Focus indicators should use a combination of outline, border, or background change
+
+   ```css
+   /* Minimum focus styles - customize further for your design */
+   :focus {
+     outline: 2px solid var(--color-focus);
+     outline-offset: 2px;
+   }
+   
+   /* Better focus styles with fallbacks */
+   :focus {
+     outline: 2px solid var(--color-focus, #0072B2);
+     outline-offset: 2px;
+     box-shadow: 0 0 0 4px rgba(0, 114, 178, 0.25);
+   }
+   
+   /* Never disable focus outlines entirely */
+   :focus:not(:focus-visible) {
+     /* Can soften, but don't completely remove */
+     outline-color: rgba(0, 114, 178, 0.5);
+   }
+   ```
+
+2. **Focus Order**:
+   - Logical tab order following visual layout (usually top-to-bottom, left-to-right)
+   - No focus traps except for modals/dialogs (where needed)
+   - Focusable elements should not be hidden from keyboard access
+   - Use `tabindex="0"` for custom interactive elements
+   - Avoid using tabindex values greater than 0
+
+3. **Focus Management for SPAs/Components**:
+   - Move focus to newly displayed content after navigation/view changes
+   - Return focus to trigger element when dismissing modals/popups
+   - Skip navigation links for keyboard users
+   - Announce dynamic content changes to screen readers
+
+## Keyboard Accessibility
+
+1. **Basic Requirements**:
+   - All functionality must be operable with keyboard alone
+   - No keyboard traps (except intended modal dialogs)
+   - Logical tab order matching visual flow
+   - Visible focus states for all interactive elements
+
+2. **Keyboard Shortcuts**:
+   - Use common patterns consistent with platform conventions
+   - All shortcuts must be documented and discoverable
+   - Provide mechanism to remap shortcuts when possible
+   - Avoid conflicts with browser and screen reader shortcuts
+   - Critical shortcuts should use modifier keys to avoid accidental activation
+
+3. **Standard Key Patterns**:
+   | Element | Expected Keys |
+   |---------|--------------|
+   | Buttons | Enter, Space |
+   | Links | Enter |
+   | Checkboxes | Space |
+   | Radio buttons | Arrow keys (group navigation) |
+   | Select menus | Enter, Space, Arrow keys |
+   | Text inputs | Standard text editing keys |
+   | Dialogs | Escape (close) |
+   | Tabs | Arrow keys (navigation), Home/End (first/last) |
+   | Accordions | Enter/Space (toggle), arrows (next/prev) |
+   | Sliders | Arrow keys, Home/End (min/max) |
+
+## Touch and Pointer Interaction
+
+1. **Touch Targets**:
+   - Minimum size: 44×44 pixels (WCAG); 48×48 pixels (preferred)
+   - Minimum spacing between targets: 8px
+   - Larger touch targets for primary actions
+
+   ```css
+   .touch-target {
+     min-width: 44px;
+     min-height: 44px;
+     padding: 8px;
+   }
+   
+   /* Primary actions should be larger */
+   .primary-action {
+     min-width: 48px;
+     min-height: 48px;
+     padding: 12px;
+   }
+   ```
+
+2. **Gesture Alternatives**:
+   - All gesture-based actions must have non-gesture alternatives
+   - Complex gestures should be avoided when possible
+   - Provide visible UI controls for all gesture-based operations
+   - Support standard system gestures when appropriate
+
+3. **Hover States**:
+   - Content revealed on hover must also be accessible via keyboard focus
+   - Critical actions should not rely on hover-only interactions
+   - Hover targets should be sufficiently sized to avoid accidental triggering
+
+## Form Interactions
+
+1. **Form Controls**:
+   - Labels properly associated with controls using `for` attribute
+   - Error messages linked to fields using `aria-describedby`
+   - Validation feedback must be screen reader accessible
+   - Grouped controls should use `fieldset` and `legend`
+
+2. **Input Assistance**:
+   - Clear validation feedback with suggestions for correction
+   - Show errors after user input, not preemptively
+   - Allow recovery from all input errors
+   - Support both mouse and keyboard for all form operations
+
+3. **Form Submission**:
+   - Provide clear submission feedback
+   - Prevent accidental double-submission
+   - Allow form review before final submission of critical data
+
+## Custom Interactive Components
+
+1. **General Requirements**:
+   - Use appropriate semantic HTML elements when possible
+   - Add proper ARIA roles, states, and properties when needed
+   - Manage focus appropriately when content changes
+   - Ensure keyboard operability for all functionality
+   - Match standard keyboard patterns for similar controls
+
+2. **Dialog Implementation**:
+   ```javascript
+   function openDialog(dialogEl) {
+     // Store last active element to restore focus later
+     const lastActiveElement = document.activeElement;
+     
+     // Show dialog
+     dialogEl.setAttribute('aria-hidden', 'false');
+     dialogEl.style.display = 'block';
+     
+     // Set focus to first focusable element
+     const firstFocusable = dialogEl.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+     if (firstFocusable) {
+       firstFocusable.focus();
+     }
+     
+     // Trap focus inside dialog
+     dialogEl.addEventListener('keydown', function(e) {
+       if (e.key === 'Escape') {
+         closeDialog(dialogEl, lastActiveElement);
+       }
+       trapFocus(e, dialogEl);
+     });
+   }
+   
+   function closeDialog(dialogEl, elementToFocus) {
+     dialogEl.setAttribute('aria-hidden', 'true');
+     dialogEl.style.display = 'none';
+     
+     // Restore focus to original element
+     if (elementToFocus) {
+       elementToFocus.focus();
+     }
+   }
+   
+   function trapFocus(e, dialogEl) {
+     // Add logic to trap focus within the dialog
+     // when Tab or Shift+Tab is pressed
+   }
+   ```
+
+3. **Custom Dropdown Implementation**:
+   ```javascript
+   // See ARIA Authoring Practices Guide for complete patterns
+   // https://www.w3.org/WAI/ARIA/apg/patterns/
+   ```
+
+## Motion and Animation
+
+1. **General Requirements**:
+   - Respect `prefers-reduced-motion` media query
+   - No animations that flash more than 3 times per second
+   - Allow users to pause, stop, or hide moving content
+   - Avoid auto-playing content when possible
+
+2. **Implementation Example**:
+   ```css
+   /* Default animations */
+   .animated {
+     transition: transform 0.3s ease;
+   }
+   
+   /* Respect user preferences */
+   @media (prefers-reduced-motion: reduce) {
+     .animated {
+       transition: none;
+     }
+     
+     /* Disable all non-essential animations */
+     * {
+       animation-duration: 0.001s !important;
+       animation-iteration-count: 1 !important;
+       transition-duration: 0.001s !important;
+     }
+   }
+   ```
+
+## Time-Based Interactions
+
+1. **Timeouts**:
+   - Warn users before session timeouts
+   - Provide option to extend session without data loss
+   - Minimum 20 seconds warning before timeout
+   - Allow at least 2 minutes for user to respond to timeout warnings
+
+2. **Time Limits**:
+   - Avoid time limits when possible
+   - For necessary time limits, provide options to:
+     - Turn off the time limit
+     - Adjust the time limit (at least 10x default)
+     - Extend the time limit with a simple action
+
+## Testing Requirements
+
+1. **Keyboard Testing**:
+   - Tab through entire interface using only keyboard
+   - Verify all functionality works with keyboard alone
+   - Check focus visibility on all interactive elements
+   - Ensure logical tab order matches visual layout
+
+2. **Screen Reader Testing**:
+   - Test with at least one screen reader (NVDA, JAWS, VoiceOver)
+   - Verify all content is announced correctly
+   - Check that state changes are properly announced
+   - Ensure custom widgets follow ARIA Authoring Practices
+
+3. **Touch Testing**:
+   - Verify touch targets are adequately sized
+   - Test all interactions with touch input
+   - Ensure alternative methods for gesture-based interactions
+   - Check for hover-dependent content accessibility
+
+## Documentation Requirements
+
+All interaction patterns must be documented with:
+
+1. Expected keyboard, mouse, and touch behaviors
+2. ARIA roles, states, and properties used
+3. Focus management strategies
+4. Responsive behavior across viewports
+5. Known limitations or fallbacks for specific browsers 

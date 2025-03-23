@@ -1,0 +1,27 @@
+---
+description: 
+globs: **/onboarding*.*, **/getting-started.*, **/README.md, **/CONTRIBUTING.md, **/docs/tutorial*.*, **/docs/guide*.*, **/walkthrough*.*, **/examples/**/*
+alwaysApply: false
+---
+# Interactive Onboarding Guidelines
+
+## Purpose
+Interactive onboarding materials help new team members quickly understand the codebase, development practices, and contribution workflow.
+
+## Implementation
+
+### Onboarding Content Structure
+- **Getting Started**: Environment setup and first run
+- **Architecture Overview**: System components and interactions
+- **Development Workflow**: Branching, testing, and deployment
+- **Guided Tours**: Walkthroughs of key code paths
+- **Exercises**: Hands-on tasks to build familiarity
+
+### Interactive Elements
+- Annotated codebase with explanatory comments
+- Step-by-step tutorials with checkpoints
+- Interactive diagrams showing system flow
+- Sandbox environments for safe experimentation
+- Checklists for common tasks
+
+### Onboarding Documentation Format

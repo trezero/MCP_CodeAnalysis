@@ -1,0 +1,51 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript, **/pine_*.*, **/*/pine/*.*, **/tradingview/*.*, **/indicators/*.*, **/strategies/*.*
+alwaysApply: false
+---
+# Pine Script Structure Guidelines
+
+## Code Organization
+Pine Script files should follow this specific structure for better readability and maintenance:
+
+1. **Metadata Section**
+   - Version declaration (`//@version=X`)
+   - Indicator/Strategy declaration
+   - Description and credits
+
+2. **Input Parameters**
+   - All input parameters grouped by functionality
+   - Input groups should be defined at the top using `var string G_NAME = "Group Name"`
+   - Parameters should be organized under their respective groups
+
+3. **Variable Declarations**
+   - All persistent variables (using `var`)
+   - Arrays and data structures
+   - Reference variables
+
+4. **Function Definitions**
+   - All functions defined together in one section
+   - Helper functions should come before functions that depend on them
+   - Functions should be properly commented
+
+5. **Main Calculation Section**
+   - Core logic and calculations
+   - State updates
+   - Conditionals
+
+6. **Visualization Section**
+   - Plots, fills, and drawings
+   - Bar coloring
+   - Labels and annotations
+
+7. **Alert Definitions**
+   - Alert conditions and messages
+
+## Function Placement
+When adding new functions, place them in the function definitions section, not at the end of the file.
+
+## Input Parameter Placement
+Always add new input parameters to the input parameters section, grouped appropriately with related inputs.
+
+## Memory Management
+Cleanup operations and array management should be part of the main calculation section, not defined as separate functions at the end of the file. 

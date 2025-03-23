@@ -1,0 +1,94 @@
+---
+description: 
+globs: **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# TypeScript Workflow for Pine Script Extension
+
+## Overview
+
+This document outlines the proper workflow for making changes to the Pine Script extension's TypeScript codebase. Following these guidelines ensures code quality and maintainability.
+
+## Workflow Steps
+
+### 1. Make Changes to TypeScript Source Files
+
+Always make changes to the TypeScript (.ts) source files, not directly to the compiled JavaScript (.js) files. The TypeScript files are located in the `src/` directory.
+
+```typescript
+// Example: src/formatter/pineFormatter.ts
+export function formatPineScriptText(content: string): string {
+  // Make your changes here
+}
+```
+
+### 2. Compile TypeScript to JavaScript
+
+Use the TypeScript compiler to generate JavaScript files from your TypeScript source.
+
+```bash
+# Navigate to the project root
+cd pine-script-syntax
+
+# Run the TypeScript compiler
+./compile.sh
+```
+
+This will generate corresponding JavaScript files in the `out/` directory.
+
+### 3. Test Your Changes
+
+After compilation, test your changes by running the formatter on test files:
+
+```bash
+# Run the test formatter
+node test-formatter.js
+```
+
+### 4. Avoid Direct JavaScript Edits
+
+Never directly edit the compiled JavaScript files in the `out/` directory. These files are generated and will be overwritten on the next compilation.
+
+## TypeScript Best Practices
+
+1. **Use Type Annotations**: Explicitly define types for functions, parameters, and return values.
+
+2. **Leverage Interfaces**: Define interfaces for complex data structures.
+
+3. **Follow Functional Programming**: Prefer pure functions that don't modify external state.
+
+4. **Use ESLint**: Configure and use ESLint for code quality.
+
+## Regex Pattern Alignment
+
+When working with regex patterns, especially those that must align with Rust linter rules:
+
+1. Document the source of the pattern
+2. Include comments explaining the pattern's purpose
+3. Use the exact same pattern as the linter when needed for consistency
+
+Example:
+```typescript
+// This regex matches the exact pattern used in the Rust linter
+// Copied from pine-linter-rs/src/main.rs
+const linterExcessiveSpacesRegex = /(\w+)(\s{2,})(>=|<=|==|!=)/g;
+```
+
+## Troubleshooting Compilation Issues
+
+If you encounter compilation errors:
+
+1. Check the error messages from the TypeScript compiler
+2. Verify your type definitions are correct
+3. Ensure imports are properly defined
+4. Run `npm install` to update dependencies if needed
+
+## Pine Script Extension-Specific Guidelines
+
+1. **Formatter Changes**: When modifying the formatter, ensure it aligns with the Rust linter's expectations.
+
+2. **Language Features**: When adding support for new Pine Script language features, update both syntax highlighting and formatting rules.
+
+3. **Rule Consistency**: Keep formatting rules consistent with PineScript coding standards.
+
+4. **Performance**: Be mindful of performance in formatting operations, as they run on potentially large files. 

@@ -1,0 +1,15 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.rb, **/*.php, **/*.pine, **/*.pinescript, **/*.sol
+alwaysApply: false
+---
+
+# Code Health Guidelines
+
+- Monitor code complexity metrics
+- Track test coverage across the codebase
+- Analyze performance bottlenecks
+- Identify technical debt
+- Suggest refactoring opportunities
+- Follow the five-step process for code optimization
+- Prioritize simplicity and maintainability

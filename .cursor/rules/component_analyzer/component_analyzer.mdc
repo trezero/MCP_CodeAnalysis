@@ -1,0 +1,148 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.vue, **/*.svelte, **/component*.*, **/components/**/*
+alwaysApply: false
+---
+# Component Analyzer Rules
+
+## Overview
+This document outlines the coding standards and best practices for the Component Analyzer extension, which helps developers understand and optimize component relationships in their codebase.
+
+## Key Rules
+
+1. [**TypeScript Migration**](mdc:typescript_migration.mdc) - Guidelines for converting JavaScript to TypeScript
+2. [**React Analysis**](mdc:react_analysis.mdc) - Rules for React Virtual DOM analysis
+3. [**Visualization**](mdc:visualization.mdc) - Standards for component visualization
+4. [**Testing**](mdc:testing.mdc) - Testing requirements and best practices
+5. [**Performance**](mdc:performance.mdc) - Performance optimization guidelines
+6. [**Documentation**](mdc:documentation.mdc) - Documentation standards
+
+## Component Analysis Standards
+
+### TypeScript Analysis
+- Use TypeScript Compiler API for accurate type information
+- Track component dependencies and relationships
+- Identify potential circular dependencies
+- Analyze component complexity and size
+
+### Rust Analysis
+- Parse Rust modules and crates
+- Track struct and trait relationships
+- Analyze function dependencies
+- Identify potential ownership issues
+
+### React Analysis
+- Track component rendering behavior
+- Identify unnecessary re-renders
+- Analyze hook usage and dependencies
+- Suggest optimization opportunities
+
+## Visualization Requirements
+
+### Graph Layout
+- Support multiple layout algorithms
+- Handle large component graphs
+- Provide zoom and pan capabilities
+- Show component relationships clearly
+
+### Interactive Features
+- Component selection and highlighting
+- Dependency path visualization
+- Impact analysis preview
+- Snapshot comparison view
+
+### Performance Considerations
+- Efficient graph rendering
+- Lazy loading of large graphs
+- Smooth animations
+- Responsive UI
+
+## Testing Standards
+
+### Unit Tests
+- Test each analyzer independently
+- Mock external dependencies
+- Cover edge cases
+- Test error handling
+
+### Integration Tests
+- Test analyzer combinations
+- Verify visualization updates
+- Test snapshot functionality
+- Validate performance
+
+### Performance Tests
+- Measure analysis speed
+- Test large codebases
+- Monitor memory usage
+- Profile visualization
+
+## Documentation Requirements
+
+### Code Documentation
+- JSDoc comments for functions
+- Type definitions
+- Usage examples
+- Error descriptions
+
+### User Documentation
+- Installation guide
+- Usage instructions
+- Configuration options
+- Troubleshooting guide
+
+## Performance Guidelines
+
+### Analysis Performance
+- Optimize file scanning
+- Cache analysis results
+- Parallel processing
+- Incremental updates
+
+### Visualization Performance
+- Efficient data structures
+- Optimized rendering
+- Memory management
+- Background processing
+
+## Security Considerations
+
+### Data Handling
+- Secure file access
+- Safe data parsing
+- Error handling
+- Input validation
+
+### Extension Security
+- VSCode API best practices
+- Resource cleanup
+- Memory management
+- Error recovery
+
+## Contributing Guidelines
+
+### Code Style
+- Follow TypeScript best practices
+- Use consistent formatting
+- Write clear comments
+- Follow naming conventions
+
+### Pull Requests
+- Include tests
+- Update documentation
+- Add changelog entry
+- Review checklist
+
+## Release Process
+
+### Version Control
+- Semantic versioning
+- Changelog maintenance
+- Release notes
+- Tag management
+
+### Publishing
+- VSCode marketplace
+- Release verification
+- Documentation updates
+- User notifications 

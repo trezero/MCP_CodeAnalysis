@@ -1,0 +1,273 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.rb, **/*.php, **/*.pine, **/*.pinescript, **/*.sol
+alwaysApply: false
+---
+# Delta Analysis Guidelines
+
+## Purpose
+
+Delta analysis focuses on tracking and understanding code changes over time. These guidelines ensure changes are well-documented, properly sized, and maintain code quality standards through effective review and validation processes.
+
+## Types of Code Changes
+
+### 1. Feature Additions
+
+- New functionality introduced to the codebase
+- May include new files, functions, classes, or modules
+- Often driven by business requirements or user stories
+
+### 2. Bug Fixes
+
+- Changes that correct incorrect behavior
+- May involve multiple files or components
+- Often include additional tests to prevent regression
+
+### 3. Refactorings
+
+- Changes to code structure without changing behavior
+- Focus on improving maintainability, readability, or performance
+- May simplify complex code or implement design patterns
+
+### 4. Infrastructure Changes
+
+- Updates to build systems, CI/CD pipelines, or dependencies
+- Configuration changes or environment updates
+- Developer experience improvements
+
+## Delta Documentation Requirements
+
+For significant code changes, document:
+
+### 1. Change Summary
+
+- Brief description of what changed
+- Reference to related issue/ticket/requirement
+- Why the change was needed
+
+### 2. Change Purpose
+
+- Business justification
+- Technical rationale
+- Expected benefits
+
+### 3. Change Scope
+
+- Files/components affected
+- Interfaces modified
+- Schema changes
+
+### 4. Risk Assessment
+
+- Potential side effects
+- Breaking changes
+- Performance implications
+- Security considerations
+
+### 5. Verification Method
+
+- Test cases added/modified
+- Validation approach
+- Benchmark results (if applicable)
+
+### 6. Rollback Plan
+
+- Steps to revert if issues arise
+- Compatibility considerations
+- Data migration implications (if applicable)
+
+## Delta Size Guidelines
+
+### Small Changes
+
+- 1-50 lines modified
+- Single responsibility
+- Limited scope
+- Minimal risk
+- Examples: Simple bug fixes, documentation updates, minor feature enhancements
+
+### Medium Changes
+
+- 51-300 lines modified
+- May touch multiple components
+- Moderate complexity
+- Contained risk
+- Examples: New features, complex bug fixes, localized refactorings
+
+### Large Changes
+
+- 301-1000 lines modified
+- Multiple components or modules
+- High complexity
+- Elevated risk
+- Requires thorough review
+- Examples: Major features, cross-cutting refactorings, architectural changes
+
+### Extra Large Changes
+
+- >1000 lines modified
+- Should be rare and broken down when possible
+- Extremely high risk
+- Requires exceptional justification
+- Examples: Major system rewrites, large-scale architecture changes
+
+## Code Review Procedures
+
+### For Small Changes
+
+- At least 1 reviewer
+- Focus on correctness and adherence to standards
+- Quick turnaround (1 day or less)
+
+### For Medium Changes
+
+- At least 2 reviewers
+- Focus on correctness, maintainability, and potential side effects
+- Expected turnaround: 1-2 days
+- Consider breaking into smaller chunks if review is complex
+
+### For Large Changes
+
+- At least 2 reviewers, including a senior developer/architect
+- Multiple review sessions may be required
+- Focus on architectural consistency, performance, and risk
+- Expected turnaround: 2-5 days
+- Should always be broken into smaller logical chunks when possible
+
+## Pine Script Extension Delta Analysis
+
+### Formatter Changes
+
+- Document formatting rule modifications
+- Include before/after examples
+- Ensure idempotence (formatting twice yields same result)
+- Validate performance impact for large files
+
+### Linter Changes
+
+- Document linting rule changes
+- Include examples of valid/invalid code
+- Specify auto-fix capability
+- Consider backward compatibility
+
+### Language Feature Changes
+
+- Document API changes
+- Update relevant documentation
+- Include migration guides for breaking changes
+- Provide examples of new usage patterns
+
+## Tracking Methodology
+
+### Key Metrics to Monitor
+
+1. **Change Frequency**: How often files or components are modified
+2. **Change Size**: Distribution of change sizes over time
+3. **Change Type**: Proportion of features, fixes, refactorings
+4. **Hotspots**: Files or components with high change frequency
+5. **Ownership**: Who makes changes to which parts of the codebase
+6. **Stability**: How often changes introduce regressions
+
+### Integration Tools
+
+1. **Version Control**
+   - Use descriptive commit messages following a consistent format
+   - Reference issues/tickets in commits
+   - Use feature branches for isolating changes
+
+2. **Code Review Systems**
+   - Maintain review history
+   - Track review comments and resolutions
+   - Measure review thoroughness and timing
+
+3. **Issue Tracking**
+   - Link changes to requirements or bug reports
+   - Track issue lifetime and resolution
+   - Categorize issues by type and component
+
+## Visual Representation
+
+For significant changes, provide:
+
+### 1. Before/After Code Samples
+
+```markdown
+### Before
+
+```typescript
+function formatCode(text: string): string {
+  // No indentation handling
+  return text.replace(/\s+/g, ' ');
+}
+```
+
+### After
+
+```typescript
+function formatCode(text: string, indentSize: number = 2): string {
+  // Preserve indentation
+  return text
+    .split('\n')
+    .map(line => line.trim())
+    .join('\n' + ' '.repeat(indentSize));
+}
+```
+```
+
+### 2. Performance Graphs
+
+For changes with performance implications, include before/after metrics:
+
+```markdown
+### Performance Impact
+
+| Scenario | Before | After | Change |
+|----------|--------|-------|--------|
+| Small file (100 lines) | 25ms | 20ms | -20% |
+| Medium file (1000 lines) | 220ms | 180ms | -18% |
+| Large file (10000 lines) | 2100ms | 1700ms | -19% |
+```
+
+### 3. Architecture Diagrams
+
+For structural changes, include component diagrams showing the before/after state.
+
+## Example Delta Documentation
+
+```markdown
+# Formatter Rule Fix: Align Equal Signs in Declarations
+
+## Change Summary
+Fixed alignment of equal signs in variable declarations to handle multi-line declarations properly.
+
+Related issue: #123
+
+## Purpose
+Improves readability by ensuring consistent alignment of equal signs, especially in blocks of related variable declarations.
+
+## Scope
+- Modified: `src/formatter/rules/alignEquals.ts`
+- Modified: `src/formatter/utils/lineProcessing.ts`
+- Added tests: `tests/formatter/rules/alignEquals.test.ts`
+
+## Implementation Details
+
+### Before
+The formatter would align equal signs only within single blocks, not recognizing when declarations were separated by blank lines or comments.
+
+### After
+The formatter now tracks declaration contexts and can align equal signs across multiple blocks when they are part of the same logical group.
+
+## Risk Assessment
+- Low risk change affecting only formatting behavior
+- No impact on runtime behavior of formatted code
+- Edge case: Very long variable names might cause lines to exceed max length
+
+## Verification
+- Added 12 new test cases covering various declaration patterns
+- Manually verified with the examples from issue #123
+- Ran performance tests to ensure no significant slowdown
+
+## Rollback Plan
+Simple revert of the commits if issues are discovered.
+``` 

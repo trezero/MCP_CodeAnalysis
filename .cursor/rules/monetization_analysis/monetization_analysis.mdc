@@ -1,0 +1,214 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.html, **/*.css, **/*.json, **/*.yaml, **/*.yml, **/pricing*.*, **/subscription*.*, **/payment*.*, **/checkout*.*, **/billing*.*, **/plan*.*, **/tier*.*
+alwaysApply: false
+---
+# Monetization Analysis Guidelines
+
+## Purpose
+
+These guidelines provide a structured approach to analyzing, planning, and implementing monetization features in projects. Following these guidelines ensures that monetization is effective, aligns with user value, and maintains a positive user experience.
+
+## Monetization Models
+
+### 1. Subscription-Based Model
+
+- **Description**: Users pay recurring fees for continued access to product or services.
+- **Best For**: Products with ongoing value, regular updates, or service-oriented features.
+- **Implementation Considerations**:
+  - Offer tiered pricing based on feature access or usage limits
+  - Provide clear value proposition for each tier
+  - Consider monthly, quarterly, and annual subscription options
+  - Implement transparent renewal and cancellation processes
+
+### 2. Freemium Model
+
+- **Description**: Basic features are free, premium features require payment.
+- **Best For**: Products with broad appeal but clear premium value-add features.
+- **Implementation Considerations**:
+  - Ensure free tier provides genuine value and good user experience
+  - Create clear differentiation between free and premium features
+  - Design seamless upgrade paths with minimal friction
+  - Use behavioral analytics to identify optimal conversion points
+
+### 3. One-Time Purchase Model
+
+- **Description**: Users pay once for perpetual access to the product.
+- **Best For**: Standalone tools or products with limited ongoing costs.
+- **Implementation Considerations**:
+  - Consider offering feature-based tiers or bundles
+  - Plan for revenue sustainability without recurring income
+  - Determine update policy (free updates vs. paid major versions)
+  - Implement license management system if needed
+
+### 4. In-App Purchase Model
+
+- **Description**: Users purchase specific features, content, or functionality within the app.
+- **Best For**: Products with discrete valuable features or content.
+- **Implementation Considerations**:
+  - Design purchasing flow to be non-disruptive to user experience
+  - Implement clear value communication before purchase decision
+  - Consider consumable vs. non-consumable purchase types
+  - Ensure purchased items/features are properly persisted
+
+## Implementation Guidelines
+
+### Feature Evaluation Criteria
+
+Evaluate potential monetizable features using these criteria:
+
+1. **Value Assessment**:
+   - What specific problem does this feature solve?
+   - How much time/money does it save the user?
+   - Is the value proposition clear and compelling?
+
+2. **Market Fit**:
+   - Is there demonstrated demand for this feature?
+   - How does it compare to competitor offerings?
+   - What is the addressable market size?
+
+3. **Implementation Complexity**:
+   - What is the development cost?
+   - Are there ongoing maintenance requirements?
+   - What technical dependencies exist?
+
+4. **Revenue Potential**:
+   - What is the projected adoption rate?
+   - What price point is sustainable and competitive?
+   - What is the estimated ROI timeframe?
+
+### Code Architecture for Monetization
+
+1. **Feature Gating System**:
+   - Implement clean, maintainable feature flag system
+   - Separate business logic from access control logic
+   - Design for easy addition/removal of gated features
+
+2. **User Entitlement Management**:
+   - Create robust entitlement verification system
+   - Implement secure storage of entitlement data
+   - Design for both online and offline verification when applicable
+
+3. **Analytics Integration**:
+   - Track feature usage patterns
+   - Monitor conversion funnel performance
+   - Measure retention impact of monetized features
+
+4. **Payment Processing**:
+   - Implement secure payment processing
+   - Support multiple payment methods
+   - Handle subscription lifecycle events properly
+
+## Application to Pine Script Projects
+
+### Pine Script Monetization Strategy
+
+For Pine Script indicators and strategies:
+
+1. **Free vs. Premium Features**:
+   - Basic indicator functionality in free version
+   - Advanced features in premium version:
+     - Multi-timeframe analysis
+     - Advanced alerting capabilities
+     - Customization options
+     - Backtesting features
+
+2. **Distribution Channels**:
+   - TradingView Marketplace
+   - Custom distribution platforms
+   - Direct sales to professional traders
+
+3. **License Management**:
+   - User identification methodology
+   - License key verification systems
+   - Trial period implementation
+
+### Pine Script Code Organization
+
+```pine
+//@version=5
+
+// ANCHOR: Feature Flags - Used to control access to premium features
+f_isPremiumUser() =>
+    // License verification logic
+    // In a real implementation, this would check against a license database or key
+    true  // For development, assuming premium access
+
+// ANCHOR: Core Functionality - Available to all users
+calcBasicIndicator() =>
+    // Basic calculation available to all users
+    close > open ? 1 : -1
+
+// ANCHOR: Premium Functionality - Available only to premium users
+calcAdvancedIndicator() =>
+    // More sophisticated calculation for premium users
+    result = ta.ema(close, 20) > ta.ema(close, 50) ? 1 : -1
+    result
+
+// ANCHOR: Feature Access Control - Apply appropriate access based on user status
+indicator("Monetized Indicator Example", overlay=true)
+
+// Basic features always available
+basicResult = calcBasicIndicator()
+
+// Premium features only available to premium users
+advancedResult = f_isPremiumUser() ? calcAdvancedIndicator() : na
+
+// Visualization logic
+plot(basicResult, color=color.blue, title="Basic Signal")
+plot(f_isPremiumUser() ? advancedResult : na, color=color.purple, title="Premium Signal")
+
+// Premium feature marketing for free users
+if not f_isPremiumUser()
+    label.new(bar_index, high, "Upgrade to Premium for Advanced Signals", 
+              color=color.gray, textcolor=color.white, style=label.style_label_down)
+```
+
+## Implementation Checklist
+
+When implementing monetization features:
+
+- [ ] **Market Research**
+  - [ ] Analyze competitor pricing and features
+  - [ ] Gather user willingness-to-pay data
+  - [ ] Identify unique value propositions
+
+- [ ] **Feature Planning**
+  - [ ] Identify core vs. premium features
+  - [ ] Create clear feature tiers
+  - [ ] Plan upgrade paths
+
+- [ ] **Technical Implementation**
+  - [ ] Design feature gating system
+  - [ ] Implement payment processing
+  - [ ] Develop license/entitlement management
+  - [ ] Create analytics tracking
+
+- [ ] **User Experience**
+  - [ ] Design clear premium feature messaging
+  - [ ] Create frictionless upgrade flows
+  - [ ] Implement appropriate trial experiences
+
+- [ ] **Testing**
+  - [ ] Test all monetization flows
+  - [ ] Verify feature access control
+  - [ ] Test payment processing
+  - [ ] Validate analytics tracking
+
+- [ ] **Launch Planning**
+  - [ ] Create marketing materials
+  - [ ] Plan promotional campaigns
+  - [ ] Prepare support documentation
+
+## Measurement & Optimization
+
+Track these key performance indicators:
+
+1. **Conversion Rate**: Percentage of free users who upgrade to paid
+2. **Average Revenue Per User (ARPU)**: Total revenue divided by total users
+3. **Customer Acquisition Cost (CAC)**: Cost to acquire a new paying customer
+4. **Lifetime Value (LTV)**: Predicted revenue from a customer throughout their relationship
+5. **Churn Rate**: Rate at which customers cancel or don't renew
+6. **Engagement Metrics**: Usage patterns of paid vs. free features
+
+Use these metrics to continually refine your monetization strategy. 

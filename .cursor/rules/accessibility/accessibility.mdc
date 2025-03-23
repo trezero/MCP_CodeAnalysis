@@ -1,0 +1,57 @@
+---
+description: 
+globs: **/*.html, **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.css, **/*.scss, **/*.vue, **/*.svelte
+alwaysApply: false
+---
+
+# Accessibility and Styling Guidelines
+
+These guidelines ensure that all projects maintain consistent styling while adhering to accessibility standards and best practices. Following these rules will help create experiences that are usable by people of all abilities and preferences.
+
+## Core Principles
+
+1. **Inclusive Design**: Design and build for users of all abilities and preferences, considering diverse needs from the beginning.
+2. **Progressive Enhancement**: Start with a solid, accessible foundation and enhance with features that don't compromise basic access.
+3. **Semantic Structure**: Use proper HTML elements that convey meaning and purpose.
+4. **Multiple Modalities**: Provide multiple ways to interact with content (keyboard, mouse, touch, voice).
+5. **Perceptible Information**: Ensure content is perceivable regardless of sensory capabilities.
+6. **Clear Communication**: Use clear, simple language and consistent UI patterns.
+
+## Key Standards Compliance
+
+All projects should aim to achieve:
+
+- **WCAG 2.1 Level AA** compliance at minimum
+- **WAI-ARIA 1.2** for enhanced accessibility
+- **Inclusive Design Patterns** across components
+
+## Rule Categories
+
+This ruleset is organized into the following categories:
+
+1. **[Themes](mdc:themes/themes.mdc)**: Guidelines for theme creation, switching, and maintenance
+2. **[Colors](mdc:colors/colors.mdc)**: Color palettes, contrast requirements, and semantic color usage
+3. **[Typography](mdc:typography/typography.mdc)**: Font selection, hierarchy, and readability guidelines
+4. **[Interaction](mdc:interaction/interaction.mdc)**: Controls, focus management, and input methods
+5. **[Responsive Design](mdc:responsive/responsive.mdc)**: Adaptability across devices and contexts
+6. **[A11y Compliance](mdc:a11y/a11y.mdc)**: Specific accessibility requirements and testing procedures
+
+## Implementation
+
+These rules should be applied at every stage of the development process:
+
+1. **Planning**: Consider accessibility and styling requirements from the start
+2. **Design**: Create accessible mockups that follow these guidelines
+3. **Development**: Implement accessible code following best practices
+4. **Testing**: Validate accessibility through automated and manual testing
+5. **Maintenance**: Ensure accessibility is maintained through updates
+
+## Benefits
+
+Adhering to these rules provides numerous benefits:
+
+- **Broader Audience**: Reach more users, including those with disabilities
+- **Legal Compliance**: Meet accessibility regulations and standards
+- **Better UX for Everyone**: Accessible design improves usability for all users
+- **SEO Improvements**: Accessible content is more discoverable by search engines
+- **Consistency**: Create a unified experience across applications 

@@ -1,0 +1,17 @@
+---
+description: 
+globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.java, **/*.c, **/*.cpp, **/*.cs, **/*.rb, **/*.php, **/*.pine, **/*.pinescript, **/*.sol, **/*.log
+alwaysApply: false
+---
+# Debug History Guidelines
+
+## Purpose
+Debug history provides a structured approach to tracking, solving, and learning from errors, creating an institutional memory of solutions that prevents recurring issues.
+
+## Implementation
+
+### Error Documentation Format
+
+- Follow best practices for debug history 
+- Ensure consistent standards across the codebase
+- Prioritize maintainability and readability

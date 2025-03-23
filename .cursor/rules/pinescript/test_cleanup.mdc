@@ -1,0 +1,184 @@
+---
+description: 
+globs: **/*test*.pine, **/*spec*.pine, **/*test*.pinescript, **/*spec*.pinescript
+alwaysApply: false
+---
+# Pine Script Test File Cleanup
+
+## Purpose
+This rule provides guidelines and tools for identifying and removing Pine Script test files that are no longer needed in the project, especially those created during linter and formatter development.
+
+## Categories of Pine Script Test Files
+
+### 1. Linter Test Files
+Files created to test specific linter functionality:
+- `*_test.pine` - General test files
+- `test_*.pine` - Specific feature tests
+- Files containing terms like "linter", "validator", or "check" in their name
+
+### 2. Formatter Test Files
+Files created to test formatting functionality:
+- Files with "format", "spaces", "indent", or "operator" in their name
+- Files with extensions like `.formatted.pine` or `.pine.bak`
+
+### 3. Edge Case Test Files
+Files created to test specific edge cases or bugs:
+- Files with "broken", "error", "fix", or "issue" in their name
+- Files with very specific naming like "array_type_simple_test.pine"
+
+## Cleanup Candidates Assessment
+
+For Pine Script test files, use these additional criteria to determine if a test file is a cleanup candidate:
+
+1. **Test Coverage**: Is the functionality tested by this file now covered by a more comprehensive test?
+2. **Issue Resolution**: Was this file created for a specific issue that has been resolved?
+3. **Integration**: Has the functionality been fully integrated and verified in the main linter/formatter?
+4. **Documentation**: Is the test case documented elsewhere (e.g., in README files)?
+5. **Recency**: When was the file last modified or referenced in code?
+
+## Cleanup Helper Script
+
+To help identify test files that might be candidates for cleanup, use the following script:
+
+```python
+#!/usr/bin/env python3
+# pine_test_cleanup.py
+
+import os
+import re
+import subprocess
+from datetime import datetime, timedelta
+import sys
+
+def get_git_last_modified(file_path):
+    """Get the date when a file was last modified in git."""
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%at", file_path],
+            capture_output=True, text=True, check=True
+        )
+        if result.stdout.strip():
+            timestamp = int(result.stdout.strip())
+            return datetime.fromtimestamp(timestamp)
+        return None
+    except subprocess.CalledProcessError:
+        return None
+
+def is_referenced_in_code(file_name, extensions=['.ts', '.js', '.sh']):
+    """Check if a file is referenced in other code files."""
+    file_base = os.path.basename(file_name)
+    search_pattern = re.escape(file_base)
+    
+    for ext in extensions:
+        try:
+            result = subprocess.run(
+                ["grep", "-r", search_pattern, "--include", f"*{ext}", "."],
+                capture_output=True, text=True
+            )
+            if result.stdout:
+                return True
+        except subprocess.CalledProcessError:
+            pass
+    return False
+
+def find_cleanup_candidates(directory=".", days_threshold=30):
+    """Find Pine Script test files that are candidates for cleanup."""
+    cleanup_candidates = []
+    test_patterns = [
+        r".*_test\.pine$", 
+        r"test_.*\.pine$",
+        r".*example.*\.pine$",
+        r".*debug.*\.pine$",
+        r".*format.*\.pine$",
+        r".*simple.*\.pine$",
+        r".*broken.*\.pine$"
+    ]
+    
+    # Combined pattern for all test files
+    combined_pattern = re.compile("|".join(test_patterns))
+    
+    cutoff_date = datetime.now() - timedelta(days=days_threshold)
+    
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if combined_pattern.match(file) and file.endswith('.pine'):
+                file_path = os.path.join(root, file)
+                last_modified = get_git_last_modified(file_path)
+                
+                if last_modified and last_modified < cutoff_date:
+                    referenced = is_referenced_in_code(file)
+                    cleanup_candidates.append({
+                        'path': file_path,
+                        'last_modified': last_modified,
+                        'referenced': referenced
+                    })
+    
+    return cleanup_candidates
+
+def main():
+    days = 30
+    if len(sys.argv) > 1:
+        try:
+            days = int(sys.argv[1])
+        except ValueError:
+            print(f"Invalid days value: {sys.argv[1]}. Using default 30 days.")
+    
+    candidates = find_cleanup_candidates(days_threshold=days)
+    
+    print(f"Found {len(candidates)} potential cleanup candidates:")
+    print("\nHigh Priority (not referenced and older than 30 days):")
+    for candidate in candidates:
+        if not candidate['referenced']:
+            print(f"- {candidate['path']} (Last modified: {candidate['last_modified'].strftime('%Y-%m-%d')})")
+    
+    print("\nLow Priority (referenced but old):")
+    for candidate in candidates:
+        if candidate['referenced']:
+            print(f"- {candidate['path']} (Last modified: {candidate['last_modified'].strftime('%Y-%m-%d')})")
+    
+    print("\nTo cleanup these files, create a new branch and remove them:")
+    print("  git checkout -b cleanup/pine-test-files")
+    print("  git rm [file-paths]")
+    print("  git commit -m \"Cleanup obsolete Pine Script test files\"")
+    print("  git push origin cleanup/pine-test-files")
+
+if __name__ == "__main__":
+    main()
+```
+
+Save this script as `.cursor/rules/utils/pine_test_cleanup.py` and make it executable with `chmod +x`.
+
+## Standard Test Files to Keep
+
+The following test files should be considered standard regression tests and should NOT be removed:
+
+1. `array_destructuring_test.pine` - Core array destructuring functionality
+2. `array_type_test.pine` - Core array type declaration functionality
+3. `function_params_test.pine` - Function parameter handling test
+4. `max_bars_back_test.pine` - Max bars back parameter test
+5. `string_literals_test.pine` - String literal handling test
+6. `balance_test.pine` - Parentheses balancing test
+
+## Cleanup Integration with Extension Update
+
+When updating the Pine Script extension with new fixes:
+
+1. Update the `update-extension.sh` script to include only the essential test files
+2. Document which test files are considered essential in the README
+3. After a successful extension update, mark single-purpose test files as cleanup candidates
+
+## Documentation of Cleanup
+
+After performing a test file cleanup:
+
+1. Update the `STRING-LITERALS-FIX-README.md` or relevant documentation to reference only the essential test files
+2. Add a section in the documentation that lists the test cases covered, rather than relying on the existence of specific test files
+3. Create a changelog entry documenting the cleanup
+
+## Recommended Cleanup Cycle
+
+To maintain a clean codebase:
+
+1. Perform a major cleanup after each significant extension release
+2. Set up a quarterly reminder to review test files
+3. Apply the cleanup rule whenever the number of test files in the root directory exceeds 20 

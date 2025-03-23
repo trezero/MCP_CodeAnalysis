@@ -1,0 +1,96 @@
+---
+description: 
+globs: **/*test*.js, **/*test*.jsx, **/*test*.ts, **/*test*.tsx, **/*spec*.js, **/*spec*.jsx, **/*spec*.ts, **/*spec*.tsx
+alwaysApply: false
+---
+# Test File Cleanup Rule
+
+## Purpose
+This rule defines a process for identifying and removing test files that are no longer needed, to keep the codebase organized and lean.
+
+## Identifying Unused Test Files
+
+### Criteria for Identifying Test Files for Cleanup
+A test file can be considered for cleanup if it meets one or more of these criteria:
+
+1. **Obsolete Test**: It was created to test functionality that has been fully validated and integrated
+2. **Duplicate Test**: It tests functionality already covered by other tests in a more comprehensive way
+3. **Single-Purpose Test**: It was created for a specific fix that has been deployed and verified
+4. **Temporary Test**: It was explicitly created for temporary debugging/validation purposes
+5. **Old Age**: It's older than 30 days and hasn't been referenced in any commit in the last month
+
+### Locations to Check for Test Files
+Common locations for test files in this project:
+
+- Root directory `*.pine` or `*_test.pine` files
+- Files containing `test`, `debug`, or `example` in their name
+- `test/` directories or subdirectories
+- Files with `.test.`, `.spec.`, or similar patterns
+
+## Cleanup Process
+
+### Pre-Cleanup Steps
+Before removing test files:
+
+1. **Tag Files for Cleanup**: Add a comment at the top of each file: `// CLEANUP-CANDIDATE: [reason] - [date]`
+2. **Wait Period**: Allow 7 days for team members to review cleanup candidates
+3. **Verify No References**: Search the codebase for references to the file before deletion
+
+### Cleanup Commands
+Use these commands to identify and clean up test files:
+
+```bash
+# Find all test files in the project
+find . -name "*test*.pine" -o -name "*example*.pine" -o -name "*debug*.pine"
+
+# Find test files not modified in last 30 days
+find . -name "*test*.pine" -mtime +30
+
+# Search for references to a specific test file
+grep -r "test_file_name" --include="*.pine" --include="*.js" --include="*.ts" .
+
+# Remove a specific test file
+rm path/to/test_file.pine
+
+# Clean up multiple test files (use with caution)
+find . -name "temp_test_*.pine" -delete
+```
+
+### Clean Branch Strategy
+To safely clean up multiple files:
+
+1. Create a dedicated branch: `git checkout -b cleanup/test-files-YYYY-MM-DD`
+2. Remove the files using git: `git rm path/to/test_file.pine`
+3. Commit with clear message: `git commit -m "Clean up obsolete test files"`
+4. Create a PR for review before merging
+
+## Documentation
+
+### Required Documentation
+When cleaning up test files, document:
+
+1. Which files were removed
+2. Why they were deemed unnecessary
+3. Any functionality they were testing that is now tested elsewhere
+
+Example documentation format for your commit message:
+
+```
+Clean up obsolete test files
+
+Removed:
+- test_file1.pine: Obsolete test for parentheses balancing, now covered in balance_test.pine
+- debug_example.pine: Temporary file used for debugging formatter, no longer needed
+- old_function_test.pine: Tests function that was refactored and now tested in function_params_test.pine
+
+All functionality is verified to be covered by existing tests.
+```
+
+## Exceptions
+
+These files should NOT be removed:
+
+1. Core test files used in CI/CD pipelines
+2. Test files explicitly referenced in documentation or README files
+3. Regression test files for critical functionality
+4. Test files for features currently under development 

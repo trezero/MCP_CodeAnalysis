@@ -1,0 +1,106 @@
+---
+description: 
+globs: **/*.pine, **/*.pinescript
+alwaysApply: false
+---
+# Pine Script Refactoring Guidelines
+
+When refactoring Pine Script code, follow these guidelines to ensure proper code organization and maintainability.
+
+## Moving Functions
+
+When you identify a function that has been added at the end of the file (a common issue), you should move it to the function definitions section:
+
+1. Identify the function definition section (usually marked with a comment like `// =================== FUNCTION DEFINITIONS =================== //`)
+2. Cut the entire function from its current location
+3. Paste it in the function definitions section
+4. Make sure to place it before any functions that depend on it
+5. Ensure proper spacing and formatting consistency
+
+## Moving Input Parameters
+
+When input parameters are scattered throughout the code:
+
+1. Identify the input parameter section
+2. Determine the appropriate input group for the parameter
+3. Move the parameter definition to that group
+4. Update any references to that parameter if necessary
+
+## Moving Variable Declarations
+
+Persistent variables (those using `var`) should be defined in the variable declarations section:
+
+1. Identify all `var` declarations that are not in the proper section
+2. Move them to the variable declarations section
+3. Organize them logically with related variables
+
+## Handling Cleanup Code
+
+Code that manages memory or cleans up data structures should be:
+
+1. Moved into the main calculation section if it's directly part of the algorithm
+2. Turned into helper functions if it's reused in multiple places (place these in the function definitions section)
+3. Applied conditionally if it's only needed in certain circumstances
+
+## Example Refactoring
+
+### Before (Incorrect)
+
+```pine
+// ... main code ...
+
+// At the end of the file:
+f_cleanup_zones(box[] zoneBoxes, float[] zoneLevels, int[] zoneStartTimes, bool[] zoneActive, int maxZones) =>
+    int size = array.size(zoneBoxes)
+    if size > maxZones
+        // First, delete the box objects
+        for i = 0 to (size - maxZones) - 1
+            box.delete(array.get(zoneBoxes, i))
+        
+        // Then remove the array entries
+        for i = 0 to (size - maxZones) - 1
+            array.shift(zoneBoxes)
+            array.shift(zoneLevels)
+            array.shift(zoneStartTimes)
+            array.shift(zoneActive)
+```
+
+### After (Correct)
+
+```pine
+// In the function definitions section:
+// ... other functions ...
+
+f_cleanup_zones(box[] zoneBoxes, float[] zoneLevels, int[] zoneStartTimes, bool[] zoneActive, int maxZones) =>
+    int size = array.size(zoneBoxes)
+    if size > maxZones
+        int excessCount = size - maxZones
+        
+        // First, delete the box objects
+        for i = 0 to excessCount - 1
+            box.delete(array.get(zoneBoxes, i))
+        
+        // Then remove the array entries
+        for i = 0 to excessCount - 1
+            array.shift(zoneBoxes)
+            array.shift(zoneLevels)
+            array.shift(zoneStartTimes)
+            array.shift(zoneActive)
+
+// ... rest of main code ...
+
+// In the appropriate calculation section:
+if clean_zones_on_new_bar
+    f_cleanup_zones(supplyZoneBoxes, supplyZoneLevels, supplyZoneStartTimes, supplyZoneActive, max_zones_to_keep)
+    f_cleanup_zones(demandZoneBoxes, demandZoneLevels, demandZoneStartTimes, demandZoneActive, max_zones_to_keep)
+```
+
+## Refactoring Checklist
+
+- [ ] All functions grouped in the function definitions section
+- [ ] Input parameters grouped logically in the input section
+- [ ] Variable declarations grouped at the top
+- [ ] Helper functions defined before they are used
+- [ ] Cleanup code placed in appropriate sections
+- [ ] Consistent formatting and indentation
+- [ ] Proper comments and section headers 

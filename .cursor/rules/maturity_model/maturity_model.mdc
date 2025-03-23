@@ -1,0 +1,138 @@
+---
+Description: Rules for the component maturity model, tracking the lifecycle stage of each component from experimental to stable.
+Globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.pine, **/*.pinescript, **/*.sol
+Model: fusion
+Context_window: large
+Completion_style: documentation
+Rule_type: Auto Attached
+---
+# Component Maturity Model Guidelines
+
+## Purpose
+The component maturity model provides a framework for tracking the evolution of components through their lifecycle, setting appropriate expectations for stability, testing, and documentation.
+
+## Maturity Levels
+
+### 1. Experimental
+- Early development stage
+- Subject to major changes or removal
+- Not recommended for production use
+- Minimal testing requirements
+- May have incomplete documentation
+
+### 2. Beta
+- Feature complete but not fully tested
+- May undergo API changes
+- Limited production use with caution
+- Basic test coverage required
+- Documentation covers main functionality
+
+### 3. Stable
+- Production-ready
+- API is stable and backward compatible
+- Comprehensive test coverage required
+- Complete documentation
+- Performance optimized
+
+### 4. Deprecated
+- Scheduled for removal
+- Replacement solution available
+- Minimal maintenance
+- No new features
+- Migration guide required
+
+## Implementation
+
+### JavaScript/TypeScript (JSDoc)
+```javascript
+/**
+ * @maturity experimental|beta|stable|deprecated
+ * @since 1.0.0
+ * @experimental This component is in early development and may change significantly.
+ * @beta This component is feature complete but may have API changes.
+ * @stable This component is production-ready with a stable API.
+ * @deprecated Use NewComponent instead. Will be removed in version 2.0.0.
+ */
+```
+
+### Python (Docstring)
+```python
+"""Component Name
+
+This component provides X functionality.
+
+Maturity: experimental|beta|stable|deprecated
+
+Since: 1.0.0
+
+Why:
+- Rationale for this component
+- Problem it solves
+- Design considerations
+
+Note: 
+- For experimental: This component is in early development and may change significantly.
+- For beta: This component is feature complete but may have API changes.
+- For stable: This component is production-ready with a stable API.
+- For deprecated: Use NewComponent instead. Will be removed in version 2.0.0.
+"""
+```
+
+### Pine Script (Comment Header)
+```pine
+// @version=5
+// @maturity=experimental|beta|stable|deprecated
+// @since=1.0.0
+// Note: 
+// - For experimental: This component is in early development and may change significantly.
+// - For beta: This component is feature complete but may have API changes.
+// - For stable: This component is production-ready with a stable API.
+// - For deprecated: Use NewComponent instead. Will be removed in version 2.0.0.
+```
+
+### Solidity (NatSpec)
+```solidity
+/// @title Component Name
+/// @notice This component provides X functionality
+/// @dev Implementation details
+/// @maturity experimental|beta|stable|deprecated
+/// @since 1.0.0
+/// Note: 
+/// - For experimental: This component is in early development and may change significantly.
+/// - For beta: This component is feature complete but may have API changes.
+/// - For stable: This component is production-ready with a stable API.
+/// - For deprecated: Use NewComponent instead. Will be removed in version 2.0.0.
+```
+
+## Required Information
+
+For each component, the following maturity information must be provided:
+
+1. **Current maturity level**: experimental, beta, stable, or deprecated
+2. **Since version**: When the component was introduced or last changed maturity level
+3. **Expected next level**: For non-stable components, when they might reach the next level
+4. **Usage recommendations**: Clear guidance on production usage
+5. **Known limitations**: Any current limitations or issues
+
+## Maturity Level Transition
+
+Components should progress through maturity levels as follows:
+
+1. **Experimental → Beta**:
+   - Feature complete implementation
+   - Basic test coverage (>50%)
+   - Usage examples documented
+   - No known critical issues
+
+2. **Beta → Stable**:
+   - Comprehensive test coverage (>80%)
+   - Complete documentation
+   - Performance optimized
+   - No API changes for at least one release cycle
+   - Used in production by multiple teams
+
+3. **Stable → Deprecated**:
+   - Replacement solution available
+   - Migration guide published
+   - Deprecation notice in release notes
+   - Timeline for removal established

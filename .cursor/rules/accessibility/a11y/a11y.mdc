@@ -1,0 +1,434 @@
+---
+description: 
+globs: **/*.html, **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.vue, **/*.svelte
+alwaysApply: false
+---
+
+# ARIA and Semantic HTML Guidelines
+
+Properly implemented semantic HTML and ARIA attributes are essential for ensuring web applications are fully accessible. These guidelines help developers implement accessibility best practices consistently.
+
+## Core Principles
+
+1. **HTML First**: Use native HTML elements before reaching for ARIA
+2. **No ARIA Is Better Than Bad ARIA**: Only use ARIA when necessary and correctly implemented
+3. **Preserve Semantics**: Don't override the native semantics of HTML elements without good reason
+4. **Test With Assistive Technology**: Validate implementations with screen readers
+
+## Semantic HTML Best Practices
+
+1. **Document Structure**:
+   - Use a single `<h1>` per page
+   - Create logical heading hierarchy (`h1`, `h2`, `h3`, etc.)
+   - Apply appropriate landmark elements:
+     - `<header>`, `<main>`, `<nav>`, `<aside>`, `<footer>`
+   - Use `<article>`, `<section>`, and other semantic elements to divide content
+
+   ```html
+   <body>
+     <header>
+       <h1>Page Title</h1>
+     </header>
+     <nav>
+       <!-- Navigation -->
+     </nav>
+     <main>
+       <section>
+         <h2>Section Title</h2>
+         <article>
+           <h3>Article Title</h3>
+           <!-- Content -->
+         </article>
+       </section>
+     </main>
+     <aside>
+       <!-- Complementary content -->
+     </aside>
+     <footer>
+       <!-- Footer content -->
+     </footer>
+   </body>
+   ```
+
+2. **Interactive Elements**:
+   - Use `<button>` for clickable controls that perform an action
+   - Use `<a>` for navigation to a new page or location within a page
+   - Use `<select>`, `<option>` for selection controls
+   - Use `<input>` with appropriate `type` attributes for form controls
+   - Wrap related form controls in `<fieldset>` with `<legend>`
+
+   ```html
+   <!-- Good: -->
+   <button type="button">Save Changes</button>
+   <a href="/page">Go to page</a>
+   
+   <!-- Bad: Don't use divs for interactive elements -->
+   <div class="button" onclick="saveChanges()">Save Changes</div>
+   ```
+
+3. **Form Accessibility**:
+   - Associate labels with inputs using `for` attribute
+   - Group related inputs with `<fieldset>` and `<legend>`
+   - Use appropriate input types (`email`, `tel`, `number`, etc.)
+   - Provide clear error messages with `aria-describedby`
+
+   ```html
+   <form>
+     <fieldset>
+       <legend>Contact Information</legend>
+       
+       <div class="form-group">
+         <label for="name">Name</label>
+         <input id="name" type="text">
+       </div>
+       
+       <div class="form-group">
+         <label for="email">Email</label>
+         <input id="email" type="email" 
+                aria-describedby="email-error">
+         <div id="email-error" class="error" aria-live="polite"></div>
+       </div>
+     </fieldset>
+     
+     <button type="submit">Submit</button>
+   </form>
+   ```
+
+4. **Tables**:
+   - Use `<table>` for tabular data only
+   - Include `<caption>` to describe table purpose
+   - Use `<th>` with `scope` attribute for headers
+   - Use `<thead>`, `<tbody>`, and `<tfoot>` to organize table parts
+
+   ```html
+   <table>
+     <caption>Monthly Budget Breakdown</caption>
+     <thead>
+       <tr>
+         <th scope="col">Category</th>
+         <th scope="col">Budget</th>
+         <th scope="col">Actual</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <th scope="row">Housing</th>
+         <td>$1,000</td>
+         <td>$1,050</td>
+       </tr>
+       <!-- More rows -->
+     </tbody>
+     <tfoot>
+       <tr>
+         <th scope="row">Total</th>
+         <td>$2,500</td>
+         <td>$2,610</td>
+       </tr>
+     </tfoot>
+   </table>
+   ```
+
+5. **Links and Navigation**:
+   - Ensure links have descriptive text (avoid "click here")
+   - Add `aria-current` to indicate current page in navigation
+   - Use `aria-label` or `aria-labelledby` for links that need more context
+   - Add skip links for keyboard navigation
+
+   ```html
+   <!-- Good: Descriptive link text -->
+   <a href="/pricing">View pricing plans</a>
+   
+   <!-- Bad: Non-descriptive link text -->
+   <a href="/pricing">Click here</a>
+   
+   <!-- Current page indicator -->
+   <nav>
+     <ul>
+       <li><a href="/" aria-current="page">Home</a></li>
+       <li><a href="/about">About</a></li>
+     </ul>
+   </nav>
+   
+   <!-- Skip link -->
+   <a href="#main-content" class="skip-link">Skip to main content</a>
+   ```
+
+## ARIA Roles, States, and Properties
+
+1. **When to Use ARIA**:
+   - To enhance existing semantics (e.g., `aria-required="true"`)
+   - To communicate states not conveyed visually (e.g., `aria-expanded="false"`)
+   - To create accessible relationships (e.g., `aria-labelledby`)
+   - To create custom widgets when no semantic HTML equivalent exists
+
+2. **Common ARIA Roles**:
+   | Role | Use Case | Example |
+   |------|----------|---------|
+   | `alert` | Time-sensitive notifications | `<div role="alert">Form submitted successfully</div>` |
+   | `button` | When creating custom buttons | `<div role="button" tabindex="0">Custom Button</div>` |
+   | `tablist`, `tab`, `tabpanel` | For tab interfaces | `<div role="tablist"><div role="tab">...</div></div>` |
+   | `dialog` | For modal dialogs | `<div role="dialog" aria-labelledby="dialog-title">...</div>` |
+   | `navigation` | For navigation regions | `<div role="navigation">...</div>` |
+   | `search` | For search functionality | `<form role="search">...</form>` |
+
+3. **Essential ARIA States and Properties**:
+   - `aria-label`: Provides an accessible name when visible text isn't available
+   - `aria-labelledby`: References visible text as label for an element
+   - `aria-describedby`: Associates descriptive text with an element
+   - `aria-expanded`: Indicates if a collapsible element is expanded
+   - `aria-hidden`: Hides elements from assistive technology
+   - `aria-live`: Creates live regions for dynamic content
+   - `aria-current`: Indicates current item in a set
+
+4. **Live Regions**:
+   Use live regions to announce dynamic content changes:
+
+   ```html
+   <!-- For important notifications -->
+   <div aria-live="assertive" aria-atomic="true" class="notification">
+     <!-- Dynamic content will be announced immediately -->
+   </div>
+   
+   <!-- For less important updates -->
+   <div aria-live="polite" aria-atomic="true" class="status">
+     <!-- Dynamic content will be announced when user is idle -->
+   </div>
+   ```
+
+## Common Component Patterns
+
+1. **Modal Dialogs**:
+   ```html
+   <div 
+     role="dialog" 
+     aria-labelledby="dialog-title" 
+     aria-describedby="dialog-desc" 
+     aria-modal="true"
+   >
+     <h2 id="dialog-title">Confirmation</h2>
+     <p id="dialog-desc">Are you sure you want to delete this item?</p>
+     
+     <div class="dialog-buttons">
+       <button>Cancel</button>
+       <button>Delete</button>
+     </div>
+   </div>
+   ```
+   
+   ```javascript
+   // JavaScript should:
+   // 1. Trap focus inside the dialog
+   // 2. Close dialog on Escape key
+   // 3. Return focus to triggering element on close
+   ```
+
+2. **Tabs**:
+   ```html
+   <div class="tabs-component">
+     <div role="tablist" aria-label="Content tabs">
+       <button 
+         role="tab" 
+         id="tab-1" 
+         aria-selected="true"
+         aria-controls="panel-1"
+       >
+         Tab 1
+       </button>
+       <button 
+         role="tab" 
+         id="tab-2" 
+         aria-selected="false"
+         aria-controls="panel-2"
+         tabindex="-1"
+       >
+         Tab 2
+       </button>
+     </div>
+     
+     <div 
+       role="tabpanel" 
+       id="panel-1" 
+       aria-labelledby="tab-1"
+     >
+       Tab 1 content
+     </div>
+     <div 
+       role="tabpanel" 
+       id="panel-2" 
+       aria-labelledby="tab-2"
+       hidden
+     >
+       Tab 2 content
+     </div>
+   </div>
+   ```
+   
+   ```javascript
+   // JavaScript should:
+   // 1. Handle keyboard navigation between tabs (arrow keys)
+   // 2. Update aria-selected state when tabs change
+   // 3. Show/hide appropriate panels
+   // 4. Update tabindex to manage focus
+   ```
+
+3. **Accordions**:
+   ```html
+   <div class="accordion">
+     <h3>
+       <button 
+         aria-expanded="false"
+         aria-controls="section1"
+         class="accordion-trigger"
+       >
+         Section 1
+       </button>
+     </h3>
+     <div 
+       id="section1" 
+       class="accordion-panel" 
+       hidden
+     >
+       Panel content
+     </div>
+     
+     <!-- More accordion sections -->
+   </div>
+   ```
+
+4. **Dropdown Menus**:
+   ```html
+   <div class="dropdown">
+     <button 
+       aria-expanded="false"
+       aria-controls="dropdown-menu"
+       aria-haspopup="true"
+     >
+       Options
+     </button>
+     
+     <ul 
+       id="dropdown-menu" 
+       role="menu" 
+       hidden
+     >
+       <li role="menuitem">
+         <button>Option 1</button>
+       </li>
+       <li role="menuitem">
+         <button>Option 2</button>
+       </li>
+     </ul>
+   </div>
+   ```
+
+## Anti-Patterns to Avoid
+
+1. **Incorrect ARIA Usage**:
+   - Adding ARIA roles to elements that already have that role
+   - Using non-interactive elements with interactive roles without adding keyboard support
+   - Using incorrect role combinations or invalid attributes
+
+2. **HTML Issues**:
+   - Using non-semantic elements when semantic elements exist (`<div>` instead of `<button>`)
+   - Creating custom controls without proper keyboard support
+   - Missing required attributes (e.g., `alt` on images)
+   - Incorrect heading hierarchy
+
+3. **Focus Management Issues**:
+   - Removing focus indicators
+   - Setting `tabindex` greater than 0
+   - Not returning focus after closing dialogs
+   - Using `autofocus` on non-form pages
+
+4. **ARIA States**:
+   - Not updating ARIA states when UI changes
+   - Using incompatible role/state combinations
+   - Using `aria-hidden="true"` on focusable elements
+
+## Testing Requirements
+
+1. **Keyboard Testing**:
+   - All interactive elements must be keyboard accessible
+   - Focus order should match visual flow
+   - Custom widgets should match expected keyboard behavior
+   - Focus should remain visible at all times
+
+2. **Screen Reader Testing**:
+   - Test with at least one screen reader:
+     - NVDA or JAWS (Windows)
+     - VoiceOver (macOS/iOS)
+     - TalkBack (Android)
+   - Verify that all relevant content is announced
+   - Check that dynamic updates are properly announced
+   - Ensure that semantic relationships are preserved
+
+3. **Automated Testing**:
+   - Include accessibility linting in build process
+   - Use tools like axe-core, WAVE, or Lighthouse
+   - Address all critical and serious issues
+   - Document any known issues that cannot be immediately fixed
+
+## Framework-Specific Considerations
+
+1. **React**:
+   ```jsx
+   // Use fragment with accessible label
+   <React.Fragment aria-label="Description">
+     Content
+   </React.Fragment>
+   
+   // Use ref for focus management
+   const buttonRef = useRef(null);
+   
+   useEffect(() => {
+     // Focus the button on mount
+     buttonRef.current.focus();
+   }, []);
+   
+   return <button ref={buttonRef}>Focus Me</button>;
+   ```
+
+2. **Angular**:
+   ```typescript
+   // Use Angular's built-in a11y directives
+   <div [attr.aria-label]="dynamicLabel">
+     Content
+   </div>
+   
+   // Use ViewChild for focus management
+   @ViewChild('focusTarget') focusTarget: ElementRef;
+   
+   ngAfterViewInit() {
+     this.focusTarget.nativeElement.focus();
+   }
+   ```
+
+3. **Vue**:
+   ```vue
+   <template>
+     <div :aria-label="dynamicLabel" ref="focusTarget">
+       Content
+     </div>
+   </template>
+   
+   <script>
+   export default {
+     mounted() {
+       this.$refs.focusTarget.focus();
+     }
+   }
+   </script>
+   ```
+
+## Resources
+
+1. **Official Documentation**:
+   - [WAI-ARIA Specification](mdc:https:/www.w3.org/TR/wai-aria)
+   - [ARIA Authoring Practices Guide](mdc:https:/www.w3.org/WAI/ARIA/apg)
+   - [HTML5 Specification](mdc:https:/html.spec.whatwg.org)
+
+2. **Tools**:
+   - [axe-core](mdc:https:/github.com/dequelabs/axe-core)
+   - [WAVE](mdc:https:/wave.webaim.org)
+   - [Lighthouse](mdc:https:/developers.google.com/web/tools/lighthouse)
+   - [HTML_CodeSniffer](mdc:https:/squizlabs.github.io/HTML_CodeSniffer) 

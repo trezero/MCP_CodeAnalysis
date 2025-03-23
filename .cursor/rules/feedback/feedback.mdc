@@ -1,0 +1,38 @@
+---
+Description: Rules for the feedback loop system, including user feedback collection, analysis, and integration into the development process.
+Globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.html, **/*.md, **/*.json
+Model: fusion
+Context_window: large
+Completion_style: scripting
+Rule_type: Auto Attached
+---
+# Feedback Loop Guidelines
+
+## Purpose
+The feedback loop system ensures that user experiences, bug reports, and feature requests are systematically collected, analyzed, and incorporated into the development process.
+
+## Implementation
+
+### Feedback Collection Methods
+- In-app feedback forms
+- User surveys and interviews
+- Usage analytics
+- Support ticket analysis
+- Community forums and social media
+- Beta testing programs
+
+### Feedback Processing Workflow
+1. **Collection**: Gather feedback from multiple channels
+2. **Categorization**: Tag by type, severity, and affected component
+3. **Analysis**: Identify patterns and prioritize issues
+4. **Action**: Convert into tasks, bugs, or feature requests
+5. **Response**: Communicate actions to users
+6. **Verification**: Confirm issues are resolved
+
+### Feedback Documentation Format
+
+# Feedback Guidelines
+
+- Follow best practices for feedback 
+- Ensure consistent standards across the codebase
+- Prioritize maintainability and readability

@@ -1,0 +1,162 @@
+---
+description: 
+globs: **/*.css, **/*.scss, **/*.less, **/*.html, **/*.js, **/*.jsx, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Accessible Typography Guidelines
+
+Typography forms the foundation of communication in digital interfaces. These guidelines ensure text is accessible, readable, and consistent across applications.
+
+## Font Selection
+
+1. **System Fonts First**: Use system fonts as primary choice to respect user preferences and system settings:
+   ```css
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+   ```
+
+2. **Web Fonts**: When using web fonts:
+   - Limit to 2-3 font families per project
+   - Include at least one fallback system font
+   - Ensure all web fonts have sufficient character support
+   - Provide WOFF2 and WOFF formats
+
+3. **Font Characteristics**:
+   - Use sans-serif fonts for UI elements and body text
+   - Serif fonts should only be used for specific styling purposes
+   - Avoid thin/light font weights for body text
+   - Never use decorative fonts for body text or critical information
+
+## Font Size Guidelines
+
+1. **Base Size**: Minimum 16px (1rem) for body text
+2. **Size Scale**: Use a modular scale for heading sizes (e.g., 1.2 or 1.25 ratio)
+3. **Minimum Sizes**:
+   - Body: 16px (1rem)
+   - Small/secondary text: 14px (0.875rem)
+   - Headings: Starting from 20px (1.25rem) for h6 up to 40px (2.5rem) for h1
+   - Interactive elements: 16px (1rem) minimum
+   - Form inputs: 16px (1rem) to prevent mobile zoom
+
+4. **Responsive Typography**:
+   - Use relative units (rem/em) for all text
+   - Scale down heading sizes proportionally on smaller screens
+   - Never go below minimum sizes on any device
+
+```css
+:root {
+  --font-size-base: 1rem;          /* 16px */
+  --font-size-sm: 0.875rem;        /* 14px */
+  --font-size-xs: 0.75rem;         /* 12px - use sparingly */
+  --font-size-lg: 1.125rem;        /* 18px */
+  --font-size-xl: 1.25rem;         /* 20px */
+  --font-size-2xl: 1.5rem;         /* 24px */
+  --font-size-3xl: 1.875rem;       /* 30px */
+  --font-size-4xl: 2.25rem;        /* 36px */
+  --font-size-5xl: 3rem;           /* 48px */
+}
+
+body {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5, h6 { font-size: var(--font-size-lg); }
+
+@media (max-width: 768px) {
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
+  h3 { font-size: var(--font-size-xl); }
+}
+```
+
+## Text Formatting
+
+1. **Line Length**: Maximum 70-80 characters (approximately 35em)
+2. **Line Height**:
+   - Body text: 1.5 to 1.6
+   - Headings: 1.2 to 1.3
+   - Small text: 1.4 minimum
+
+3. **Text Alignment**:
+   - Default to left-aligned text (never justified)
+   - Center alignment only for short headings or single lines
+   - Right alignment only for specific UI elements where appropriate
+
+4. **Letter Spacing**:
+   - Headings: -0.025em to 0em
+   - Body: 0em (default)
+   - All caps: +0.05em to +0.1em
+
+5. **Font Weight**:
+   - Body: Regular (400)
+   - Emphasis/semi-bold: 600
+   - Bold/headings: 700
+   - Never use weights below 400 for body text
+
+## Typography Hierarchy
+
+1. **Clear Hierarchy**:
+   - Establish 3-5 distinct text styles for the entire application
+   - Define proper visual separation between heading levels
+   - Use consistent hierarchy across similar components
+
+2. **Visual Differentiation**:
+   - Use a combination of size, weight, and color to establish hierarchy
+   - Never rely solely on color to indicate hierarchy
+   - Maintain sufficient contrast between heading styles
+
+## Accessible Text Requirements
+
+1. **Text Contrast**: Follow contrast requirements from color guidelines
+2. **Non-Text Contrast**: UI controls must have 3:1 minimum contrast
+3. **Text Resizing**:
+   - All text must be resizable up to 200% without loss of content
+   - No text as images (except for logos)
+   - No hidden overflow for text containers when text size increases
+
+4. **Line Spacing**:
+   - Line height at least 1.5 times the font size
+   - Paragraph spacing at least 2 times the font size
+   - Letter spacing at least 0.12 times the font size
+   - Word spacing at least 0.16 times the font size
+
+5. **Text Control Support**:
+   - Respect browser text size settings
+   - Support OS-level text adjustments
+
+## Text in Components
+
+1. **Buttons and Controls**:
+   - Text must be vertically centered
+   - Text must be properly padded (minimum 0.5em horizontal, 0.3em vertical)
+   - Text should not be truncated in standard-sized buttons
+
+2. **Form Elements**:
+   - Labels must be visible and properly associated
+   - Placeholder text never replaces labels
+   - Error messages must be explicit and descriptive
+   - Required fields must be indicated visually and programmatically
+
+3. **Data Tables**:
+   - Column headers must be visually distinct
+   - Cell padding must be sufficient (minimum 0.5em)
+
+## Implementation Tips
+
+1. Use CSS custom properties for all typography values
+2. Create reusable typography classes for consistent text styles
+3. Test with different font sizes and browser zoom levels
+4. Consider creating a typography component library
+5. Document all typography decisions and rules
+
+## Testing Requirements
+
+1. Test readability with screen readers
+2. Verify text resize handling up to 200%
+3. Check legibility in different contexts and backgrounds
+4. Test with browser text-only zoom
+5. Verify typography is maintained when translated to other languages 

@@ -1,0 +1,18 @@
+---
+Description: Guidelines for documenting the reasoning behind code and architectural decisions
+Globs: **/*.md, **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.pine, **/*.pinescript, **/*.sol
+Model: fusion
+Context_window: large
+Completion_style: documentation
+Rule_type: Auto Attached
+---
+# "Why" Documentation Guidelines
+
+## Purpose
+Documenting the "why" behind code and architectural decisions is crucial for long-term maintainability. It helps future developers understand the context and reasoning that may not be obvious from the code itself.
+
+## Implementation
+
+### Format by Language
+
+#### JavaScript/TypeScript (JSDoc)

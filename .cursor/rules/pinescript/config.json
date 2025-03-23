@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "rules": {
+    "require_version_declaration": true,
+    "indented_variable_declaration": true,
+    "missing_line_continuation": true,
+    "required_sections": [
+      "METADATA",
+      "IMPORTS",
+      "INPUT GROUPS",
+      "INPUT PARAMETERS",
+      "VARIABLE DECLARATIONS",
+      "FUNCTION DEFINITIONS",
+      "MAIN CALCULATIONS",
+      "VISUALIZATION",
+      "ALERTS"
+    ],
+    "section_order": [
+      "METADATA",
+      "IMPORTS",
+      "INPUT GROUPS",
+      "INPUT PARAMETERS",
+      "VARIABLE DECLARATIONS",
+      "FUNCTION DEFINITIONS",
+      "MAIN CALCULATIONS",
+      "VISUALIZATION",
+      "ALERTS"
+    ],
+    "function_placement": {
+      "enforce": true,
+      "section": "FUNCTION DEFINITIONS"
+    },
+    "input_placement": {
+      "enforce": true,
+      "sections": ["INPUT PARAMETERS"]
+    },
+    "variable_declaration_placement": {
+      "enforce": true,
+      "section": "VARIABLE DECLARATIONS"
+    },
+    "import_placement": {
+      "enforce": true,
+      "section": "IMPORTS"
+    },
+    "global_variable_modification": {
+      "allow_in_functions": false,
+      "exceptions": ["initialization_functions"]
+    },
+    "naming_conventions": {
+      "functions": "camelCase",
+      "inputs": "camelCase",
+      "variables": "camelCase",
+      "constants": "SNAKE_CASE"
+    },
+    "tradingview_style": true
+  },
+  "file_extensions": [".pine", ".pinescript"],
+  "ignore_patterns": ["**/vendor/**", "**/deprecated/**"],
+  "severity_levels": {
+    "error": ["require_version_declaration", "function_placement", "indented_variable_declaration", "missing_line_continuation", "import_placement"],
+    "warning": ["section_order", "input_placement", "variable_declaration_placement"],
+    "info": ["naming_conventions"]
+  }
+} 

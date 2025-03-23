@@ -1,0 +1,139 @@
+---
+Description: Rules for semantic memory anchors, enabling AI to remember and reference important code sections and concepts.
+Globs: **/*.js, **/*.jsx, **/*.ts, **/*.tsx, **/*.py, **/*.html, **/*.md, **/*.pine, **/*.pinescript, **/*.sol
+Model: fusion
+Context_window: large
+Completion_style: code_modification
+Rule_type: Auto Attached
+---
+# Semantic Memory Anchors Guidelines
+
+## Purpose
+Memory anchors provide semantic markers in the codebase that help AI and humans quickly locate and understand important sections of code.
+
+## Implementation
+
+### Format by Language
+- **Markdown**: `<!-- MEMORY_ANCHOR: anchor_name -->`
+- **JavaScript/TypeScript**: `// MEMORY_ANCHOR: anchor_name`
+- **Python**: `# MEMORY_ANCHOR: anchor_name`
+- **Pine Script**: `// MEMORY_ANCHOR: anchor_name`
+- **HTML/JSX/TSX**: `{/* MEMORY_ANCHOR: anchor_name */}`
+- **Solidity**: `// MEMORY_ANCHOR: anchor_name`
+
+### Naming Conventions
+- Use snake_case for anchor names
+- Be descriptive but concise
+- Use prefixes to categorize: `core_`, `arch_`, `perf_`, `algo_`
+
+### When to Use Memory Anchors
+- Complex algorithms
+- Architectural decision points
+- Performance-critical sections
+- Important business logic
+- Key configuration sections
+- Entry points to important workflows
+
+### Example Usage
+
+#### JavaScript
+
+```javascript
+// MEMORY_ANCHOR: core_authentication_flow
+/**
+ * Authentication flow handler
+ * This function manages the user authentication process, including:
+ * - Token validation
+ * - User session management
+ * - MFA verification
+ */
+function authenticateUser(credentials) {
+  // Implementation details
+}
+```
+
+#### Python
+
+```python
+# MEMORY_ANCHOR: algo_sorting_algorithm
+def optimized_quicksort(arr, left=0, right=None):
+    """
+    Implementation of an optimized quicksort algorithm that uses
+    median-of-three pivot selection and insertion sort for small subarrays.
+    
+    Time complexity: O(n log n) average case
+    Space complexity: O(log n) for the recursion stack
+    """
+    if right is None:
+        right = len(arr) - 1
+    
+    # Implementation details
+```
+
+#### Markdown
+
+```markdown
+<!-- MEMORY_ANCHOR: arch_system_design -->
+# System Architecture
+
+This document outlines the overall architecture of the system, including:
+1. Component structure
+2. Data flow
+3. Integration points
+4. Deployment model
+```
+
+### Advanced Memory Anchor Features
+
+#### Anchor Types
+
+Memory anchors can be categorized by type to aid in organization and searching:
+
+```python
+# MEMORY_ANCHOR: {algorithmic} sorting_implementation
+```
+
+```javascript
+// MEMORY_ANCHOR: {architectural} component_communication
+```
+
+```markdown
+<!-- MEMORY_ANCHOR: {reference} api_documentation -->
+```
+
+#### Anchor Relationships
+
+Memory anchors can reference each other to establish relationships:
+
+```python
+# MEMORY_ANCHOR: {core} data_processing_pipeline
+# RELATED_TO: data_validation, error_handling
+```
+
+#### Anchor Properties
+
+Additional metadata can be added to anchors:
+
+```javascript
+// MEMORY_ANCHOR: error_handling_strategy
+// COMPLEXITY: high
+// LAST_REVIEWED: 2023-06-15
+// REVIEWERS: @alice, @bob
+```
+
+### Best Practices
+
+1. **Be Selective**: Only add memory anchors to truly important sections
+2. **Be Consistent**: Follow a consistent naming pattern
+3. **Keep Updated**: Update anchors when code changes
+4. **Document Relationships**: Link related anchors together
+5. **Index Regularly**: Run the anchor extractor regularly to keep the index updated
+
+### Tool Integration
+
+Memory anchors work best with the following tools:
+
+1. **anchor_extractor.py**: Extracts anchors from the codebase and creates an index
+2. **anchor_search_tool.py**: Searches for anchors by name, type, or content
+3. **anchor_navigator.py**: Provides a web interface for exploring anchors
+4. **anchor_visualizer.py**: Creates visualizations of anchor relationships

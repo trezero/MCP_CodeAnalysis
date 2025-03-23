@@ -1,0 +1,225 @@
+---
+Description: Main rules for the repository, integrating all enhancements.
+Globs: **/*
+Model: fusion
+Context_window: large
+Rule_type: Always
+Includes:
+  - knowledge_graph/knowledge_graph.mdc
+  - code_health/code_health.mdc
+  - code_quality/code_quality.mdc
+  - style_guide/style_guide.mdc
+  - qa/qa.mdc
+  - patterns/patterns.mdc
+  - metadata/metadata.mdc
+  - accessibility/accessibility.mdc
+  - web3_security/web3_security.mdc
+  - component_analyzer/component_analyzer.mdc
+  - documentation/why_documentation.mdc
+  - glossary/glossary.mdc
+  - maturity_model/maturity_model.mdc
+  - onboarding/onboarding.mdc
+  - sandbox/sandbox.mdc
+  - cheatsheets/cheatsheets.mdc
+  - debug_history/debug_history.mdc
+  - feedback/feedback.mdc
+  - memory_anchors/memory_anchors.mdc
+  - cross_reference/cross_reference.mdc
+  - monetization_analysis/monetization_analysis.mdc
+  - code_index/code_index.mdc
+  - delta/delta.mdc
+  - pinescript/pinescript.mdc
+---
+
+# Main Repository Guidelines
+
+- Follow all included rule sets for comprehensive code quality
+- Ensure consistent application of standards across the entire codebase
+- Prioritize maintainability and readability in all contributions
+- Apply the five-step process for code optimization
+- Focus on security, performance, and accessibility best practices
+
+# Cursor Rules
+
+This document serves as the main entry point for cursor rules.
+
+## Global Rules
+
+These rules apply to all files in the workspace:
+
+1. [Code Health](mdc:code_health/code_health.mdc) - General code quality guidelines
+2. [Code Quality](mdc:code_quality/code_quality.mdc) - Development workflows and test management
+3. [Style Guide](mdc:style_guide/style_guide.mdc) - Code formatting and style conventions
+4. [Quality Assurance](mdc:qa/qa.mdc) - Testing standards and quality control procedures
+5. [Code Patterns](mdc:patterns/patterns.mdc) - Design patterns and code patterns guidelines
+6. [Metadata Standards](mdc:metadata/metadata.mdc) - Guidelines for code metadata and documentation
+7. [Accessibility](mdc:accessibility/accessibility.mdc) - Guidelines for creating accessible applications
+8. [Web3 Security](mdc:web3_security/web3_security.mdc) - Security guidelines for blockchain development
+
+## Accessibility Rules
+
+The following rules ensure applications are accessible to all users:
+
+1. [accessibility.mdc](mdc:.cursor/rules/accessibility/accessibility.mdc) - Foundational accessibility guidelines
+2. [Theme Management](mdc:accessibility/themes/themes.mdc) - Guidelines for theme implementation and switching
+3. [Color Accessibility](mdc:accessibility/colors/colors.mdc) - Color contrast and colorblind-friendly palettes
+4. [Typography](mdc:accessibility/typography/typography.mdc) - Accessible text and readability
+5. [Interaction Patterns](mdc:accessibility/interaction/interaction.mdc) - Keyboard navigation and focus management
+6. [Responsive Design](mdc:accessibility/responsive/responsive.mdc) - Device-agnostic accessible layouts
+7. [ARIA and Semantic HTML](mdc:accessibility/a11y/aria.mdc) - Proper use of ARIA attributes and semantic markup
+
+## Language-Specific Rules
+
+The following rules apply to specific programming languages:
+
+1. [Pine Script](mdc:pinescript/pinescript.mdc) - Rules for Pine Script (TradingView indicators)
+   - [Structure Guidelines](mdc:pinescript/structure.mdc)
+   - [Example Code](mdc:pinescript/example.mdc)
+   - [Refactoring Guidelines](mdc:pinescript/refactoring.mdc) 
+   - [Section Headers](mdc:pinescript/headers.mdc)
+2. [TypeScript](mdc:code_quality/typescript_workflow.mdc) - Rules for TypeScript development
+   - [TypeScript Workflow](mdc:code_quality/typescript_workflow.mdc)
+   - [TypeScript Test Cleanup](mdc:code_quality/typescript_test_cleanup.mdc)
+3. [Solidity](mdc:web3_security/web3_security.mdc) - Security guidelines for Solidity smart contracts
+   - [API Security](mdc:web3_security/api_security.mdc) - Guidelines for securing Web3 APIs
+
+## Feature-Specific Rules
+
+1. [Feedback](mdc:feedback/feedback.mdc) - Guidelines for providing feedback on code
+2. [Cross-Reference](mdc:cross_reference/cross_reference.mdc) - Best practices for cross-referencing code
+3. [Memory Anchors](mdc:memory_anchors/memory_anchors.mdc) - Rules for creating memory anchors
+4. [Monetization Analysis](mdc:monetization_analysis/monetization_analysis.mdc) - Guidelines for analyzing and implementing monetization features
+5. [Code Index](mdc:code_index/code_index.mdc) - Standards for code indexing and navigation
+6. [Delta Analysis](mdc:delta/delta.mdc) - Tracking and documenting code changes
+7. [Metadata Management](mdc:metadata/metadata.mdc) - Standards for code metadata and documentation
+
+## Tool-Specific Rules
+
+1. [Debug History](mdc:debug_history/debug_history.mdc) - Guidelines for working with debug history
+2. [Knowledge Graph](mdc:knowledge_graph/knowledge_graph.mdc) - Rules for knowledge graph construction
+3. [Cheatsheets](mdc:cheatsheets/cheatsheets.mdc) - Guidelines for creating and maintaining cheatsheets
+4. [Component Analyzer](mdc:component_analyzer/component_analyzer.mdc) - Rules for component analysis and visualization
+   - [TypeScript Migration](mdc:component_analyzer/typescript_migration.mdc) - Guidelines for TypeScript conversion
+   - [React Analysis](mdc:component_analyzer/react_analysis.mdc) - Rules for React Virtual DOM analysis
+
+## Documentation Rules
+
+1. [Why Documentation](mdc:documentation/why_documentation.mdc) - The importance of documentation
+2. [Glossary](mdc:glossary/glossary.mdc) - Standard terminology for the project
+3. [Maturity Model](mdc:maturity_model/maturity_model.mdc) - Code maturity guidelines
+4. [Onboarding](mdc:onboarding/onboarding.mdc) - Guidelines for onboarding new developers
+5. [Sandbox](mdc:sandbox/sandbox.mdc) - Rules for sandbox environments
+6. [Cheatsheets](mdc:cheatsheets/cheatsheets.mdc) - Quick reference guides for development
+
+## System Utilities
+
+The following utilities support the rules system:
+
+1. [Integration Guide](mdc:utils/INTEGRATION.md) - How rules and scripts work together
+
+## Component Analyzer
+
+The Component Analyzer is a tool for analyzing and visualizing component relationships in your codebase. It includes:
+
+1. **TypeScript Migration**
+   - Converting JavaScript to TypeScript
+   - Adding type definitions
+   - Updating build process
+   - Maintaining compatibility
+
+2. **React Analysis**
+   - Virtual DOM analysis
+   - Re-render tracking
+   - Performance optimization
+   - Hook analysis
+
+3. **Visualization**
+   - Interactive component graphs
+   - Performance metrics
+   - Optimization suggestions
+   - Snapshot comparison
+
+To use the Component Analyzer:
+
+1. Install the extension:
+```bash
+npm install code-component-analyzer
+```
+
+2. Configure in VS Code settings:
+```json
+{
+  "componentAnalyzer.includePatterns": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "componentAnalyzer.excludePatterns": ["**/node_modules/**", "**/dist/**", "**/build/**"],
+  "componentAnalyzer.snapshotDirectory": "./snapshots",
+  "componentAnalyzer.reactAnalysis.enabled": true
+}
+```
+
+3. Use the commands:
+- "Component Analyzer: Analyze Workspace"
+- "Component Analyzer: Visualize Components"
+- "Component Analyzer: Take Snapshot"
+- "Component Analyzer: Compare Snapshots"
+- "Component Analyzer: Analyze React Virtual DOM"
+
+For more information, see the [Component Analyzer Rules](mdc:component_analyzer/component_analyzer.mdc).
+
+## Pine Script Linter and Fixer
+
+The Pine Script linter is a tool that enforces coding standards for Pine Script files. It checks for:
+
+1. Version declaration
+2. Required sections
+3. Section order
+4. Function placement
+5. Input placement
+6. Variable declaration placement
+7. Naming conventions
+
+To use the linter, run:
+
+```bash
+python .cursor/rules/utils/pine_linter.py your_script.pine
+```
+
+The Pine Script fixer can automatically fix common issues in Pine Script files, including:
+
+1. Adding missing version declarations
+2. Adding missing section headers
+3. Renaming functions, inputs, and variables to follow naming conventions
+4. Moving functions, inputs, and variables to their correct sections
+
+To use the fixer, run:
+
+```bash
+python .cursor/rules/utils/pine_fixer.py your_script.pine
+```
+
+For more information, see the [Pine Script Rules](mdc:pinescript/README.md) and [Usage Guide](mdc:pinescript/USAGE.md).
+
+## Accessibility Tools and Resources
+
+Ensuring your application is accessible requires both development best practices and proper testing. Use these tools:
+
+1. **Contrast Checking**
+   - [WebAIM Contrast Checker](mdc:https:/webaim.org/resources/contrastchecker)
+   - [Color Oracle](mdc:https:/colororacle.org) - Colorblind simulation
+
+2. **Screen Reader Testing**
+   - NVDA (Windows, free)
+   - VoiceOver (macOS/iOS, built-in)
+   - JAWS (Windows, commercial)
+   - TalkBack (Android, built-in)
+
+3. **Automated Testing**
+   - [axe-core](mdc:https:/github.com/dequelabs/axe-core) - JavaScript library for automated testing
+   - [Lighthouse](mdc:https:/developers.google.com/web/tools/lighthouse) - Built into Chrome DevTools
+   - [WAVE Browser Extension](mdc:https:/wave.webaim.org/extension) - Visual accessibility evaluation
+
+4. **Development Integration**
+   - ESLint plugins: eslint-plugin-jsx-a11y, eslint-plugin-accessibility
+   - [React ARIA](mdc:https:/react-spectrum.adobe.com/react-aria) - Hooks for accessible UI components
+   - [Storybook a11y addon](mdc:https:/storybook.js.org/addons/@storybook/addon-a11y) - Accessibility testing in isolation
+
+For more information, see the [Accessibility Guidelines](mdc:accessibility/accessibility.mdc).
